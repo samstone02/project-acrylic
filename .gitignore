@@ -1,0 +1,20 @@
+﻿# .NET
+/[Oo]bj/
+/[Bb]bin/
+
+# Rider
+.idea/
+
+# Unity
+/[Ll]ibrary/
+/[Tt]emp/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+*.meta
+
+# Windows
+*.ini
+
+!/[Aa]ssets/**/*.meta

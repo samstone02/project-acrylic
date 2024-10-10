@@ -9,18 +9,17 @@ public class Tank : MonoBehaviour
 {
     [field: SerializeField]
     public GameObject TankGunPrefab { get; set; }
-
-    [SerializeField]
-    public GameObject turret;
     
     [field: SerializeField]
     public Rigidbody Rigidbody { get; set; }
+    
+    [SerializeField] public float treadTorque = 10f;
 
     private BaseTankAgent _agent;
 
     private BaseTankGun _tankGun;
-
-    [SerializeField] public float treadTorque = 10f;
+    
+    private GameObject _turret;
     
     private void Awake()
     {
@@ -31,7 +30,7 @@ public class Tank : MonoBehaviour
         GameObject gunInstance = Instantiate(TankGunPrefab, transform);
         _tankGun = TankGunPrefab.GetComponent<BaseTankGun>();
         
-        turret = transform.Find("Turret").gameObject;
+        _turret = transform.Find("Turret").gameObject;
     }
     
     private void Update()

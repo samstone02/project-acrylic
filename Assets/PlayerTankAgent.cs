@@ -29,7 +29,6 @@ public class PlayerTankAgent : BaseTankAgent
         base.Start();
         
         _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        _ground = GameObject.Find("Ground").GetComponent<MeshCollider>();
     }
 
     public override bool GetDecisionShoot()
@@ -64,8 +63,8 @@ public class PlayerTankAgent : BaseTankAgent
 
     public override (float, float) GetDecisionMoveTreads()
     {
-        float left =  leftTreadRoll.action.ReadValue<float>();
-        float right =  rightTreadRoll.action.ReadValue<float>();
+        float left = leftTreadRoll.action.ReadValue<float>();
+        float right = rightTreadRoll.action.ReadValue<float>();
         return (left, right);
     }
 }

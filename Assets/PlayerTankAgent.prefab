@@ -75,6 +75,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40e7154a64114fe3806803555ffdddf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Shoot>k__BackingField: {fileID: 816728770283930521, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  <LeftTreadRoll>k__BackingField: {fileID: -5698268279800582666, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  <RightTreadRoll>k__BackingField: {fileID: -8723406682224893953, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
+  shoot: {fileID: 816728770283930521, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
+  leftTreadRoll: {fileID: -5698268279800582666, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
+  rightTreadRoll: {fileID: -8723406682224893953, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}

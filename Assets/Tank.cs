@@ -2,81 +2,109 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
+[RequireComponent(typeof(BaseTankAgent))]
 public class Tank : MonoBehaviour
 {
     [field: SerializeField]
-    public GameObject TankAgentPrefab { get; set; }
-    
-    [field: SerializeField]
     public GameObject TankGunPrefab { get; set; }
+
+    [SerializeField]
+    public GameObject turret;
     
     [field: SerializeField]
     public Rigidbody Rigidbody { get; set; }
+
+    private BaseTankAgent _agent;
+
+    private BaseTankGun _tankGun;
+
+    [SerializeField] public float treadTorque = 10f;
     
-    private BaseTankAgent _agent { get; set; }
-    
-    private BaseTankGun _tankGun { get; set; }
-    
-    private void Start()
+    private void Awake()
     {
         Debug.Log("Hello, Tanks!");
         
-        GameObject agentInstance = Instantiate(TankAgentPrefab, transform);
-        _agent = agentInstance.GetComponent<BaseTankAgent>();
+        _agent = GetComponent<BaseTankAgent>();
         
         GameObject gunInstance = Instantiate(TankGunPrefab, transform);
         _tankGun = TankGunPrefab.GetComponent<BaseTankGun>();
+        
+        turret = transform.Find("Turret").gameObject;
     }
     
     private void Update()
     {
         bool shootDecision = _agent.GetDecisionShoot();
+
+        var x = _agent.GetDecisionRotateTurret();
         
         if (shootDecision)
         {
             Debug.Log("Player Shot");
             var projectile = _tankGun.Shoot();
         }
-
+        
         (float left, float right) = _agent.GetDecisionMoveTreads();
+        
+        Move(left, right);
+    }
 
+    private void Move(float left, float right)
+    {
+        // Currently a physics based movement system.
+        // I'm not sure if I want to keep this because it's hard to get it feeling right.
+        // I'll leave it for now.
+        // It feels heavy and slow. Even though it's a tank, I don't want this to be the case.
+        // There's basically no acceleration. It's just top speed right away. And the top speed is low.
+        // I'll have to play with it more.
+        // I think what I'm missing is friction?
+        
         if (left > 0 && right > 0)
         {
             Debug.Log("Roll Forward");
-            Rigidbody.velocity = transform.rotation * new Vector3(1, 0, 0);
+            Rigidbody.AddRelativeForce(2 * treadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
         }
         else if (left < 0 && right < 0)
         {
             Debug.Log("Roll Back");
-            Rigidbody.velocity = transform.rotation * new Vector3(-1, 0, 0);
+            Rigidbody.AddRelativeForce(2 * treadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
         }
         else if (left > 0 && right < 0)
         {
             Debug.Log("Pivot Right");
-            transform.Rotate(Vector3.up, 5);
+            //transform.Rotate(Vector3.up, 5);
+            Rigidbody.AddRelativeTorque(2 * treadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
         }
         else if (left < 0 && right > 0)
         {
             Debug.Log("Pivot Left");
-            transform.Rotate(Vector3.up, -5);
-        }
-        else if (left > 0 && right == 0)
-        {
-            Debug.Log("Neutral Turn Left");
-            Rigidbody.velocity = transform.rotation * new Vector3(0.75f, 0, 0);
-            transform.Rotate(Vector3.up, 2);
+            Rigidbody.AddRelativeTorque(2 * treadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
         }
         else if (left == 0 && right > 0)
         {
-            Debug.Log("Neutral Turn Right");
-            Rigidbody.velocity = transform.rotation * new Vector3(0.75f, 0, 0);
-            transform.Rotate(Vector3.up, -2);
+            Debug.Log("Neutral Forward Turn Left");
+            Rigidbody.AddRelativeForce(1.25f * treadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
+            Rigidbody.AddRelativeTorque(0.75f * treadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
         }
-        else
+        else if (left > 0 && right == 0)
         {
-            Debug.Log("Stop");
-            Rigidbody.velocity = Vector3.zero;
+            Debug.Log("Neutral Forward Turn Right");
+            Rigidbody.AddRelativeForce(1.25f * treadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
+            Rigidbody.AddRelativeTorque(0.75f * treadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
+        }
+        else if (left < 0 && right == 0)
+        {
+            Debug.Log("Neutral Backward Turn Left");
+            Rigidbody.AddRelativeForce(1.25f * treadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
+            Rigidbody.AddRelativeTorque(0.75f * treadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
+        }
+        else if (left == 0 && right < 0)
+        {
+            Debug.Log("Neutral Backward Turn Right");
+            Rigidbody.AddRelativeForce(1.25f * treadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
+            Rigidbody.AddRelativeTorque(0.75f * treadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
         }
     }
 }

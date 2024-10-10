@@ -23,6 +23,20 @@ public class PlayerTankAgent : BaseTankAgent
     [SerializeField]
     [Tooltip("How close is close enough.")]
     public float turretMinDiffAngle = 1f;
+
+    private void OnEnable()
+    {
+        shoot.action.Enable();
+        leftTreadRoll.action.Enable();
+        rightTreadRoll.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        shoot.action.Disable();
+        leftTreadRoll.action.Disable();
+        rightTreadRoll.action.Disable();
+    }
     
     protected new void Start()
     {

@@ -5,10 +5,10 @@ public class StandardTankGun : BaseTankGun
     public override GameObject Shoot()
     {
         var projectile = Instantiate(ProjectilePrefab);
-        projectile.transform.position = this.transform.position;
-        projectile.transform.rotation = this.transform.rotation;
+        projectile.transform.position = BulletSpawnPoint.position;
+        projectile.transform.rotation = BulletSpawnPoint.rotation;
         var rb = projectile.GetComponent<Rigidbody>();
-        rb.velocity = new Vector3(1, 1, 0);
+        rb.velocity = transform.forward * 5;
         return projectile;
     }
 }

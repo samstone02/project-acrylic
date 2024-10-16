@@ -150,10 +150,11 @@ Transform:
   m_GameObject: {fileID: 525458774}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.71, z: 0}
-  m_LocalScale: {x: 1, y: 0.25, z: 3}
+  m_LocalPosition: {x: 0, y: 0.75, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2074741774}
   m_Father: {fileID: 1320793943}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &525458776
@@ -415,6 +416,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1001 &1081991126
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 525458775}
+    m_Modifications:
+    - target: {fileID: 6434154700309065827, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
+      propertyPath: m_Name
+      value: StandardTankGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 7049146419752378538, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7049146419752378538, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7049146419752378538, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7049146419752378538, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7049146419752378538, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7049146419752378538, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7049146419752378538, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7049146419752378538, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7049146419752378538, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7049146419752378538, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
 --- !u!1 &1320793938
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,8 +594,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3447a1c4b23b2a446a37e22a0e6b0c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <TankGunPrefab>k__BackingField: {fileID: 6434154700309065827, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
-  turret: {fileID: 0}
   <Rigidbody>k__BackingField: {fileID: 1320793945}
   treadTorque: 250000
 --- !u!54 &1320793945
@@ -584,6 +640,11 @@ MonoBehaviour:
   rightTreadRoll: {fileID: -8723406682224893953, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
   turretRotationSpeed: 120
   turretMinDiffAngle: 1
+--- !u!4 &2074741774 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7049146419752378538, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
+  m_PrefabInstance: {fileID: 1081991126}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

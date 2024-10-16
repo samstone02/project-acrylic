@@ -8,9 +8,6 @@ using UnityEngine.Serialization;
 public class Tank : MonoBehaviour
 {
     [field: SerializeField]
-    public GameObject TankGunPrefab { get; set; }
-    
-    [field: SerializeField]
     public Rigidbody Rigidbody { get; set; }
     
     [SerializeField] public float treadTorque = 10f;
@@ -27,8 +24,7 @@ public class Tank : MonoBehaviour
         
         _agent = GetComponent<BaseTankAgent>();
         
-        GameObject gunInstance = Instantiate(TankGunPrefab, transform);
-        _tankGun = TankGunPrefab.GetComponent<BaseTankGun>();
+        _tankGun = GetComponentInChildren<BaseTankGun>();
         
         _turret = transform.Find("Turret").gameObject;
     }

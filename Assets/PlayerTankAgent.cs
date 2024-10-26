@@ -51,25 +51,24 @@ public class PlayerTankAgent : BaseTankAgent
 
     public override float GetDecisionRotateTurret()
     {
-        Vector2 mp1 = Mouse.current.position.ReadValue();
-        Vector3 mousePos = _mainCamera.ScreenToWorldPoint(new Vector3(mp1.x, mp1.y, 25));
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        Vector3 mousePosWorld = _mainCamera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
+        Physics.Raycast(mousePosWorld, Camera.main.transform.forward, out RaycastHit hit, 100);
         
-        Vector3 mouseDirection = mousePos - transform.position;
-        mouseDirection.y = 0;
-        mouseDirection.Normalize();
-        Vector3 turretDirection = _turret.transform.forward;
-        turretDirection.y = 0;
+        Vector3 targetDirection = hit.point - Turret.transform.position;
+        targetDirection.Normalize();
+        Vector3 turretDirection = Turret.transform.forward;
         turretDirection.Normalize();
         
-        Vector3 axis = Vector3.Cross(turretDirection, mouseDirection);
+        Vector3 turretTargetCross = Vector3.Cross(turretDirection, targetDirection);
         
-        if (Vector3.Angle(mouseDirection, turretDirection) < turretMinDiffAngle)
+        if (Vector3.Angle(targetDirection, turretDirection) < turretMinDiffAngle)
         {
             return 0.0f;
         }
         
-        int direction = axis.y > 0 ? 1 : -1;
-        _turret.transform.Rotate(Vector3.up, direction * turretRotationSpeed * Time.deltaTime);
+        int direction = turretTargetCross.y > 0 ? 1 : -1;
+        Turret.transform.Rotate(Vector3.up, direction * turretRotationSpeed * Time.deltaTime);
 
         return 1.0f;
     }

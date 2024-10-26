@@ -2,11 +2,11 @@
 
 public abstract class BaseTankAgent : MonoBehaviour
 {
-    protected GameObject _turret;
+    protected GameObject Turret;
     
     protected void Start()
     {
-        _turret = transform.Find("Turret").gameObject;
+        Turret = transform.Find("Turret").gameObject;
     }
     
     public abstract bool GetDecisionShoot();

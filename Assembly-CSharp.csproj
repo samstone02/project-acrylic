@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Tank.cs" />
+    <Compile Include="Assets\MainCamera.cs" />
     <Compile Include="Assets\BaseTankAgent.cs" />
     <Compile Include="Assets\PlayerTankAgent.cs" />
     <Compile Include="Assets\BaseTankGun.cs" />

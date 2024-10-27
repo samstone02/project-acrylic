@@ -5,11 +5,11 @@ public abstract class BaseTankGun : MonoBehaviour
     [field: SerializeField]
     public GameObject ProjectilePrefab { get; set; }
 
-    protected Transform BulletSpawnPoint;
+    protected Transform ShellSpawnPoint;
 
     protected virtual void Awake()
     {
-        BulletSpawnPoint = transform.Find("BulletSpawnPoint");
+        ShellSpawnPoint = transform.Find("ShellSpawnPoint");
     }
     
     public abstract GameObject Fire();

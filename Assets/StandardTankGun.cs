@@ -30,7 +30,6 @@ public class StandardTankGun : BaseTankGun
             }
             else
             {
-                Debug.Log("Reloaded");
                 _shellsInMagazine = magazineCapacity;
                 _isReloading = false;
             }
@@ -66,8 +65,8 @@ public class StandardTankGun : BaseTankGun
     private GameObject LaunchProjectile()
     {
         var projectile = Instantiate(ProjectilePrefab);
-        projectile.transform.position = BulletSpawnPoint.position;
-        projectile.transform.rotation = BulletSpawnPoint.rotation;
+        projectile.transform.position = ShellSpawnPoint.position;
+        projectile.transform.rotation = ShellSpawnPoint.rotation;
         var rb = projectile.GetComponent<Rigidbody>();
         rb.velocity = transform.forward * 5;
         return projectile;

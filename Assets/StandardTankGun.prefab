@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 355037295158891042}
   m_Layer: 0
-  m_Name: BulletSpawnPoint
+  m_Name: ShellSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,6 +87,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ProjectilePrefab>k__BackingField: {fileID: 5308777123184422408, guid: 33c87fd667362b34692dda69cf7018ad, type: 3}
+  magazineCapacity: 0
+  reloadTimeSeconds: 0
 --- !u!1 &7775293337101385640
 GameObject:
   m_ObjectHideFlags: 0

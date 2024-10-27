@@ -689,6 +689,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8128359679585896792, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
+      propertyPath: magazineCapacity
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8128359679585896792, guid: d95fb69002c5d894da0746db08aeb3f2, type: 3}
+      propertyPath: reloadTimeSeconds
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -805,9 +813,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40e7154a64114fe3806803555ffdddf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shoot: {fileID: 816728770283930521, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  leftTreadRoll: {fileID: -5698268279800582666, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  rightTreadRoll: {fileID: -8723406682224893953, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
+  fireInput: {fileID: 6553330231330604529, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
+  leftTrackRollInput: {fileID: -6944060838618043600, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
+  rightTrackRollInput: {fileID: -1896603884095017804, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
+  reloadInput: {fileID: 3992714865939853460, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
   turretRotationSpeed: 120
   turretMinDiffAngle: 1
 --- !u!1001 &1324384647

@@ -31,17 +31,22 @@ public class Tank : MonoBehaviour
     
     private void Update()
     {
-        bool shootDecision = _agent.GetDecisionShoot();
-
-        var x = _agent.GetDecisionRotateTurret();
+        bool fireDecision = _agent.GetDecisionFire();
+        bool reloadDecision = _agent.GetDecisionReload();
         
-        if (shootDecision)
+        if (fireDecision)
         {
-            Debug.Log("Player Shot");
-            var projectile = _tankGun.Shoot();
+            var projectile = _tankGun.Fire();
+        }
+        if (reloadDecision)
+        {
+            Debug.Log("Player decided to reload");
+            _tankGun.Reload();
         }
         
-        (float left, float right) = _agent.GetDecisionMoveTreads();
+        var x = _agent.GetDecisionRotateTurret();
+        
+        (float left, float right) = _agent.GetDecisionRollTracks();
         
         Move(left, right);
     }
@@ -58,46 +63,37 @@ public class Tank : MonoBehaviour
         
         if (left > 0 && right > 0)
         {
-            Debug.Log("Roll Forward");
             Rigidbody.AddRelativeForce(2 * treadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
         }
         else if (left < 0 && right < 0)
         {
-            Debug.Log("Roll Back");
             Rigidbody.AddRelativeForce(2 * treadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
         }
         else if (left > 0 && right < 0)
         {
-            Debug.Log("Pivot Right");
-            //transform.Rotate(Vector3.up, 5);
             Rigidbody.AddRelativeTorque(2 * treadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
         }
         else if (left < 0 && right > 0)
         {
-            Debug.Log("Pivot Left");
             Rigidbody.AddRelativeTorque(2 * treadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
         }
         else if (left == 0 && right > 0)
         {
-            Debug.Log("Neutral Forward Turn Left");
             Rigidbody.AddRelativeForce(1.25f * treadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
             Rigidbody.AddRelativeTorque(0.75f * treadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
         }
         else if (left > 0 && right == 0)
         {
-            Debug.Log("Neutral Forward Turn Right");
             Rigidbody.AddRelativeForce(1.25f * treadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
             Rigidbody.AddRelativeTorque(0.75f * treadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
         }
         else if (left < 0 && right == 0)
         {
-            Debug.Log("Neutral Backward Turn Left");
             Rigidbody.AddRelativeForce(1.25f * treadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
             Rigidbody.AddRelativeTorque(0.75f * treadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
         }
         else if (left == 0 && right < 0)
         {
-            Debug.Log("Neutral Backward Turn Right");
             Rigidbody.AddRelativeForce(1.25f * treadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
             Rigidbody.AddRelativeTorque(0.75f * treadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
         }

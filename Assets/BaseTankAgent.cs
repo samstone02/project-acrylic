@@ -9,9 +9,11 @@ public abstract class BaseTankAgent : MonoBehaviour
         Turret = transform.Find("Turret").gameObject;
     }
     
-    public abstract bool GetDecisionShoot();
+    public abstract bool GetDecisionFire();
+    
+    public abstract bool GetDecisionReload();
     
     public abstract float GetDecisionRotateTurret();
     
-    public abstract (float, float) GetDecisionMoveTreads();
+    public abstract (float, float) GetDecisionRollTracks();
 }

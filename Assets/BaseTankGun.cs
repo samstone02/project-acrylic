@@ -7,10 +7,12 @@ public abstract class BaseTankGun : MonoBehaviour
 
     protected Transform BulletSpawnPoint;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         BulletSpawnPoint = transform.Find("BulletSpawnPoint");
     }
     
-    public abstract GameObject Shoot();
+    public abstract GameObject Fire();
+    
+    public abstract void Reload();
 }

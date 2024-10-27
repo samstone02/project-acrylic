@@ -6,108 +6,128 @@
             "id": "f3783a0b-a5d1-4425-8771-ab831110e7cc",
             "actions": [
                 {
-                    "name": "Shoot",
+                    "name": "Fire - KBM",
                     "type": "Button",
-                    "id": "430ddadc-fd2c-4007-9e1a-f34c19b86dc1",
+                    "id": "d8d09396-0c60-4a3a-ba80-0d6be3bce0b8",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Left Tread Roll",
-                    "type": "PassThrough",
-                    "id": "e527b2de-2235-4603-a638-a669d192df05",
-                    "expectedControlType": "Axis",
+                    "name": "Reload - KBM",
+                    "type": "Button",
+                    "id": "de7bed5d-d738-4a18-8dfb-18461f944edd",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Right Tread Roll",
-                    "type": "PassThrough",
-                    "id": "1481a902-ee81-44e3-bcc1-20f706d2c969",
+                    "name": "Left Track Roll - KBM",
+                    "type": "Value",
+                    "id": "e09720f9-ffe8-496d-8159-e433474fd1e1",
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Right Track Roll - KBM",
+                    "type": "Value",
+                    "id": "b0fe98f0-1fe0-470d-b7a7-8e2849751eb8",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "3437d911-5331-4028-a028-1d8e38e02e96",
+                    "id": "5d46fc90-9344-464f-a782-73e9964bc22a",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Shoot",
+                    "groups": ";Keyboard and Mouse",
+                    "action": "Fire - KBM",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "da8d70fc-06fd-47cc-a200-36acc9cca8d6",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard and Mouse",
+                    "action": "Reload - KBM",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "1D Axis",
-                    "id": "a7d44a6e-7c5c-4a6c-ab85-b2a96a4519de",
+                    "id": "65d62820-6cea-4e17-8757-a7f45f609242",
                     "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Left Tread Roll",
+                    "action": "Left Track Roll - KBM",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "negative",
-                    "id": "56942277-4175-4dce-93ad-14498dca14e7",
+                    "id": "a7a4d164-f960-41f8-982f-836831f4d281",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard",
-                    "action": "Left Tread Roll",
+                    "groups": ";Keyboard and Mouse",
+                    "action": "Left Track Roll - KBM",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "positive",
-                    "id": "ea0ffd3d-77c6-4b16-8ffa-ea99831b8d3a",
+                    "id": "613c928c-20af-495c-a0e4-1356b1b2d95a",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard",
-                    "action": "Left Tread Roll",
+                    "groups": ";Keyboard and Mouse",
+                    "action": "Left Track Roll - KBM",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "1D Axis",
-                    "id": "e5dec56b-394e-4f28-b1e0-3b5c20d4c6b7",
+                    "id": "e54fa8b4-1b52-4cdc-b79e-918a0f508fc3",
                     "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Right Tread Roll",
+                    "action": "Right Track Roll - KBM",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "negative",
-                    "id": "cabac16d-7ca6-40a6-b9fa-36aacfa4d3f8",
+                    "id": "bca533dc-fa41-4309-8c4e-bd96ae85464b",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Right Tread Roll",
+                    "groups": ";Keyboard and Mouse",
+                    "action": "Right Track Roll - KBM",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "positive",
-                    "id": "b9610b86-576f-495d-ab58-e791316f0123",
+                    "id": "06f19430-dc12-4432-9214-476feccaf31d",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Right Tread Roll",
+                    "groups": ";Keyboard and Mouse",
+                    "action": "Right Track Roll - KBM",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
@@ -116,8 +136,8 @@
     ],
     "controlSchemes": [
         {
-            "name": "Keyboard",
-            "bindingGroup": "Keyboard",
+            "name": "Keyboard and Mouse",
+            "bindingGroup": "Keyboard and Mouse",
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
@@ -126,6 +146,17 @@
                 },
                 {
                     "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Controller",
+            "bindingGroup": "Controller",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
                     "isOptional": false,
                     "isOR": false
                 }

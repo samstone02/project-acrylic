@@ -66,19 +66,26 @@ public class PlayerTankAgent : BaseTankAgent
         Physics.Raycast(mousePosWorld, _mainCamera.transform.forward, out RaycastHit hit, 100);
         
         Vector3 targetDirection = hit.point - Turret.transform.position;
+        targetDirection.y = 0;
         targetDirection.Normalize();
         Vector3 turretDirection = Turret.transform.forward;
+        turretDirection.y = 0;
         turretDirection.Normalize();
         
         Vector3 turretTargetCross = Vector3.Cross(turretDirection, targetDirection);
-        
-        if (Vector3.Angle(targetDirection, turretDirection) < turretMinDiffAngle)
-        {
-            return 0.0f;
-        }
-        
         int direction = turretTargetCross.y > 0 ? 1 : -1;
-        Turret.transform.Rotate(Vector3.up, direction * turretRotationSpeed * Time.deltaTime);
+        
+        float angleDifference = Vector3.Angle(turretDirection, targetDirection);
+        float angleRotation = turretRotationSpeed * Time.deltaTime;
+        
+        if (angleDifference < angleRotation)
+        {
+            Turret.transform.rotation = Quaternion.LookRotation(targetDirection);
+        }
+        else
+        {
+            Turret.transform.Rotate(Vector3.up, direction * angleRotation);   
+        }
 
         return 1.0f;
     }

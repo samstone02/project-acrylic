@@ -45,13 +45,13 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.49f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Dummy.cs" />
-    <Compile Include="Assets\Tank.cs" />
-    <Compile Include="Assets\MainCamera.cs" />
-    <Compile Include="Assets\BaseTankAgent.cs" />
-    <Compile Include="Assets\PlayerTankAgent.cs" />
-    <Compile Include="Assets\BaseTankGun.cs" />
-    <Compile Include="Assets\StandardTankGun.cs" />
+    <Compile Include="Assets\Scripts\MainCamera.cs" />
+    <Compile Include="Assets\Scripts\BaseTankAgent.cs" />
+    <Compile Include="Assets\Scripts\BaseTankGun.cs" />
+    <Compile Include="Assets\Scripts\PlayerTankAgent.cs" />
+    <Compile Include="Assets\Scripts\Dummy.cs" />
+    <Compile Include="Assets\Scripts\Tank.cs" />
+    <Compile Include="Assets\Scripts\StandardTankGun.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.49f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

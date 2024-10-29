@@ -26,6 +26,8 @@ public class PlayerTankAgent : BaseTankAgent
 
     private MeshCollider _ground;
 
+    private LayerMask _playerAimMask;
+
     private void OnEnable()
     {
         fireInput.action.Enable();
@@ -47,6 +49,7 @@ public class PlayerTankAgent : BaseTankAgent
         base.Start();
 
         _mainCamera = Camera.main;
+        _playerAimMask = LayerMask.GetMask("Player Aim");
     }
 
     public override bool GetDecisionFire()
@@ -63,7 +66,7 @@ public class PlayerTankAgent : BaseTankAgent
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Vector3 mousePosWorld = _mainCamera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
-        Physics.Raycast(mousePosWorld, _mainCamera.transform.forward, out RaycastHit hit, 100);
+        Physics.Raycast(mousePosWorld, _mainCamera.transform.forward, out RaycastHit hit, 100, _playerAimMask);
         
         Vector3 targetDirection = hit.point - Turret.transform.position;
         targetDirection.y = 0;

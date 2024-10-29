@@ -53,7 +53,7 @@ public class StandardTankGun : BaseTankGun
 
     public override void Reload()
     {
-        if (_shellsInMagazine == magazineCapacity)
+        if (_isReloading || _shellsInMagazine == magazineCapacity)
         {
             return;
         }
@@ -68,7 +68,7 @@ public class StandardTankGun : BaseTankGun
         projectile.transform.position = ShellSpawnPoint.position;
         projectile.transform.rotation = ShellSpawnPoint.rotation;
         var rb = projectile.GetComponent<Rigidbody>();
-        rb.velocity = transform.forward * 5;
+        rb.velocity = projectile.transform.forward * 20;
         return projectile;
     }
 

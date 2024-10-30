@@ -45,9 +45,9 @@ GameObject:
   - component: {fileID: 881609652096462565}
   - component: {fileID: 1971133636045251745}
   - component: {fileID: 6433303202565965350}
-  - component: {fileID: 3762889992302242440}
+  - component: {fileID: -1789219057784029254}
   m_Layer: 10
-  m_Name: Player Tank
+  m_Name: Random Action Tank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,7 +133,7 @@ MonoBehaviour:
   hitPoints: 3
   turretRotationSpeed: 150
   treadTorque: 3000000
---- !u!114 &3762889992302242440
+--- !u!114 &-1789219057784029254
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,13 +142,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5087329328145373332}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40e7154a64114fe3806803555ffdddf0, type: 3}
+  m_Script: {fileID: 11500000, guid: 09f77ce5e1d7bb041aacfa1bd9408702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireInput: {fileID: 6553330231330604529, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  reloadInput: {fileID: 3992714865939853460, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  leftTrackRollInput: {fileID: -6944060838618043600, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  rightTrackRollInput: {fileID: -1896603884095017804, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
+  seed: 0
+  fireIntervalSeconds: 5
+  changeTurretRotationDirectionChance: 0.05
+  changeTrackRollDirectionChance: 0.05
 --- !u!1001 &5009065447068687932
 PrefabInstance:
   m_ObjectHideFlags: 0

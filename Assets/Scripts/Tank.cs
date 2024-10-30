@@ -1,14 +1,15 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
+using TankAgents;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BaseTankAgent))]
 public class Tank : MonoBehaviour
 {
     [SerializeField] public int hitPoints = 3;
+    
+    [SerializeField]
+    [Tooltip("In degrees per second.")]
+    public float turretRotationSpeed = 120f;
     
     [SerializeField] public float treadTorque = 10f;
     
@@ -45,11 +46,11 @@ public class Tank : MonoBehaviour
         }
         if (reloadDecision)
         {
-            Debug.Log("Player decided to reload");
             _tankGun.Reload();
         }
         
-        var x = _agent.GetDecisionRotateTurret();
+        var rotationDirection = _agent.GetDecisionRotateTurret();
+        _turret.transform.Rotate(Vector3.up, rotationDirection * turretRotationSpeed * Time.deltaTime);  
         
         (float left, float right) = _agent.GetDecisionRollTracks();
         

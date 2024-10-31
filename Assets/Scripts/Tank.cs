@@ -1,8 +1,8 @@
+using System;
 using UnityEngine;
 using TankAgents;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(BaseTankAgent))]
 public class Tank : MonoBehaviour
 {
     [SerializeField] public int hitPoints = 3;
@@ -12,6 +12,8 @@ public class Tank : MonoBehaviour
     public float turretRotationSpeed = 120f;
     
     [SerializeField] public float treadTorque = 10f;
+    
+    public event Action OnReceiveDamage;
     
     private Rigidbody _rigidbody;
 
@@ -37,6 +39,11 @@ public class Tank : MonoBehaviour
     
     private void Update()
     {
+        if (_agent is null)
+        {
+            return;
+        }
+        
         bool fireDecision = _agent.GetDecisionFire();
         bool reloadDecision = _agent.GetDecisionReload();
         
@@ -62,6 +69,7 @@ public class Tank : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Projectile"))
         {
             _currentHitPoints--;
+            OnReceiveDamage?.Invoke();   
         }
 
         if (_currentHitPoints == 0)

@@ -1,82 +1,85 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
 
-public class StandardTankGun : BaseTankGun
+namespace TankGuns
 {
-    [SerializeField] public int magazineCapacity;
-
-    [SerializeField] public float reloadTimeSeconds;
-
-    private int _shellsInMagazine;
-    
-    private bool _isReloading;
-    
-    private float _reloadTimer;
-
-    protected override void Awake()
+    public class StandardTankGun : BaseTankGun
     {
-        base.Awake();
-        
-        _shellsInMagazine = magazineCapacity;
-    }
+        [SerializeField] public int magazineCapacity;
 
-    private void Update()
-    {
-        if (_isReloading)
+        [SerializeField] public float reloadTimeSeconds;
+
+        private int _shellsInMagazine;
+
+        private bool _isReloading;
+
+        private float _reloadTimer;
+
+        protected override void Awake()
         {
-            if (_reloadTimer > 0)
+            base.Awake();
+
+            _shellsInMagazine = magazineCapacity;
+        }
+
+        private void Update()
+        {
+            if (_isReloading)
             {
-                _reloadTimer -= Time.deltaTime;   
+             if (_reloadTimer > 0)
+             {
+                 _reloadTimer -= Time.deltaTime;   
+             }
+             else
+             {
+                 _shellsInMagazine = magazineCapacity;
+                 _isReloading = false;
+             }
             }
-            else
+        }
+
+        public override GameObject Fire()
+        {
+            if (_isReloading || _shellsInMagazine <= 0)
             {
-                _shellsInMagazine = magazineCapacity;
-                _isReloading = false;
+             return null;
+            }
+
+            GameObject projectile = LaunchProjectile();
+            _shellsInMagazine--;
+
+            ReloadIfMagazineEmpty();
+
+            return projectile;
+        }
+
+        public override void Reload()
+        {
+            if (_isReloading || _shellsInMagazine == magazineCapacity)
+            {
+             return;
+            }
+
+            _isReloading = true;
+            _reloadTimer = reloadTimeSeconds;
+        }
+
+        private GameObject LaunchProjectile()
+        {
+            var projectile = Instantiate(ProjectilePrefab);
+            projectile.transform.position = ShellSpawnPoint.position;
+            projectile.transform.rotation = ShellSpawnPoint.rotation;
+            var rb = projectile.GetComponent<Rigidbody>();
+            rb.velocity = projectile.transform.forward * 20;
+            return projectile;
+        }
+
+        private void ReloadIfMagazineEmpty()
+        {
+            if (_shellsInMagazine == 0)
+            {
+             Reload();
             }
         }
-    }
-    
-    public override GameObject Fire()
-    {
-        if (_isReloading || _shellsInMagazine <= 0)
-        {
-            return null;
-        }
-
-        GameObject projectile = LaunchProjectile();
-        _shellsInMagazine--;
-        
-        ReloadIfMagazineEmpty();
-        
-        return projectile;
-    }
-
-    public override void Reload()
-    {
-        if (_isReloading || _shellsInMagazine == magazineCapacity)
-        {
-            return;
-        }
-        
-        _isReloading = true;
-        _reloadTimer = reloadTimeSeconds;
-    }
-
-    private GameObject LaunchProjectile()
-    {
-        var projectile = Instantiate(ProjectilePrefab);
-        projectile.transform.position = ShellSpawnPoint.position;
-        projectile.transform.rotation = ShellSpawnPoint.rotation;
-        var rb = projectile.GetComponent<Rigidbody>();
-        rb.velocity = projectile.transform.forward * 20;
-        return projectile;
-    }
-
-    private void ReloadIfMagazineEmpty()
-    {
-        if (_shellsInMagazine == 0)
-        {
-            Reload();
-        }
-    }
+    }   
 }

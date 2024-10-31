@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 
-public abstract class BaseTankGun : MonoBehaviour
+namespace TankGuns
 {
-    [field: SerializeField]
-    public GameObject ProjectilePrefab { get; set; }
-
-    protected Transform ShellSpawnPoint;
-
-    protected virtual void Awake()
+    public abstract class BaseTankGun : MonoBehaviour
     {
-        ShellSpawnPoint = transform.Find("ShellSpawnPoint");
-    }
+        [field: SerializeField]
+        public GameObject ProjectilePrefab { get; set; }
+
+        protected Transform ShellSpawnPoint;
+
+        protected virtual void Awake()
+        {
+            ShellSpawnPoint = transform.Find("ShellSpawnPoint");
+        }
     
-    public abstract GameObject Fire();
+        public abstract GameObject Fire();
     
-    public abstract void Reload();
+        public abstract void Reload();
+    }   
 }

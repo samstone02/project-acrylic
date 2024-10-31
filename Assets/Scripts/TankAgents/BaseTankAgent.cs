@@ -22,7 +22,11 @@ namespace TankAgents
     
         public abstract (float, float) GetDecisionRollTracks();
 
-        protected float CalculateTurretRotationDirection(
+        /// <summary>
+        /// Returns the rotation direction as a percentage of the rotation speed.
+        /// Positive values are clockwise, negative values are counterclockwise.
+        /// </summary>
+        protected static float CalculateTurretRotationDirection(
             Vector3 targetDirection,
             Vector3 currentDirection,
             float rotationSpeed)

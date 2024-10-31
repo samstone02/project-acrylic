@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -9,7 +7,7 @@ public class PlayerHealthUi : MonoBehaviour
     
     private TextMeshProUGUI _healthText;
     
-    void Start()
+    private void Start()
     {
         _playerTank = GameObject.Find("Player Tank").GetComponent<Tank>();
         _healthText = GetComponentInChildren<TextMeshProUGUI>();

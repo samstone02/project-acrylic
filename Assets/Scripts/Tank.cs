@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using TankAgents;
+using TankGuns;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Tank : MonoBehaviour
@@ -49,14 +50,14 @@ public class Tank : MonoBehaviour
         
         if (fireDecision)
         {
-            var projectile = _tankGun.Fire();
+            GameObject projectile = _tankGun.Fire();
         }
         if (reloadDecision)
         {
             _tankGun.Reload();
         }
         
-        var rotationDirection = _agent.GetDecisionRotateTurret();
+        float rotationDirection = _agent.GetDecisionRotateTurret();
         _turret.transform.Rotate(Vector3.up, rotationDirection * turretRotationSpeed * Time.deltaTime);  
         
         (float left, float right) = _agent.GetDecisionRollTracks();
@@ -69,7 +70,7 @@ public class Tank : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Projectile"))
         {
             _currentHitPoints--;
-            OnReceiveDamage?.Invoke();   
+            OnReceiveDamage?.Invoke(); 
         }
 
         if (_currentHitPoints == 0)

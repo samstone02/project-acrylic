@@ -26,7 +26,7 @@ namespace TankAgents
         
         private float _rightTrackRollDirection = 0f;
         
-        public void Awake()
+        protected override void Awake()
         {
             _fireTimer = fireIntervalSeconds;
             _random = new System.Random(seed);

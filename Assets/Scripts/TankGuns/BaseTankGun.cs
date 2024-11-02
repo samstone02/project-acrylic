@@ -1,13 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace TankGuns
 {
     public abstract class BaseTankGun : MonoBehaviour
     {
-        [field: SerializeField]
-        public GameObject ProjectilePrefab { get; set; }
+        [field: SerializeField] public GameObject ProjectilePrefab { get; set; }
 
-        protected Transform ShellSpawnPoint;
+        [field: SerializeField] public Transform ShellSpawnPoint { get; set; }
+        
+        [field: SerializeField] public int MagazineCapacity { get; set; }
+        
+        public abstract event Action OnReloadEnd;
 
         protected virtual void Awake()
         {

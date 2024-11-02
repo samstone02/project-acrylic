@@ -46,14 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\MainCamera.cs" />
+    <Compile Include="Assets\Scripts\Ui\PlayerAmmoUi.cs" />
     <Compile Include="Assets\Scripts\TankGuns\StandardTankGun.cs" />
     <Compile Include="Assets\Scripts\TankAgents\DummyShootTankAgent.cs" />
     <Compile Include="Assets\Scripts\TankAgents\BaseTankAgent.cs" />
-    <Compile Include="Assets\Scripts\PlayerHealthUi.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RandomActionTankAgent.cs" />
     <Compile Include="Assets\Scripts\Dummy.cs" />
     <Compile Include="Assets\Scripts\TankAgents\PlayerTankAgent.cs" />
     <Compile Include="Assets\Scripts\Tank.cs" />
+    <Compile Include="Assets\Scripts\Ui\PlayerHealthUi.cs" />
     <Compile Include="Assets\Scripts\TankGuns\BaseTankGun.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />

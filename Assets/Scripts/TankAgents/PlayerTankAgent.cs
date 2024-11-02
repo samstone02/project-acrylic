@@ -38,10 +38,8 @@ namespace TankAgents
             rightTrackRollInput.action.Disable();
         }
         
-        protected new void Start()
+        protected void Start()
         {
-            base.Start();
-            
             _mainCamera = Camera.main;
             _playerAimMask = LayerMask.GetMask("Player Aim");
         }
@@ -69,7 +67,7 @@ namespace TankAgents
             turretDirection.y = 0;
             turretDirection.Normalize();
             
-            return CalculateTurretRotationDirection(targetDirection, turretDirection, Tank.turretRotationSpeed);
+            return CalculateTurretRotationDirection(targetDirection, turretDirection, Tank.TurretRotationSpeed);
         }
 
         public override (float, float) GetDecisionRollTracks()

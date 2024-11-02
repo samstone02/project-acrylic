@@ -14,13 +14,13 @@ public class PlayerHealthUi : MonoBehaviour
         
         _playerTank.OnReceiveDamage += UpdateHealthIndicator;
 
-        _healthText.text = _playerTank.hitPoints.ToString();
+        _healthText.text = _playerTank.HitPointCapacity.ToString();
     }
 
     private void UpdateHealthIndicator()
     {
         int currentDisplayHealth = int.Parse(_healthText.text) - 1;
-        currentDisplayHealth = Mathf.Clamp(currentDisplayHealth, 0, _playerTank.hitPoints);
+        currentDisplayHealth = Mathf.Clamp(currentDisplayHealth, 0, _playerTank.HitPointCapacity);
         _healthText.text = currentDisplayHealth.ToString();
     }
 }

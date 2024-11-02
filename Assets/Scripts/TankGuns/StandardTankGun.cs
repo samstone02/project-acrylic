@@ -1,13 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace TankGuns
 {
     public class StandardTankGun : BaseTankGun
     {
-        [SerializeField] public int magazineCapacity;
-
-        [SerializeField] public float reloadTimeSeconds;
+        [field: SerializeField] public float ReloadTimeSeconds { get; set; }
+        
+        public override event Action OnReloadEnd;
 
         private int _shellsInMagazine;
 
@@ -19,22 +20,21 @@ namespace TankGuns
         {
             base.Awake();
 
-            _shellsInMagazine = magazineCapacity;
+            _shellsInMagazine = MagazineCapacity;
         }
 
         private void Update()
         {
             if (_isReloading)
             {
-             if (_reloadTimer > 0)
-             {
-                 _reloadTimer -= Time.deltaTime;   
-             }
-             else
-             {
-                 _shellsInMagazine = magazineCapacity;
-                 _isReloading = false;
-             }
+                _reloadTimer -= Time.deltaTime;   
+                
+                if (_reloadTimer <= 0)
+                {
+                    _shellsInMagazine = MagazineCapacity;
+                    _isReloading = false;
+                    OnReloadEnd?.Invoke();
+                }
             }
         }
 
@@ -42,7 +42,7 @@ namespace TankGuns
         {
             if (_isReloading || _shellsInMagazine <= 0)
             {
-             return null;
+                return null;
             }
 
             GameObject projectile = LaunchProjectile();
@@ -55,13 +55,13 @@ namespace TankGuns
 
         public override void Reload()
         {
-            if (_isReloading || _shellsInMagazine == magazineCapacity)
+            if (_isReloading || _shellsInMagazine == MagazineCapacity)
             {
-             return;
+                return;
             }
 
             _isReloading = true;
-            _reloadTimer = reloadTimeSeconds;
+            _reloadTimer = ReloadTimeSeconds;
         }
 
         private GameObject LaunchProjectile()

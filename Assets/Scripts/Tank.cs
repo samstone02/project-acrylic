@@ -1,20 +1,33 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using TankAgents;
 using TankGuns;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Tank : MonoBehaviour
 {
-    [SerializeField] public int hitPoints = 3;
+    [field: SerializeField] public int HitPointCapacity { get; set; } = 3;
     
-    [SerializeField]
+    [field: SerializeField]
     [Tooltip("In degrees per second.")]
-    public float turretRotationSpeed = 120f;
+    public float TurretRotationSpeed { get; set; } = 120f;
     
-    [SerializeField] public float treadTorque = 10f;
+    [field: SerializeField] public float TreadTorque { get; set; } = 10f;
     
     public event Action OnReceiveDamage;
+    
+    public event Action OnFire;
+    
+    public event Action OnReloadStart;
+    
+    public event Action OnReloadEnd;
+    
+    public int MagazineCapacity
+    {
+        get => _tankGun.MagazineCapacity;
+    }
     
     private Rigidbody _rigidbody;
 
@@ -28,14 +41,13 @@ public class Tank : MonoBehaviour
     
     private void Awake()
     {
-        Debug.Log("Hello, Tanks!");
-        
         _rigidbody = GetComponent<Rigidbody>();
         _agent = GetComponent<BaseTankAgent>();
         _tankGun = GetComponentInChildren<BaseTankGun>();
         _turret = transform.Find("Turret").gameObject;
         
-        _currentHitPoints = hitPoints;
+        _currentHitPoints = HitPointCapacity;
+        _tankGun.OnReloadEnd += GunOnReloadEnd;
     }
     
     private void Update()
@@ -50,15 +62,18 @@ public class Tank : MonoBehaviour
         
         if (fireDecision)
         {
+            Debug.Log("Fire");
             GameObject projectile = _tankGun.Fire();
+            OnFire?.Invoke();
         }
         if (reloadDecision)
         {
             _tankGun.Reload();
+            OnReloadStart?.Invoke();
         }
         
         float rotationDirection = _agent.GetDecisionRotateTurret();
-        _turret.transform.Rotate(Vector3.up, rotationDirection * turretRotationSpeed * Time.deltaTime);  
+        _turret.transform.Rotate(Vector3.up, rotationDirection * TurretRotationSpeed * Time.deltaTime);  
         
         (float left, float right) = _agent.GetDecisionRollTracks();
         
@@ -91,39 +106,44 @@ public class Tank : MonoBehaviour
         
         if (left > 0 && right > 0)
         {
-            _rigidbody.AddRelativeForce(2 * treadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
+            _rigidbody.AddRelativeForce(2 * TreadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
         }
         else if (left < 0 && right < 0)
         {
-            _rigidbody.AddRelativeForce(2 * treadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
+            _rigidbody.AddRelativeForce(2 * TreadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
         }
         else if (left > 0 && right < 0)
         {
-            _rigidbody.AddRelativeTorque(2 * treadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
+            _rigidbody.AddRelativeTorque(2 * TreadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
         }
         else if (left < 0 && right > 0)
         {
-            _rigidbody.AddRelativeTorque(2 * treadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
+            _rigidbody.AddRelativeTorque(2 * TreadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
         }
         else if (left == 0 && right > 0)
         {
-            _rigidbody.AddRelativeForce(1.25f * treadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
-            _rigidbody.AddRelativeTorque(0.75f * treadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
+            _rigidbody.AddRelativeForce(1.25f * TreadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
+            _rigidbody.AddRelativeTorque(0.75f * TreadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
         }
         else if (left > 0 && right == 0)
         {
-            _rigidbody.AddRelativeForce(1.25f * treadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
-            _rigidbody.AddRelativeTorque(0.75f * treadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
+            _rigidbody.AddRelativeForce(1.25f * TreadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
+            _rigidbody.AddRelativeTorque(0.75f * TreadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
         }
         else if (left < 0 && right == 0)
         {
-            _rigidbody.AddRelativeForce(1.25f * treadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
-            _rigidbody.AddRelativeTorque(0.75f * treadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
+            _rigidbody.AddRelativeForce(1.25f * TreadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
+            _rigidbody.AddRelativeTorque(0.75f * TreadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
         }
         else if (left == 0 && right < 0)
         {
-            _rigidbody.AddRelativeForce(1.25f * treadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
-            _rigidbody.AddRelativeTorque(0.75f * treadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
+            _rigidbody.AddRelativeForce(1.25f * TreadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
+            _rigidbody.AddRelativeTorque(0.75f * TreadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
         }
+    }
+
+    private void GunOnReloadEnd()
+    {
+        OnReloadEnd?.Invoke();
     }
 }

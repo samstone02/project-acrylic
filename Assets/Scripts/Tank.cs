@@ -24,11 +24,6 @@ public class Tank : MonoBehaviour
     
     public event Action OnReloadEnd;
     
-    public int MagazineCapacity
-    {
-        get => _tankGun.MagazineCapacity;
-    }
-    
     private Rigidbody _rigidbody;
 
     private BaseTankAgent _agent;
@@ -62,7 +57,6 @@ public class Tank : MonoBehaviour
         
         if (fireDecision)
         {
-            Debug.Log("Fire");
             GameObject projectile = _tankGun.Fire();
             OnFire?.Invoke();
         }

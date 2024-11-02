@@ -9,7 +9,7 @@ public class PlayerHealthUi : MonoBehaviour
     
     private void Start()
     {
-        _playerTank = GameObject.Find("Player Tank").GetComponent<Tank>();
+        _playerTank = GameObject.Find("PlayerTank").GetComponent<Tank>();
         _healthText = GetComponentInChildren<TextMeshProUGUI>();
         
         _playerTank.OnReceiveDamage += UpdateHealthIndicator;

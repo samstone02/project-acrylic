@@ -4,24 +4,15 @@ using UnityEngine.Serialization;
 
 namespace TankGuns
 {
-    public class StandardTankGun : BaseTankGun
+    public class ConventionalTankGun : BaseTankGun
     {
-        [field: SerializeField] public float ReloadTimeSeconds { get; set; }
+        [field: SerializeField] public float ReloadTimeSeconds { get; set; } = 5;
         
         public override event Action OnReloadEnd;
-
-        private int _shellsInMagazine;
 
         private bool _isReloading;
 
         private float _reloadTimer;
-
-        protected override void Awake()
-        {
-            base.Awake();
-
-            _shellsInMagazine = MagazineCapacity;
-        }
 
         private void Update()
         {
@@ -31,7 +22,6 @@ namespace TankGuns
                 
                 if (_reloadTimer <= 0)
                 {
-                    _shellsInMagazine = MagazineCapacity;
                     _isReloading = false;
                     OnReloadEnd?.Invoke();
                 }
@@ -40,22 +30,21 @@ namespace TankGuns
 
         public override GameObject Fire()
         {
-            if (_isReloading || _shellsInMagazine <= 0)
+            if (_isReloading)
             {
                 return null;
             }
 
             GameObject projectile = LaunchProjectile();
-            _shellsInMagazine--;
 
-            ReloadIfMagazineEmpty();
+            Reload();
 
             return projectile;
         }
 
         public override void Reload()
         {
-            if (_isReloading || _shellsInMagazine == MagazineCapacity)
+            if (_isReloading)
             {
                 return;
             }
@@ -72,14 +61,6 @@ namespace TankGuns
             var rb = projectile.GetComponent<Rigidbody>();
             rb.velocity = projectile.transform.forward * 20;
             return projectile;
-        }
-
-        private void ReloadIfMagazineEmpty()
-        {
-            if (_shellsInMagazine == 0)
-            {
-             Reload();
-            }
         }
     }   
 }

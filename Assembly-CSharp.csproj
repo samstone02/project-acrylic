@@ -47,10 +47,12 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\MainCamera.cs" />
     <Compile Include="Assets\Scripts\Ui\PlayerAmmoUi.cs" />
-    <Compile Include="Assets\Scripts\TankGuns\StandardTankGun.cs" />
     <Compile Include="Assets\Scripts\TankAgents\DummyShootTankAgent.cs" />
+    <Compile Include="Assets\Scripts\TankAgents\RushdownTankAgent.cs" />
     <Compile Include="Assets\Scripts\TankAgents\BaseTankAgent.cs" />
+    <Compile Include="Assets\Scripts\TankGuns\AutoloadingTankGun.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RandomActionTankAgent.cs" />
+    <Compile Include="Assets\Scripts\TankGuns\ConventionalTankGun.cs" />
     <Compile Include="Assets\Scripts\Dummy.cs" />
     <Compile Include="Assets\Scripts\TankAgents\PlayerTankAgent.cs" />
     <Compile Include="Assets\Scripts\Tank.cs" />

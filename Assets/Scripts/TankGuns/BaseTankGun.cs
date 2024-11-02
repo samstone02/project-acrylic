@@ -9,8 +9,6 @@ namespace TankGuns
 
         [field: SerializeField] public Transform ShellSpawnPoint { get; set; }
         
-        [field: SerializeField] public int MagazineCapacity { get; set; }
-        
         public abstract event Action OnReloadEnd;
 
         protected virtual void Awake()

@@ -8,11 +8,21 @@ public class MainCamera : MonoBehaviour
 
     private void Awake()
     {
-       _offset = transform.position - target.transform.position;
+        if (target is null)
+        {
+            return;
+        }
+        
+        _offset = transform.position - target.transform.position;
     }
     
     private void Update()
     {
+        if (target is null)
+        {
+            return;
+        }
+        
         transform.position = target.transform.position + _offset;
     }
 }

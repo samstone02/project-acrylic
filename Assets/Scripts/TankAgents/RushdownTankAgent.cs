@@ -1,11 +1,14 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace TankAgents
 {
     public class RushdownTankAgent : BaseTankAgent
     {
-        [field: SerializeField] public float MinAngleDifference { get; set; } = 1f;
+        [field: SerializeField] public float MinAngleDifferenceAim { get; set; } = 1f;
+        
+        [field: SerializeField] public float MinAngleDifferenceRollForward { get; set; } = 25f;
         
         private GameObject _playerTank;
 
@@ -21,7 +24,7 @@ namespace TankAgents
             
             float angleDifference = Math.Abs(Vector3.Angle(playerDirection, turretDirection));
             
-            return angleDifference <= MinAngleDifference;
+            return angleDifference <= MinAngleDifferenceAim;
         }
 
         public override bool GetDecisionReload()
@@ -42,7 +45,23 @@ namespace TankAgents
 
         public override (float, float) GetDecisionRollTracks()
         {
-            return (0f, 0f);
+            var path = new NavMeshPath();
+            NavMesh.CalculatePath(transform.position, _playerTank.transform.position, NavMesh.AllAreas, path);
+            Vector3 immediateDestination = path.corners[1] - Tank.transform.position;
+            float angleDifference = Vector3.Angle(Tank.transform.forward, immediateDestination);
+            
+            if (angleDifference < MinAngleDifferenceRollForward)
+            {
+                return (1f, 1f);
+            }
+            else if (angleDifference <= 0)
+            {
+                return (-1f, 1f);
+            }
+            else
+            {
+                return (1f, -1f);
+            }
         }
     }
 }

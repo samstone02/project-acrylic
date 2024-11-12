@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using TankAgents;
 using TankGuns;
+using UnityEditor;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -24,6 +25,8 @@ public class Tank : MonoBehaviour
     
     public event Action OnReloadEnd;
     
+    public event Action OnDeath;
+    
     private Rigidbody _rigidbody;
 
     private BaseTankAgent _agent;
@@ -33,6 +36,10 @@ public class Tank : MonoBehaviour
     private GameObject _turret;
     
     private int _currentHitPoints;
+
+    private Vector3 _startPosition;
+    
+    private Quaternion _startRotation;
     
     private void Awake()
     {
@@ -43,11 +50,14 @@ public class Tank : MonoBehaviour
         
         _currentHitPoints = HitPointCapacity;
         _tankGun.OnReloadEnd += GunOnReloadEnd;
+        
+        _startPosition = transform.position;
+        _startRotation = transform.rotation;
     }
     
     private void Update()
     {
-        if (_agent is null)
+        if (_agent is null || _currentHitPoints <= 0)
         {
             return;
         }
@@ -84,7 +94,7 @@ public class Tank : MonoBehaviour
 
         if (_currentHitPoints == 0)
         {
-            Debug.Log("You died!");
+            Die();
         }
     }
 
@@ -134,6 +144,18 @@ public class Tank : MonoBehaviour
             _rigidbody.AddRelativeForce(1.25f * TreadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
             _rigidbody.AddRelativeTorque(0.75f * TreadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
         }
+    }
+
+    private void Die()
+    {
+        OnDeath?.Invoke();
+    }
+
+    public void Respawn()
+    {
+        transform.position = _startPosition;
+        transform.rotation = _startRotation;
+        _currentHitPoints = HitPointCapacity;
     }
 
     private void GunOnReloadEnd()

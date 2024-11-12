@@ -51,7 +51,9 @@
     <Compile Include="Assets\Scripts\TankAgents\RushdownTankAgent.cs" />
     <Compile Include="Assets\Scripts\TankAgents\BaseTankAgent.cs" />
     <Compile Include="Assets\Scripts\TankGuns\AutoloadingTankGun.cs" />
+    <Compile Include="Assets\Scripts\Ui\RetryButton.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RandomActionTankAgent.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\TankGuns\ConventionalTankGun.cs" />
     <Compile Include="Assets\Scripts\Dummy.cs" />
     <Compile Include="Assets\Scripts\TankAgents\PlayerTankAgent.cs" />

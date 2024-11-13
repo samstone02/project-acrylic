@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.AI;
+using Vector3 = UnityEngine.Vector3;
 
 namespace TankAgents
 {
@@ -11,10 +13,13 @@ namespace TankAgents
         [field: SerializeField] public float MinAngleDifferenceRollForward { get; set; } = 25f;
         
         private GameObject _playerTank;
+        
+        private LineRenderer _lineRenderer;
 
         protected void Start()
         {
             _playerTank = GameObject.Find("PlayerTank");
+            _lineRenderer = GetComponent<LineRenderer>();
         }
 
         public override bool GetDecisionFire()
@@ -47,8 +52,17 @@ namespace TankAgents
         {
             var path = new NavMeshPath();
             NavMesh.CalculatePath(transform.position, _playerTank.transform.position, NavMesh.AllAreas, path);
-            Vector3 immediateDestination = path.corners[1] - Tank.transform.position;
-            float angleDifference = Vector3.Angle(Tank.transform.forward, immediateDestination);
+            
+            Vector3 immediateDestination = Vector3.zero;
+            
+            if (path.corners.Length > 1)
+            {
+                _lineRenderer.positionCount = path.corners.Length;
+                _lineRenderer.SetPositions(path.corners);
+                immediateDestination = path.corners[1] - Tank.transform.position;
+            }
+            
+            float angleDifference = Vector3.Angle(immediateDestination, Tank.transform.forward);
             
             if (angleDifference < MinAngleDifferenceRollForward)
             {

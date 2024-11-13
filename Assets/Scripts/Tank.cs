@@ -17,6 +17,10 @@ public class Tank : MonoBehaviour
     
     [field: SerializeField] public float TreadTorque { get; set; } = 10f;
     
+    private Transform LeftTrackRollPosition { get; set; }
+    
+    private Transform RightTrackRollPosition { get; set; }
+    
     public event Action OnReceiveDamage;
     
     public event Action OnFire;
@@ -50,6 +54,9 @@ public class Tank : MonoBehaviour
         
         _currentHitPoints = HitPointCapacity;
         _tankGun.OnReloadEnd += GunOnReloadEnd;
+        
+        LeftTrackRollPosition = transform.Find("LeftTrackRollPosition");
+        RightTrackRollPosition = transform.Find("RightTrackRollPosition");
         
         _startPosition = transform.position;
         _startRotation = transform.rotation;
@@ -100,50 +107,8 @@ public class Tank : MonoBehaviour
 
     private void Move(float left, float right)
     {
-        // Currently a physics based movement system.
-        // I'm not sure if I want to keep this because it's hard to get it feeling right.
-        // I'll leave it for now.
-        // It feels heavy and slow. Even though it's a tank, I don't want this to be the case.
-        // There's basically no acceleration. It's just top speed right away. And the top speed is low.
-        // I'll have to play with it more.
-        // I think what I'm missing is friction?
-        
-        if (left > 0 && right > 0)
-        {
-            _rigidbody.AddRelativeForce(2 * TreadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
-        }
-        else if (left < 0 && right < 0)
-        {
-            _rigidbody.AddRelativeForce(2 * TreadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
-        }
-        else if (left > 0 && right < 0)
-        {
-            _rigidbody.AddRelativeTorque(2 * TreadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
-        }
-        else if (left < 0 && right > 0)
-        {
-            _rigidbody.AddRelativeTorque(2 * TreadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
-        }
-        else if (left == 0 && right > 0)
-        {
-            _rigidbody.AddRelativeForce(1.25f * TreadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
-            _rigidbody.AddRelativeTorque(0.75f * TreadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
-        }
-        else if (left > 0 && right == 0)
-        {
-            _rigidbody.AddRelativeForce(1.25f * TreadTorque * Time.deltaTime * Vector3.forward, ForceMode.Force);
-            _rigidbody.AddRelativeTorque(0.75f * TreadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
-        }
-        else if (left < 0 && right == 0)
-        {
-            _rigidbody.AddRelativeForce(1.25f * TreadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
-            _rigidbody.AddRelativeTorque(0.75f * TreadTorque * Time.deltaTime * Vector3.down, ForceMode.Force);
-        }
-        else if (left == 0 && right < 0)
-        {
-            _rigidbody.AddRelativeForce(1.25f * TreadTorque * Time.deltaTime * Vector3.back, ForceMode.Force);
-            _rigidbody.AddRelativeTorque(0.75f * TreadTorque * Time.deltaTime * Vector3.up, ForceMode.Force);
-        }
+        _rigidbody.AddForceAtPosition(left * TreadTorque * Time.deltaTime * transform.forward, LeftTrackRollPosition.position);
+        _rigidbody.AddForceAtPosition(right * TreadTorque * Time.deltaTime * transform.forward, RightTrackRollPosition.position);
     }
 
     private void Die()

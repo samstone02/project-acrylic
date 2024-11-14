@@ -58,6 +58,7 @@
     <Compile Include="Assets\Scripts\Dummy.cs" />
     <Compile Include="Assets\Scripts\TankAgents\PlayerTankAgent.cs" />
     <Compile Include="Assets\Scripts\Tank.cs" />
+    <Compile Include="Assets\Scripts\DebugManager.cs" />
     <Compile Include="Assets\Scripts\Ui\PlayerHealthUi.cs" />
     <Compile Include="Assets\Scripts\TankGuns\BaseTankGun.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

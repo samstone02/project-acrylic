@@ -24,6 +24,8 @@ namespace TankAgents
 
         public override bool GetDecisionFire()
         {
+            return false;
+            
             Vector3 playerDirection = _playerTank.transform.position - transform.position;
             Vector3 turretDirection = Turret.transform.forward;
             
@@ -52,23 +54,27 @@ namespace TankAgents
         {
             var path = new NavMeshPath();
             NavMesh.CalculatePath(transform.position, _playerTank.transform.position, NavMesh.AllAreas, path);
+
+            // get the current and next target position
+            Vector3 immediateNextTargetPos =  path.corners.Length > 1 ? path.corners[1] : transform.position;
+            immediateNextTargetPos.y = 0;
+            Vector3 currentPos = Tank.transform.position;
+            currentPos.y = 0;
             
-            Vector3 immediateDestination = Vector3.zero;
+            // get the angle between current forward direction and target direction
+            Vector3 immediateNextTargetDirection = immediateNextTargetPos - currentPos;
+            immediateNextTargetDirection.Normalize();
+            float angleDifference = Vector3.Angle(immediateNextTargetDirection, Tank.transform.forward);
             
-            if (path.corners.Length > 1)
-            {
-                _lineRenderer.positionCount = path.corners.Length;
-                _lineRenderer.SetPositions(path.corners);
-                immediateDestination = path.corners[1] - Tank.transform.position;
-            }
-            
-            float angleDifference = Vector3.Angle(immediateDestination, Tank.transform.forward);
+            // get rotation direction between current forward direction and target direction
+            Vector3 turretTargetCross = Vector3.Cross(transform.forward, immediateNextTargetDirection);
+            int direction = turretTargetCross.y > 0 ? 1 : -1;
             
             if (angleDifference < MinAngleDifferenceRollForward)
             {
                 return (1f, 1f);
             }
-            else if (angleDifference <= 0)
+            else if (angleDifference * direction <= 0)
             {
                 return (-1f, 1f);
             }

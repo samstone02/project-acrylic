@@ -33,6 +33,37 @@ Transform:
   - {fileID: 5413639279306411842}
   m_Father: {fileID: 3108015492128133522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1528600371032241312
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3901722314862166162}
+  m_Layer: 10
+  m_Name: RightTrackRollPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3901722314862166162
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528600371032241312}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.5, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3108015492128133522}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5087329328145373332
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,6 +99,8 @@ Transform:
   m_Children:
   - {fileID: 2078642851675763664}
   - {fileID: 5437346118953532407}
+  - {fileID: 4299075666955960395}
+  - {fileID: 3901722314862166162}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &881609652096462565
@@ -99,9 +132,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5087329328145373332}
   serializedVersion: 4
-  m_Mass: 1000
-  m_Drag: 7
-  m_AngularDrag: 6
+  m_Mass: 20000
+  m_Drag: 3
+  m_AngularDrag: 4.75
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -111,12 +144,12 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 1
+  m_ImplicitCom: 0
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &6433303202565965350
 MonoBehaviour:
@@ -132,7 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <HitPointCapacity>k__BackingField: 3
   <TurretRotationSpeed>k__BackingField: 120
-  <TreadTorque>k__BackingField: 3500000
+  <TreadTorque>k__BackingField: 35000000
 --- !u!114 &3762889992302242440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,6 +182,37 @@ MonoBehaviour:
   reloadInput: {fileID: 3992714865939853460, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
   leftTrackRollInput: {fileID: -6944060838618043600, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
   rightTrackRollInput: {fileID: -1896603884095017804, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
+--- !u!1 &5584448713913931488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4299075666955960395}
+  m_Layer: 10
+  m_Name: LeftTrackRollPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4299075666955960395
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5584448713913931488}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.5, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3108015492128133522}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3878892885926610478
 PrefabInstance:
   m_ObjectHideFlags: 0

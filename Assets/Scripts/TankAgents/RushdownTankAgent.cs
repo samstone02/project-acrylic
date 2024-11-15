@@ -24,8 +24,6 @@ namespace TankAgents
 
         public override bool GetDecisionFire()
         {
-            return false;
-            
             Vector3 playerDirection = _playerTank.transform.position - transform.position;
             Vector3 turretDirection = Turret.transform.forward;
             

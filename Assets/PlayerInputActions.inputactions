@@ -40,6 +40,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Load Standard Shell - KBM",
+                    "type": "Button",
+                    "id": "b7842646-0b09-4ec9-aca7-7622a7d84ae3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Load Explosive Shell - KBM1",
+                    "type": "Button",
+                    "id": "378c9ffe-8973-440b-b4f0-2ebf18368589",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Load Ricochet Shell - KBM2",
+                    "type": "Button",
+                    "id": "3922f44d-f3ab-4630-ac64-8d5928ac967c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -130,6 +157,39 @@
                     "action": "Right Track Roll - KBM",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "c5a5ac9d-253c-42db-8a11-9d5982da8d95",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard and Mouse",
+                    "action": "Load Standard Shell - KBM",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a44782a2-01f2-4c6b-bdcf-f7f59d475b6a",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard and Mouse",
+                    "action": "Load Explosive Shell - KBM1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0f489ea6-6630-46ac-8a4a-17c19a7c121f",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard and Mouse",
+                    "action": "Load Ricochet Shell - KBM2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

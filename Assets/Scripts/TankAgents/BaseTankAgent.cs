@@ -1,17 +1,21 @@
-﻿using UnityEngine;
+﻿using TankGuns;
+using UnityEngine;
 
 namespace TankAgents
 {
     public abstract class BaseTankAgent : MonoBehaviour
     {
-        protected Tank Tank;
+        protected Tank Tank { get; private set; }
     
-        protected GameObject Turret;
+        protected GameObject Turret { get; private set; }
+
+        protected BaseTankGun Gun { get; private set; }
     
         protected virtual void Awake()
         {
             Tank = GetComponent<Tank>();
             Turret = transform.Find("Turret").gameObject;
+            Gun = Turret.transform.GetComponentInChildren<BaseTankGun>();
         }
     
         public abstract bool GetDecisionFire();

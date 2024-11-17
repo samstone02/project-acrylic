@@ -79,7 +79,7 @@ public class Tank : MonoBehaviour
         }
         if (reloadDecision)
         {
-            _tankGun.Reload();
+            _tankGun.StartReload();
             OnReloadStart?.Invoke();
         }
         

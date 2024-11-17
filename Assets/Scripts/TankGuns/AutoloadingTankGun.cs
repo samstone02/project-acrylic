@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -14,76 +16,86 @@ namespace TankGuns
         
         public override event Action OnReloadEnd;
 
-        private int _shellsInMagazine;
-
         private bool _isReloading;
+        
+        private bool _isInterClipReloading;
 
         private float _reloadTimer;
+        
+        private float _interClipReloadTimer;
+        
+        private float _loadShellTimer;
+        
+        private List<GameObject> Magazine { get; set; } = new List<GameObject>();
 
         protected override void Awake()
         {
             base.Awake();
-
-            _shellsInMagazine = MagazineCapacity;
+            StartReload();
         }
 
         private void Update()
         {
             if (_isReloading)
             {
-                _reloadTimer -= Time.deltaTime;   
+                _reloadTimer -= Time.deltaTime;
                 
                 if (_reloadTimer <= 0)
                 {
-                    _shellsInMagazine = MagazineCapacity;
                     _isReloading = false;
                     OnReloadEnd?.Invoke();
+                }
+
+                if (_reloadTimer <= ReloadTimeSeconds - ReloadTimeSeconds / MagazineCapacity * (Magazine.Count + 1))
+                {
+                    Magazine.Add(NextShellToLoadPrefab);
+                }
+            }
+
+            if (_isInterClipReloading)
+            {
+                _interClipReloadTimer -= Time.deltaTime;
+
+                if (_interClipReloadTimer <= 0)
+                {
+                    _isInterClipReloading = false;
                 }
             }
         }
 
         public override GameObject Fire()
         {
-            if (_isReloading || _shellsInMagazine <= 0)
+            if (_isReloading || _isInterClipReloading || Magazine.Count <= 0)
             {
                 return null;
             }
 
-            GameObject projectile = LaunchProjectile();
-            _shellsInMagazine--;
+            GameObject projectile = LaunchProjectile(Magazine.Last());
+            Magazine.RemoveAt(Magazine.Count - 1);
 
-            ReloadIfMagazineEmpty();
+            if (Magazine.Count == 0)
+            {
+                StartReload();
+            }
+            else
+            {
+                _isInterClipReloading = true;
+                _interClipReloadTimer = InterClipReloadTimeSeconds;
+            }
 
             return projectile;
         }
 
-        public override void Reload()
+        public override void StartReload()
         {
-            if (_isReloading || _shellsInMagazine == MagazineCapacity)
+            if (_isReloading || Magazine.Count == MagazineCapacity)
             {
                 return;
             }
 
+            Magazine.Clear();
             _isReloading = true;
             _reloadTimer = ReloadTimeSeconds;
-        }
-
-        private GameObject LaunchProjectile()
-        {
-            var projectile = Instantiate(ProjectilePrefab);
-            projectile.transform.position = ShellSpawnPoint.position;
-            projectile.transform.rotation = ShellSpawnPoint.rotation;
-            var rb = projectile.GetComponent<Rigidbody>();
-            rb.velocity = projectile.transform.forward * 20;
-            return projectile;
-        }
-
-        private void ReloadIfMagazineEmpty()
-        {
-            if (_shellsInMagazine == 0)
-            {
-             Reload();
-            }
         }
     }   
 }

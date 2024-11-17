@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 6766780095447203293}
   - component: {fileID: 3581479640962544882}
   - component: {fileID: 7787856853100082362}
-  - component: {fileID: 3179367497420756835}
+  - component: {fileID: 8912513645579957257}
   m_Layer: 11
   m_Name: StandardShell
   m_TagString: Untagged
@@ -117,7 +117,7 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3179367497420756835
+--- !u!114 &8912513645579957257
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

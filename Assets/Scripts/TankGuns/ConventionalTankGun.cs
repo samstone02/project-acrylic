@@ -35,14 +35,14 @@ namespace TankGuns
                 return null;
             }
 
-            GameObject projectile = LaunchProjectile();
+            GameObject projectile = LaunchProjectile(ProjectilePrefab);
 
-            Reload();
+            StartReload();
 
             return projectile;
         }
 
-        public override void Reload()
+        public override void StartReload()
         {
             if (_isReloading)
             {
@@ -51,16 +51,6 @@ namespace TankGuns
 
             _isReloading = true;
             _reloadTimer = ReloadTimeSeconds;
-        }
-
-        private GameObject LaunchProjectile()
-        {
-            var projectile = Instantiate(ProjectilePrefab);
-            projectile.transform.position = ShellSpawnPoint.position;
-            projectile.transform.rotation = ShellSpawnPoint.rotation;
-            var rb = projectile.GetComponent<Rigidbody>();
-            rb.velocity = projectile.transform.forward * 20;
-            return projectile;
         }
     }   
 }

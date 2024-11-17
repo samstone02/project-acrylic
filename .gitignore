@@ -4,6 +4,7 @@
 
 # Rider
 .idea/
+*.DotSettings.user
 
 # Unity
 /[Ll]ibrary/

@@ -48,8 +48,11 @@
     <Compile Include="Assets\Scripts\Projectiles\StandardShell.cs" />
     <Compile Include="Assets\Scripts\MainCamera.cs" />
     <Compile Include="Assets\Scripts\Ui\PlayerAmmoUi.cs" />
+    <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\MagazineReloadStartAudioHook.cs" />
+    <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\ShellLoadAudioHook.cs" />
     <Compile Include="Assets\Scripts\TankAgents\DummyShootTankAgent.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RushdownTankAgent.cs" />
+    <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\MagazineReloadEndAudioHook.cs" />
     <Compile Include="Assets\Scripts\TankAgents\BaseTankAgent.cs" />
     <Compile Include="Assets\Scripts\TankGuns\AutoloadingTankGun.cs" />
     <Compile Include="Assets\Scripts\Ui\RetryButton.cs" />
@@ -59,11 +62,13 @@
     <Compile Include="Assets\Scripts\Dummy.cs" />
     <Compile Include="Assets\Scripts\TankAgents\PlayerTankAgent.cs" />
     <Compile Include="Assets\Scripts\Tank.cs" />
+    <Compile Include="Assets\Scripts\AudioHooks\CannonFireAudioHook.cs" />
     <Compile Include="Assets\Scripts\DebugManager.cs" />
     <Compile Include="Assets\Scripts\Projectiles\ExplosiveShell.cs" />
     <Compile Include="Assets\Scripts\Projectiles\RicochetShell.cs" />
     <Compile Include="Assets\Scripts\Ui\PlayerHealthUi.cs" />
     <Compile Include="Assets\Scripts\TankGuns\BaseTankGun.cs" />
+    <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\InterClipReloadedAudioHook.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

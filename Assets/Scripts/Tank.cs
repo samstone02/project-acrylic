@@ -53,7 +53,7 @@ public class Tank : MonoBehaviour
         _turret = transform.Find("Turret").gameObject;
         
         _currentHitPoints = HitPointCapacity;
-        _tankGun.OnReloadEnd += GunOnReloadEnd;
+        _tankGun.OnMagazineReloadEnd += GunOnReloadEnd;
         
         LeftTrackRollPosition = transform.Find("LeftTrackRollPosition");
         RightTrackRollPosition = transform.Find("RightTrackRollPosition");
@@ -75,7 +75,10 @@ public class Tank : MonoBehaviour
         if (fireDecision)
         {
             GameObject projectile = _tankGun.Fire();
-            OnFire?.Invoke();
+            if (projectile is not null)
+            {
+                OnFire?.Invoke();
+            }
         }
         if (reloadDecision)
         {

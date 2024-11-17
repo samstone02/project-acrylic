@@ -69,8 +69,6 @@ namespace TankAgents
 
             _mainCamera = Camera.main;
             _playerAimMask = LayerMask.GetMask("Player Aim");
-            
-            Gun.NextShellToLoadPrefab = StandardAmmoPrefab;
         }
 
         protected void Update()

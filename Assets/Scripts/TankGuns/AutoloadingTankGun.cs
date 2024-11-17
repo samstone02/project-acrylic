@@ -14,7 +14,13 @@ namespace TankGuns
 
         [field: SerializeField] public float InterClipReloadTimeSeconds { get; set; } = 1f;
         
-        public override event Action OnReloadEnd;
+        public event Action OnMagazineReloadStart;
+        
+        public override event Action OnMagazineReloadEnd;
+        
+        public event Action OnShellLoad;
+        
+        public event Action OnInterClipReloadEnd;
 
         private bool _isReloading;
         
@@ -43,12 +49,13 @@ namespace TankGuns
                 if (_reloadTimer <= 0)
                 {
                     _isReloading = false;
-                    OnReloadEnd?.Invoke();
+                    OnMagazineReloadEnd?.Invoke();
                 }
 
                 if (_reloadTimer <= ReloadTimeSeconds - ReloadTimeSeconds / MagazineCapacity * (Magazine.Count + 1))
                 {
                     Magazine.Add(NextShellToLoadPrefab);
+                    OnShellLoad?.Invoke();
                 }
             }
 
@@ -59,6 +66,7 @@ namespace TankGuns
                 if (_interClipReloadTimer <= 0)
                 {
                     _isInterClipReloading = false;
+                    OnInterClipReloadEnd?.Invoke();
                 }
             }
         }
@@ -93,6 +101,7 @@ namespace TankGuns
                 return;
             }
 
+            OnMagazineReloadStart?.Invoke();
             Magazine.Clear();
             _isReloading = true;
             _reloadTimer = ReloadTimeSeconds;

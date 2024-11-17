@@ -50,6 +50,8 @@ namespace TankAgents
 
         public override (float, float) GetDecisionRollTracks()
         {
+            return (0f, 0f);
+            
             var path = new NavMeshPath();
             NavMesh.CalculatePath(transform.position, _playerTank.transform.position, NavMesh.AllAreas, path);
 

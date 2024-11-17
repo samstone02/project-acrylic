@@ -9,9 +9,9 @@ namespace TankGuns
 
         [field: SerializeField] public Transform ShellSpawnPoint { get; set; }
         
-        public GameObject NextShellToLoadPrefab { get; set; }
+        [field: SerializeField] public GameObject NextShellToLoadPrefab { get; set; }
         
-        public abstract event Action OnReloadEnd;
+        public abstract event Action OnMagazineReloadEnd;
 
         protected virtual void Awake()
         {

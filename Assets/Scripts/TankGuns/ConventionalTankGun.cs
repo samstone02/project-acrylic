@@ -8,7 +8,7 @@ namespace TankGuns
     {
         [field: SerializeField] public float ReloadTimeSeconds { get; set; } = 5;
         
-        public override event Action OnReloadEnd;
+        public override event Action OnMagazineReloadEnd;
 
         private bool _isReloading;
 
@@ -23,7 +23,7 @@ namespace TankGuns
                 if (_reloadTimer <= 0)
                 {
                     _isReloading = false;
-                    OnReloadEnd?.Invoke();
+                    OnMagazineReloadEnd?.Invoke();
                 }
             }
         }

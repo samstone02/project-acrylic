@@ -13,7 +13,7 @@ namespace AudioHooks.PlayerEventHooks
             AudioSource = GetComponent<AudioSource>();
             var playerTank = GameObject.Find("PlayerTank");
             var autoloadingTankGun = playerTank.GetComponentInChildren<AutoLoadingCannon>();
-            autoloadingTankGun.InterClipReloadEnd += () => AudioSource.Play();
+            autoloadingTankGun.InterClipReloadEndEvent += () => AudioSource.Play();
         }
     }
 }

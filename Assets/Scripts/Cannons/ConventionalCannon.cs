@@ -21,7 +21,7 @@ namespace TankGuns
                 if (_reloadTimer <= 0)
                 {
                     _isReloading = false;
-                    OnReloadEnd();
+                    InvokeReloadEnd();
                 }
             }
         }

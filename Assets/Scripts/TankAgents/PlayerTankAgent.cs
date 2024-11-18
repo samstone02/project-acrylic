@@ -75,15 +75,15 @@ namespace TankAgents
         {
             if (LoadStandardAmmoInput.action.triggered)
             {
-                Gun.NextShellToLoadPrefab = StandardAmmoPrefab;
+                Gun.ProjectilePrefab = StandardAmmoPrefab;
             }
             else if (LoadExplosiveAmmoInput.action.triggered)
             {
-                Gun.NextShellToLoadPrefab = ExplosiveAmmoPrefab;
+                Gun.ProjectilePrefab = ExplosiveAmmoPrefab;
             }
             else if (LoadRicochetAmmoInput.action.triggered)
             {
-                Gun.NextShellToLoadPrefab = RicochetAmmoPrefab;
+                Gun.ProjectilePrefab = RicochetAmmoPrefab;
             }
         }
 

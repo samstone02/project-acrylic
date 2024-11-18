@@ -1,3 +1,4 @@
+using TankGuns;
 using UnityEngine;
 
 namespace AudioHooks
@@ -10,8 +11,8 @@ namespace AudioHooks
         void Start()
         {
             AudioSource = GetComponent<AudioSource>();
-            var tank = transform.parent.parent.GetComponent<Tank>();
-            tank.OnFire += () => AudioSource.Play();
+            var tank = GetComponentInParent<Tank>().GetComponentInChildren<BaseTankGun>();
+            tank.FireEvent += () => AudioSource.Play();
         }
     }
 }

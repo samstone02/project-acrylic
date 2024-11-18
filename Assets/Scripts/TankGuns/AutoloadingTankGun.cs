@@ -14,19 +14,15 @@ namespace TankGuns
 
         [field: SerializeField] public float InterClipReloadTimeSeconds { get; set; } = 1f;
         
-        public event Action OnMagazineReloadStart;
+        public event Action ShellLoad;
         
-        public override event Action OnMagazineReloadEnd;
+        public event Action InterClipReloadEnd;
         
-        public event Action OnShellLoad;
-        
-        public event Action OnInterClipReloadEnd;
+        public float ReloadTimer { get; private set; }
 
         private bool _isReloading;
         
         private bool _isInterClipReloading;
-
-        private float _reloadTimer;
         
         private float _interClipReloadTimer;
         
@@ -37,25 +33,25 @@ namespace TankGuns
         protected override void Awake()
         {
             base.Awake();
-            StartReload();
+            Reload();
         }
 
         private void Update()
         {
             if (_isReloading)
             {
-                _reloadTimer -= Time.deltaTime;
+                ReloadTimer -= Time.deltaTime;
                 
-                if (_reloadTimer <= 0)
+                if (ReloadTimer <= 0)
                 {
                     _isReloading = false;
-                    OnMagazineReloadEnd?.Invoke();
+                    OnReloadEnd();
                 }
 
-                if (_reloadTimer <= ReloadTimeSeconds - ReloadTimeSeconds / MagazineCapacity * (Magazine.Count + 1))
+                if (ReloadTimer <= ReloadTimeSeconds - ReloadTimeSeconds / MagazineCapacity * (Magazine.Count + 1))
                 {
                     Magazine.Add(NextShellToLoadPrefab);
-                    OnShellLoad?.Invoke();
+                    ShellLoad?.Invoke();
                 }
             }
 
@@ -66,7 +62,7 @@ namespace TankGuns
                 if (_interClipReloadTimer <= 0)
                 {
                     _isInterClipReloading = false;
-                    OnInterClipReloadEnd?.Invoke();
+                    InterClipReloadEnd?.Invoke();
                 }
             }
         }
@@ -77,13 +73,15 @@ namespace TankGuns
             {
                 return null;
             }
+            
+            base.OnFire();
 
             GameObject projectile = LaunchProjectile(Magazine.Last());
             Magazine.RemoveAt(Magazine.Count - 1);
 
             if (Magazine.Count == 0)
             {
-                StartReload();
+                Reload();
             }
             else
             {
@@ -94,17 +92,17 @@ namespace TankGuns
             return projectile;
         }
 
-        public override void StartReload()
+        public override void Reload()
         {
             if (_isReloading || Magazine.Count == MagazineCapacity)
             {
                 return;
             }
 
-            OnMagazineReloadStart?.Invoke();
+            OnReloadStart();
             Magazine.Clear();
             _isReloading = true;
-            _reloadTimer = ReloadTimeSeconds;
+            ReloadTimer = ReloadTimeSeconds;
         }
     }   
 }

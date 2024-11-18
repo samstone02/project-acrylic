@@ -10,8 +10,12 @@ namespace TankGuns
         [field: SerializeField] public Transform ShellSpawnPoint { get; set; }
         
         [field: SerializeField] public GameObject NextShellToLoadPrefab { get; set; }
+
+        public event Action FireEvent;
         
-        public abstract event Action OnMagazineReloadEnd;
+        public event Action ReloadStartEvent;
+        
+        public event Action ReloadEndEvent;
 
         protected virtual void Awake()
         {
@@ -20,7 +24,13 @@ namespace TankGuns
     
         public abstract GameObject Fire();
     
-        public abstract void StartReload();
+        public abstract void Reload();
+        
+        protected void OnFire() => FireEvent?.Invoke();
+
+        protected void OnReloadStart() => ReloadStartEvent?.Invoke();
+        
+        protected void OnReloadEnd() => ReloadEndEvent?.Invoke();
         
         protected GameObject LaunchProjectile(GameObject prefab)
         {

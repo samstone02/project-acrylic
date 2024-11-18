@@ -56,6 +56,7 @@
     <Compile Include="Assets\Scripts\TankAgents\BaseTankAgent.cs" />
     <Compile Include="Assets\Scripts\TankGuns\AutoloadingTankGun.cs" />
     <Compile Include="Assets\Scripts\Ui\RetryButton.cs" />
+    <Compile Include="Assets\Scripts\Ui\GameplayCursor\GameplayCursor.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RandomActionTankAgent.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\TankGuns\ConventionalTankGun.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Assets\Scripts\DebugManager.cs" />
     <Compile Include="Assets\Scripts\Projectiles\ExplosiveShell.cs" />
     <Compile Include="Assets\Scripts\Projectiles\RicochetShell.cs" />
+    <Compile Include="Assets\Scripts\Ui\GameplayCursor\ReloadProgressCircle.cs" />
     <Compile Include="Assets\Scripts\Ui\PlayerHealthUi.cs" />
     <Compile Include="Assets\Scripts\TankGuns\BaseTankGun.cs" />
     <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\InterClipReloadedAudioHook.cs" />

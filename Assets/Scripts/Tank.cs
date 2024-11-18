@@ -23,12 +23,6 @@ public class Tank : MonoBehaviour
     
     public event Action OnReceiveDamage;
     
-    public event Action OnFire;
-    
-    public event Action OnReloadStart;
-    
-    public event Action OnReloadEnd;
-    
     public event Action OnDeath;
     
     private Rigidbody _rigidbody;
@@ -53,7 +47,6 @@ public class Tank : MonoBehaviour
         _turret = transform.Find("Turret").gameObject;
         
         _currentHitPoints = HitPointCapacity;
-        _tankGun.OnMagazineReloadEnd += GunOnReloadEnd;
         
         LeftTrackRollPosition = transform.Find("LeftTrackRollPosition");
         RightTrackRollPosition = transform.Find("RightTrackRollPosition");
@@ -75,15 +68,10 @@ public class Tank : MonoBehaviour
         if (fireDecision)
         {
             GameObject projectile = _tankGun.Fire();
-            if (projectile is not null)
-            {
-                OnFire?.Invoke();
-            }
         }
         if (reloadDecision)
         {
-            _tankGun.StartReload();
-            OnReloadStart?.Invoke();
+            _tankGun.Reload();
         }
         
         float rotationDirection = _agent.GetDecisionRotateTurret();
@@ -124,10 +112,5 @@ public class Tank : MonoBehaviour
         transform.position = _startPosition;
         transform.rotation = _startRotation;
         _currentHitPoints = HitPointCapacity;
-    }
-
-    private void GunOnReloadEnd()
-    {
-        OnReloadEnd?.Invoke();
     }
 }

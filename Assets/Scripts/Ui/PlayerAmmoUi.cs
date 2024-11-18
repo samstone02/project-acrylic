@@ -9,36 +9,34 @@ namespace Ui
     public class PlayerAmmoUi : MonoBehaviour
     {
         private TextMeshProUGUI _ammoText;
-        
-        private Tank _playerTank;
 
         private AutoloadingTankGun _autoloadingTankGun;
     
         private void Start()
         {
             _ammoText = GetComponentInChildren<TextMeshProUGUI>();
-            _playerTank = GameObject.Find("PlayerTank").GetComponent<Tank>();
-            _autoloadingTankGun = _playerTank.GetComponentInChildren<AutoloadingTankGun>();
+            _autoloadingTankGun = GameObject.Find("PlayerTank").GetComponentInChildren<AutoloadingTankGun>();
+
             
             _ammoText.text = _autoloadingTankGun.MagazineCapacity.ToString();
             
-            _playerTank.OnFire += OnPlayerFire;
-            _playerTank.OnReloadStart += OnPlayerReloadStart;
-            _playerTank.OnReloadEnd += OnPlayerReloadEnd;
+            _autoloadingTankGun.FireEvent += OnPlayerFireEvent;
+            _autoloadingTankGun.ReloadStartEvent += OnPlayerReloadStartEvent;
+            _autoloadingTankGun.ReloadEndEvent += OnPlayerReloadEndEvent;
         }
 
-        private void OnPlayerFire()
+        private void OnPlayerFireEvent()
         {
             int ammoCount = int.Parse(_ammoText.text) - 1;
             _ammoText.text = Mathf.Clamp(ammoCount, 0, _autoloadingTankGun.MagazineCapacity).ToString();
         }
 
-        private void OnPlayerReloadStart()
+        private void OnPlayerReloadStartEvent()
         {
             _ammoText.text = "...";
         }
 
-        private void OnPlayerReloadEnd()
+        private void OnPlayerReloadEndEvent()
         {
             _ammoText.text = _autoloadingTankGun.MagazineCapacity.ToString();
         }

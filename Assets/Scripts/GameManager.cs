@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    private Canvas _deathScreen;
+    private GameObject _deathScreen;
 
     private Button _retryButton;
 
@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
         
     private void Start()
     {
-        _deathScreen = GameObject.Find("DeathScreen").GetComponent<Canvas>();
-        _deathScreen.enabled = false;
+        _deathScreen = GameObject.Find("DeathScreen");
+        _deathScreen.SetActive(false);
         _retryButton = _deathScreen.GetComponentsInChildren<Button>().FirstOrDefault(x => x.name == "RetryButton");
         _retryButton?.onClick.AddListener(OnPlayerRetry);
         
@@ -25,12 +25,12 @@ public class GameManager : MonoBehaviour
 
     private void OnPlayerDeath()
     {
-        _deathScreen.enabled = true;
+        _deathScreen.SetActive(true);
     }
 
     private void OnPlayerRetry()
     {
-        _deathScreen.enabled = false;
+        _deathScreen.SetActive(false);
         _tanks.ForEach(x => x.Respawn());
     }
 }

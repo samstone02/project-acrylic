@@ -7,8 +7,6 @@ namespace TankGuns
     public class ConventionalTankGun : BaseTankGun
     {
         [field: SerializeField] public float ReloadTimeSeconds { get; set; } = 5;
-        
-        public override event Action OnMagazineReloadEnd;
 
         private bool _isReloading;
 
@@ -23,7 +21,7 @@ namespace TankGuns
                 if (_reloadTimer <= 0)
                 {
                     _isReloading = false;
-                    OnMagazineReloadEnd?.Invoke();
+                    OnReloadEnd();
                 }
             }
         }
@@ -37,12 +35,12 @@ namespace TankGuns
 
             GameObject projectile = LaunchProjectile(ProjectilePrefab);
 
-            StartReload();
+            Reload();
 
             return projectile;
         }
 
-        public override void StartReload()
+        public override void Reload()
         {
             if (_isReloading)
             {

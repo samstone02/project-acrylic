@@ -36,7 +36,7 @@ namespace TankAgents
 
         private LayerMask _playerAimMask;
 
-        private AutoloadingTankGun _autoloadingTankGun;
+        private AutoLoadingCannon _autoLoadingCannon;
 
         private void OnEnable()
         {
@@ -62,7 +62,7 @@ namespace TankAgents
         
         protected void Start()
         {
-            if (Gun.GetType() != typeof(AutoloadingTankGun))
+            if (Gun.GetType() != typeof(AutoLoadingCannon))
             {
                 Debug.LogError("Expected player tank to have an autoloading gun.");
             }

@@ -29,7 +29,7 @@ public class Tank : MonoBehaviour
 
     private BaseTankAgent _agent;
 
-    private BaseTankGun _tankGun;
+    private BaseCannon _cannon;
     
     private GameObject _turret;
     
@@ -43,7 +43,7 @@ public class Tank : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _agent = GetComponent<BaseTankAgent>();
-        _tankGun = GetComponentInChildren<BaseTankGun>();
+        _cannon = GetComponentInChildren<BaseCannon>();
         _turret = transform.Find("Turret").gameObject;
         
         _currentHitPoints = HitPointCapacity;
@@ -67,11 +67,11 @@ public class Tank : MonoBehaviour
         
         if (fireDecision)
         {
-            GameObject projectile = _tankGun.Fire();
+            GameObject projectile = _cannon.Fire();
         }
         if (reloadDecision)
         {
-            _tankGun.Reload();
+            _cannon.Reload();
         }
         
         float rotationDirection = _agent.GetDecisionRotateTurret();

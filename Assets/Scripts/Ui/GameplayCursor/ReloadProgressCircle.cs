@@ -8,21 +8,21 @@ namespace Ui.GameplayCursor
     {
         private Image _image;
 
-        private AutoloadingTankGun _playerGun;
+        private AutoLoadingCannon _playerCannon;
 
         private void Start()
         {
             _image = GetComponent<Image>();
             Cursor.visible = false;
             var playerTank = GameObject.Find("PlayerTank").GetComponent<Tank>();
-            _playerGun = playerTank.GetComponentInChildren<AutoloadingTankGun>();
+            _playerCannon = playerTank.GetComponentInChildren<AutoLoadingCannon>();
         }
         
         private void Update()
         {
-            if (_playerGun.ReloadTimer >= 0)
+            if (_playerCannon.ReloadTimer >= 0)
             {
-                _image.fillAmount = 1 - _playerGun.ReloadTimer / _playerGun.ReloadTimeSeconds;   
+                _image.fillAmount = 1 - _playerCannon.ReloadTimer / _playerCannon.ReloadTimeSeconds;   
             }
             else
             {

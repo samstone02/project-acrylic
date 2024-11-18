@@ -11,8 +11,8 @@ namespace AudioHooks
         void Start()
         {
             AudioSource = GetComponent<AudioSource>();
-            var tank = GetComponentInParent<Tank>().GetComponentInChildren<BaseTankGun>();
-            tank.FireEvent += () => AudioSource.Play();
+            var cannon = GetComponentInParent<Tank>().GetComponentInChildren<BaseCannon>();
+            cannon.FireEvent += () => AudioSource.Play();
         }
     }
 }

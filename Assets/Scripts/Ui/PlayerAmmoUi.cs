@@ -10,25 +10,25 @@ namespace Ui
     {
         private TextMeshProUGUI _ammoText;
 
-        private AutoloadingTankGun _autoloadingTankGun;
+        private AutoLoadingCannon _autoLoadingCannon;
     
         private void Start()
         {
             _ammoText = GetComponentInChildren<TextMeshProUGUI>();
-            _autoloadingTankGun = GameObject.Find("PlayerTank").GetComponentInChildren<AutoloadingTankGun>();
+            _autoLoadingCannon = GameObject.Find("PlayerTank").GetComponentInChildren<AutoLoadingCannon>();
 
             
-            _ammoText.text = _autoloadingTankGun.MagazineCapacity.ToString();
+            _ammoText.text = _autoLoadingCannon.MagazineCapacity.ToString();
             
-            _autoloadingTankGun.FireEvent += OnPlayerFireEvent;
-            _autoloadingTankGun.ReloadStartEvent += OnPlayerReloadStartEvent;
-            _autoloadingTankGun.ReloadEndEvent += OnPlayerReloadEndEvent;
+            _autoLoadingCannon.FireEvent += OnPlayerFireEvent;
+            _autoLoadingCannon.ReloadStartEvent += OnPlayerReloadStartEvent;
+            _autoLoadingCannon.ReloadEndEvent += OnPlayerReloadEndEvent;
         }
 
         private void OnPlayerFireEvent()
         {
             int ammoCount = int.Parse(_ammoText.text) - 1;
-            _ammoText.text = Mathf.Clamp(ammoCount, 0, _autoloadingTankGun.MagazineCapacity).ToString();
+            _ammoText.text = Mathf.Clamp(ammoCount, 0, _autoLoadingCannon.MagazineCapacity).ToString();
         }
 
         private void OnPlayerReloadStartEvent()
@@ -38,7 +38,7 @@ namespace Ui
 
         private void OnPlayerReloadEndEvent()
         {
-            _ammoText.text = _autoloadingTankGun.MagazineCapacity.ToString();
+            _ammoText.text = _autoLoadingCannon.MagazineCapacity.ToString();
         }
     }
 }

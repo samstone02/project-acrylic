@@ -1,10 +1,7 @@
 using System;
-using System.Threading.Tasks;
 using UnityEngine;
 using TankAgents;
 using TankGuns;
-using UnityEditor;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Tank : MonoBehaviour
@@ -25,6 +22,8 @@ public class Tank : MonoBehaviour
     
     public event Action OnDeath;
     
+    public event Action OnRevival;
+    
     private Rigidbody _rigidbody;
 
     private BaseTankAgent _agent;
@@ -34,10 +33,6 @@ public class Tank : MonoBehaviour
     private GameObject _turret;
     
     private int _currentHitPoints;
-
-    private Vector3 _startPosition;
-    
-    private Quaternion _startRotation;
     
     private void Awake()
     {
@@ -50,9 +45,6 @@ public class Tank : MonoBehaviour
         
         LeftTrackRollPosition = transform.Find("LeftTrackRollPosition");
         RightTrackRollPosition = transform.Find("RightTrackRollPosition");
-        
-        _startPosition = transform.position;
-        _startRotation = transform.rotation;
     }
     
     private void Update()
@@ -86,13 +78,7 @@ public class Tank : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Projectile"))
         {
-            _currentHitPoints--;
-            OnReceiveDamage?.Invoke(); 
-        }
-
-        if (_currentHitPoints == 0)
-        {
-            Die();
+            TakeDamage(1);
         }
     }
 
@@ -102,15 +88,32 @@ public class Tank : MonoBehaviour
         _rigidbody.AddForceAtPosition(right * TreadTorque * Time.deltaTime * transform.forward, RightTrackRollPosition.position);
     }
 
+    public void TakeDamage(int damage)
+    {
+        if (_currentHitPoints == 0)
+        {
+            return;
+        }
+        
+        _currentHitPoints -= damage;
+        OnReceiveDamage?.Invoke(); 
+        
+        if (_currentHitPoints == 0)
+        {
+            Die();
+        }
+    }
+
     private void Die()
     {
         OnDeath?.Invoke();
     }
+    
 
-    public void Respawn()
+    public void Revive()
     {
-        transform.position = _startPosition;
-        transform.rotation = _startRotation;
+        OnRevival?.Invoke();
+        
         _currentHitPoints = HitPointCapacity;
     }
 }

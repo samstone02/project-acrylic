@@ -59,12 +59,12 @@
     <Compile Include="Assets\Scripts\Ui\GameplayCursor\GameplayCursor.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RandomActionTankAgent.cs" />
     <Compile Include="Assets\Scripts\Cannons\AutoLoadingCannon.cs" />
+    <Compile Include="Assets\Scripts\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Dummy.cs" />
     <Compile Include="Assets\Scripts\TankAgents\PlayerTankAgent.cs" />
     <Compile Include="Assets\Scripts\Tank.cs" />
     <Compile Include="Assets\Scripts\AudioHooks\CannonFireAudioHook.cs" />
-    <Compile Include="Assets\Scripts\DebugManager.cs" />
     <Compile Include="Assets\Scripts\Projectiles\ExplosiveShell.cs" />
     <Compile Include="Assets\Scripts\Projectiles\RicochetShell.cs" />
     <Compile Include="Assets\Scripts\Ui\GameplayCursor\ReloadProgressCircle.cs" />

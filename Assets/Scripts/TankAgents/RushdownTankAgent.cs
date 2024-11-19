@@ -20,6 +20,7 @@ namespace TankAgents
         {
             _playerTank = GameObject.Find("PlayerTank");
             _lineRenderer = GetComponent<LineRenderer>();
+            Debug.Log("Start");
         }
 
         public override bool GetDecisionFire()
@@ -50,8 +51,6 @@ namespace TankAgents
 
         public override (float, float) GetDecisionRollTracks()
         {
-            return (0f, 0f);
-            
             var path = new NavMeshPath();
             NavMesh.CalculatePath(transform.position, _playerTank.transform.position, NavMesh.AllAreas, path);
 
@@ -69,7 +68,13 @@ namespace TankAgents
             // get rotation direction between current forward direction and target direction
             Vector3 turretTargetCross = Vector3.Cross(transform.forward, immediateNextTargetDirection);
             int direction = turretTargetCross.y > 0 ? 1 : -1;
-            
+
+            if (_lineRenderer is { enabled: true } && path.corners.Length > 1)
+            {
+                _lineRenderer.positionCount = path.corners.Length;
+                _lineRenderer.SetPositions(path.corners);
+            }
+
             if (angleDifference < MinAngleDifferenceRollForward)
             {
                 return (1f, 1f);

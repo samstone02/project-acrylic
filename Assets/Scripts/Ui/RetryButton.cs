@@ -10,11 +10,8 @@ namespace Ui
     {
         public Action OnRetry;
         
-        private GameObject _gameManager;
-        
         private void Start()
         {
-            _gameManager = GameObject.Find("GameManager");
             transform.GetComponent<Button>().onClick.AddListener(OnClick);
         }
 

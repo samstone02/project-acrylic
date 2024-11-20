@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -8,24 +11,33 @@ public class EnemySpawner : MonoBehaviour
 
     [field: SerializeField] public float RespawnDelaySeconds { get; set; } = 5f;
 
-    public GameObject Instance { get; private set; }
+    [field: SerializeField] public List<Vector3> SpawnPoints { get; set; }
 
-    protected void Awake()
+    private float _timer;
+
+    protected void Start()
     {
-        SpawnTank();
-        Instance.GetComponent<Tank>().OnDeath += OnTankDeath;
+        var playerTank = GameObject.Find("PlayerTank").GetComponent<Tank>();
+        playerTank.OnRevival += () => FindObjectsByType<Tank>(FindObjectsSortMode.None)
+            .Where(t => t != playerTank)
+            .ToList()
+            .ForEach(tank => Destroy(tank.gameObject));
     }
-    
-    private void OnTankDeath() 
+
+    protected void Update()
     {
-        Invoke(nameof(SpawnTank), RespawnDelaySeconds);
+        _timer -= Time.deltaTime;
+        if (_timer <= 0)
+        {
+            SpawnTank();
+            _timer = RespawnDelaySeconds;
+        }
     }
 
     private void SpawnTank()
     {
-        Instance ??= Instantiate(EnemyPrefab);
-        Instance.GetComponent<Tank>().Revive();
-        Instance.transform.position = transform.position;
-        Instance.transform.rotation = transform.rotation;
+        GameObject instance = Instantiate(EnemyPrefab);
+        Vector3 spawnPoint = SpawnPoints[Random.Range(0, SpawnPoints.Count)];
+        instance.transform.position = spawnPoint;
     }
 }

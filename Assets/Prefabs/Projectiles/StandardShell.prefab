@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 6766780095447203293}
   - component: {fileID: 3581479640962544882}
   - component: {fileID: 7787856853100082362}
-  - component: {fileID: 8912513645579957257}
+  - component: {fileID: 7318724643900044937}
   m_Layer: 11
   m_Name: StandardShell
   m_TagString: Untagged
@@ -117,7 +117,7 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8912513645579957257
+--- !u!114 &7318724643900044937
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,9 +126,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5308777123184422408}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fe4dffebe5eb7f43a6735eccc9d1e4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d483fe4147440fca3b8f87cfbbce094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <EmpoweredProjectile>k__BackingField: {fileID: 5308777123184422408, guid: 183f9a5d7c07c2e42bafe995c22f1437, type: 3}
+  <Damage>k__BackingField: 1
+  <Speed>k__BackingField: 25
+  <IgnoreArmor>k__BackingField: 0
 --- !u!1001 &561009329854679482
 PrefabInstance:
   m_ObjectHideFlags: 0

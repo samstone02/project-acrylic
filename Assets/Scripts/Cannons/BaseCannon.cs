@@ -1,4 +1,5 @@
 ﻿using System;
+using Projectiles;
 using UnityEngine;
 
 namespace TankGuns
@@ -36,7 +37,8 @@ namespace TankGuns
             projectile.transform.position = ShellSpawnPoint.position;
             projectile.transform.rotation = ShellSpawnPoint.rotation;
             var rb = projectile.GetComponent<Rigidbody>();
-            rb.velocity = projectile.transform.forward * 20;
+            var shell = prefab.GetComponent<Shell>().Speed;
+            rb.velocity = projectile.transform.forward * shell;
             return projectile;
         }
     }   

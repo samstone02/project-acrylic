@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Projectiles;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -76,8 +77,15 @@ namespace TankGuns
             
             base.OnFire();
 
-            GameObject projectile = LaunchProjectile(Magazine.Last());
+            var shell = Magazine.Last();
             Magazine.RemoveAt(Magazine.Count - 1);
+
+            if (Magazine.Count == 0)
+            {
+                shell = shell.GetComponent<Shell>().EmpoweredProjectile;
+            }
+            
+            GameObject projectile = LaunchProjectile(shell);
 
             if (Magazine.Count == 0)
             {

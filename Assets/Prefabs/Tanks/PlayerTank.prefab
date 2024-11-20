@@ -1013,6 +1013,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AutoLoadingCannon
       objectReference: {fileID: 0}
+    - target: {fileID: 8626962917752931364, guid: 16b959df3f7439b4eb8eccd64407b86f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.97
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

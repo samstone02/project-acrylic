@@ -1,4 +1,5 @@
 using System;
+using Projectiles;
 using UnityEngine;
 using TankAgents;
 using TankGuns;
@@ -78,7 +79,8 @@ public class Tank : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Projectile"))
         {
-            TakeDamage(1);
+            var shell = collision.gameObject.GetComponent<Shell>();
+            TakeDamage(shell.Damage);
         }
     }
 

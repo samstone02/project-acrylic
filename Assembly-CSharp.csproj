@@ -45,7 +45,6 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.49f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Projectiles\StandardShell.cs" />
     <Compile Include="Assets\Scripts\Cannons\BaseCannon.cs" />
     <Compile Include="Assets\Scripts\MainCamera.cs" />
     <Compile Include="Assets\Scripts\Ui\PlayerAmmoUi.cs" />
@@ -67,6 +66,7 @@
     <Compile Include="Assets\Scripts\AudioHooks\CannonFireAudioHook.cs" />
     <Compile Include="Assets\Scripts\Projectiles\ExplosiveShell.cs" />
     <Compile Include="Assets\Scripts\Projectiles\RicochetShell.cs" />
+    <Compile Include="Assets\Scripts\Projectiles\Shell.cs" />
     <Compile Include="Assets\Scripts\Ui\GameplayCursor\ReloadProgressCircle.cs" />
     <Compile Include="Assets\Scripts\Cannons\ConventionalCannon.cs" />
     <Compile Include="Assets\Scripts\Ui\PlayerHealthUi.cs" />

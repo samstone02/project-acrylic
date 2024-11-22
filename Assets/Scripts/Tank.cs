@@ -19,7 +19,7 @@ public class Tank : MonoBehaviour
     
     private Transform RightTrackRollPosition { get; set; }
     
-    public event Action OnReceiveDamage;
+    public event Action<int> OnReceiveDamage;
     
     public event Action OnDeath;
     
@@ -98,7 +98,7 @@ public class Tank : MonoBehaviour
         }
         
         _currentHitPoints -= damage;
-        OnReceiveDamage?.Invoke(); 
+        OnReceiveDamage?.Invoke(damage); 
         
         if (_currentHitPoints == 0)
         {

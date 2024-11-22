@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Linq;
 using TMPro;
@@ -18,18 +19,30 @@ namespace Ui
             _stopwatchText = GetComponentInChildren<TextMeshProUGUI>();
                 
             GameObject player = GameObject.Find("PlayerTank");
-            Tank playerTank = player.GetComponent<Tank>();
+            var playerTank = player.GetComponent<Tank>();
             playerTank.OnDeath += () => _stopwatch.Stop();
             
-            var retryButton = GameObject.Find("DeathScreen").GetComponentsInChildren<Button>().FirstOrDefault(x => x.name == "RetryButton");
-            retryButton?.onClick.AddListener(() => _stopwatch.Restart());
+            var retryButton = FindObjectsOfType<Button>(true)
+                .First(b => b.name == "RetryButton")
+                .GetComponent<Button>();
+            retryButton.onClick.AddListener(() => _stopwatch.Restart());
             
             _stopwatch.Start();
         }
 
         protected void Update()
         {
-            _stopwatchText.text = _stopwatch.Elapsed.TotalSeconds + " s";
+            var text = string.Empty;
+            
+            if (_stopwatch.Elapsed.Minutes > 0)
+            {
+                text = _stopwatch.Elapsed.Minutes + ":";
+            }
+            
+            text += (_stopwatch.Elapsed.Minutes > 0 && _stopwatch.Elapsed.Seconds < 10 ? "0" : string.Empty) + _stopwatch.Elapsed.Seconds + ".";
+            text += _stopwatch.Elapsed.Milliseconds / 100;
+            
+            _stopwatchText.text = text;
         }
     }
 }

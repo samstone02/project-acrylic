@@ -1,28 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DefaultNamespace
 {
     public class Explosion : MonoBehaviour
     {
-        private int _damage = 0;
+        private int _damage;
         
-        protected void OnCollisionEnter(Collision collision)
+        protected void OnTriggerEnter(Collider collider)
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer("Vehicle"))
+            if (collider.gameObject.layer == LayerMask.NameToLayer("Vehicle"))
             {
-                var tank = collision.gameObject.GetComponent<Tank>() ?? throw new Exception("Expected vehicle to have a Tank component");
+                var tank = collider.gameObject.GetComponent<Tank>() ?? throw new Exception("Expected vehicle to have a Tank component");
                 tank.TakeDamage(_damage);
             }
         }
         
         public void Explode(float duration, int damage)
         {
-            Invoke(nameof(EndExplode), duration);
+            Invoke(nameof(EndExplosion), duration);
             _damage = damage;
         }
 
-        private void EndExplode()
+        public void EndExplosion()
         {
             Destroy(gameObject);
         }

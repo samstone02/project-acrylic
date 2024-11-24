@@ -130,8 +130,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <EmpoweredProjectile>k__BackingField: {fileID: 0}
-  <Damage>k__BackingField: 1
-  <Speed>k__BackingField: 25
+  <Damage>k__BackingField: 0
+  <Speed>k__BackingField: 20
   <IgnoreArmor>k__BackingField: 0
   <ExplosionPrefab>k__BackingField: {fileID: 7496884162138111031, guid: 5c1c0b7cadd1eac44ae9a413b32da728, type: 3}
   <ExplosionDuration>k__BackingField: 1.5

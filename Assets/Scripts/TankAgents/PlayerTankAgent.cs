@@ -29,6 +29,12 @@ namespace TankAgents
         [field: SerializeField] public GameObject ExplosiveAmmoPrefab { get; set; }
         
         [field: SerializeField] public GameObject RicochetAmmoPrefab { get; set; }
+
+        public event Action SelectStandardAmmoEvent;
+
+        public event Action SelectExplosiveAmmoEvent;
+
+        public event Action SelectRicochetAmmoEvent;
         
         private Camera _mainCamera;
 
@@ -76,14 +82,17 @@ namespace TankAgents
             if (LoadStandardAmmoInput.action.triggered)
             {
                 Gun.ProjectilePrefab = StandardAmmoPrefab;
+                SelectStandardAmmoEvent?.Invoke();
             }
             else if (LoadExplosiveAmmoInput.action.triggered)
             {
                 Gun.ProjectilePrefab = ExplosiveAmmoPrefab;
+                SelectExplosiveAmmoEvent?.Invoke();
             }
             else if (LoadRicochetAmmoInput.action.triggered)
             {
                 Gun.ProjectilePrefab = RicochetAmmoPrefab;
+                SelectRicochetAmmoEvent?.Invoke();
             }
         }
 

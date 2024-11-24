@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\Tank.cs" />
     <Compile Include="Assets\Scripts\AudioHooks\CannonFireAudioHook.cs" />
     <Compile Include="Assets\Scripts\Projectiles\ExplosiveShell.cs" />
+    <Compile Include="Assets\Scripts\Ui\AmmoSelector.cs" />
     <Compile Include="Assets\Scripts\Projectiles\RicochetShell.cs" />
     <Compile Include="Assets\Scripts\Projectiles\Shell.cs" />
     <Compile Include="Assets\Scripts\Ui\GameplayCursor\ReloadProgressCircle.cs" />

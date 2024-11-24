@@ -4,7 +4,7 @@ namespace Projectiles
 {
     public class Shell : MonoBehaviour
     {
-        [field: SerializeField] public GameObject EmpoweredProjectile { get; set; }
+        [field: SerializeField] public GameObject EmpoweredProjectile { get; set; } = null;
 
         [field: SerializeField] public int Damage { get; set; } = 1;
         
@@ -12,7 +12,7 @@ namespace Projectiles
 
         [field: SerializeField] public bool IgnoreArmor { get; set; } = false;
         
-        private void OnCollisionEnter(Collision collision)
+        protected void OnCollisionEnter(Collision collision)
         {
             Destroy(gameObject);
         }

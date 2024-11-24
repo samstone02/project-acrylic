@@ -129,6 +129,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3c6ffbf17f341ed813795bfb5d66ed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <EmpoweredProjectile>k__BackingField: {fileID: 0}
+  <Damage>k__BackingField: 1
+  <Speed>k__BackingField: 25
+  <IgnoreArmor>k__BackingField: 0
+  <ExplosionPrefab>k__BackingField: {fileID: 7496884162138111031, guid: 5c1c0b7cadd1eac44ae9a413b32da728, type: 3}
+  <ExplosionDuration>k__BackingField: 1.5
+  <ExplosionDamage>k__BackingField: 1
 --- !u!1001 &561009329854679482
 PrefabInstance:
   m_ObjectHideFlags: 0

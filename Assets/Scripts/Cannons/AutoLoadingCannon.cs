@@ -82,7 +82,10 @@ namespace TankGuns
 
             if (Magazine.Count == 0)
             {
-                shell = shell.GetComponent<Shell>().EmpoweredProjectile;
+                if (shell.GetComponent<Shell>().EmpoweredProjectile != null)
+                {
+                    shell = shell.GetComponent<Shell>().EmpoweredProjectile;
+                }
             }
             
             GameObject projectile = LaunchProjectile(shell);

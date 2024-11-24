@@ -1,4 +1,6 @@
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Ui.GameplayCursor
 {
@@ -10,6 +12,13 @@ namespace Ui.GameplayCursor
         {
             _rectTransform = GetComponent<RectTransform>();
             Cursor.visible = false;
+            
+            var ui = GameObject.Find("Ui");
+            Button retryButton = ui.GetComponentsInChildren<Button>(true).First(b => b.name == "RetryButton");
+            retryButton.onClick.AddListener(() => Cursor.visible = false);
+            
+            var playerTank = GameObject.Find("PlayerTank").GetComponent<Tank>();
+            playerTank.OnDeath += () => Cursor.visible = true;
         }
         
         private void Update()

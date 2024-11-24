@@ -16,7 +16,6 @@ namespace Ui
         {
             _ammoText = GetComponentInChildren<TextMeshProUGUI>();
             _autoLoadingCannon = GameObject.Find("PlayerTank").GetComponentInChildren<AutoLoadingCannon>();
-
             
             _ammoText.text = _autoLoadingCannon.MagazineCapacity.ToString();
             

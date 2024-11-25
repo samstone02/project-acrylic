@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui.GameplayCursor
+namespace Ui.Gameplay.GameplayCursor
 {
     public class GameplayCursor : MonoBehaviour
     {

@@ -4,7 +4,7 @@ using TankGuns;
 using TMPro;
 using UnityEngine;
 
-namespace Ui
+namespace Ui.Gameplay
 {
     public class PlayerAmmoUi : MonoBehaviour
     {

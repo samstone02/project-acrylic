@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui
+namespace Ui.Gameplay
 {
     public class RetryButton : MonoBehaviour
     {

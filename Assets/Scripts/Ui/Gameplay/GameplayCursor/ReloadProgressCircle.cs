@@ -2,7 +2,7 @@ using TankGuns;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui.GameplayCursor
+namespace Ui.Gameplay.GameplayCursor
 {
     public class ReloadProgressCircle : MonoBehaviour
     {

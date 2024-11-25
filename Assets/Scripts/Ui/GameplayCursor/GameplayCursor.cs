@@ -13,7 +13,7 @@ namespace Ui.GameplayCursor
             _rectTransform = GetComponent<RectTransform>();
             Cursor.visible = false;
             
-            var ui = GameObject.Find("Ui");
+            var ui = GameObject.Find("GameplayUi");
             Button retryButton = ui.GetComponentsInChildren<Button>(true).First(b => b.name == "RetryButton");
             retryButton.onClick.AddListener(() => Cursor.visible = false);
             

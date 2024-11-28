@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-
-namespace Projectiles
+﻿namespace Projectiles
 {
-    public class RicochetShell : MonoBehaviour
+    public class RicochetShell : Shell
     {
         
     }

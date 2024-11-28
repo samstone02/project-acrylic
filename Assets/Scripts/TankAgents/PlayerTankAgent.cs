@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using TankGuns;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -24,17 +26,25 @@ namespace TankAgents
         
         [field: SerializeField] public InputActionReference LoadRicochetAmmoInput { get; set; }
         
+        [field: SerializeField] public InputActionReference ScrollAmmoInput { get; set; }
+        
         [field: SerializeField] public GameObject StandardAmmoPrefab { get; set; }
         
         [field: SerializeField] public GameObject ExplosiveAmmoPrefab { get; set; }
         
         [field: SerializeField] public GameObject RicochetAmmoPrefab { get; set; }
 
+        [field: SerializeField] public List<GameObject> AvailableShellTypes { get; set; }= new List<GameObject>();
+
+        [field: SerializeField] public int ShellScrollDeadZone { get; set; } = 0;
+        
         public event Action SelectStandardAmmoEvent;
 
         public event Action SelectExplosiveAmmoEvent;
 
         public event Action SelectRicochetAmmoEvent;
+        
+        public event Action<string> ChangeSelectedShellEvent;
         
         private Camera _mainCamera;
 
@@ -43,6 +53,8 @@ namespace TankAgents
         private LayerMask _playerAimMask;
 
         private AutoLoadingCannon _autoLoadingCannon;
+
+        private int _currentSelectedAmmo = 0;
 
         private void OnEnable()
         {
@@ -53,6 +65,7 @@ namespace TankAgents
             LoadStandardAmmoInput.action.Enable();
             LoadExplosiveAmmoInput.action.Enable();
             LoadRicochetAmmoInput.action.Enable();
+            ScrollAmmoInput.action.Enable();
         }
 
         private void OnDisable()
@@ -64,6 +77,7 @@ namespace TankAgents
             LoadStandardAmmoInput.action.Disable();
             LoadExplosiveAmmoInput.action.Disable();
             LoadRicochetAmmoInput.action.Disable();
+            ScrollAmmoInput.action.Disable();
         }
         
         protected void Start()
@@ -72,6 +86,11 @@ namespace TankAgents
             {
                 Debug.LogError("Expected player tank to have an autoloading gun.");
             }
+            
+            if (AvailableShellTypes.Count == 0)
+            {
+                Debug.LogError("Expected to have at least one available ammo type.");
+            }
 
             _mainCamera = Camera.main;
             _playerAimMask = LayerMask.GetMask("Player Aim");
@@ -79,6 +98,25 @@ namespace TankAgents
 
         protected void Update()
         {
+            int mouseScrollDelta = (int) ScrollAmmoInput.action.ReadValue<float>();
+            Debug.Log($"Mouse scroll delta: {mouseScrollDelta}");
+            if (SystemInfo.operatingSystemFamily == OperatingSystemFamily.Windows)
+            {
+                mouseScrollDelta /= 120;
+            }
+
+            int direction = Math.Abs(mouseScrollDelta) > ShellScrollDeadZone ? 1 : 0;
+            direction *= mouseScrollDelta > 0 ? 1 : -1;
+            
+            int newIndex = Mathf.Clamp(_currentSelectedAmmo + direction, 0, AvailableShellTypes.Count - 1);
+
+            if (newIndex != _currentSelectedAmmo)
+            {
+                _currentSelectedAmmo = newIndex;
+                Gun.ProjectilePrefab = AvailableShellTypes[_currentSelectedAmmo];
+                ChangeSelectedShellEvent?.Invoke(Gun.ProjectilePrefab.name);
+            }
+            
             if (LoadStandardAmmoInput.action.triggered)
             {
                 Gun.ProjectilePrefab = StandardAmmoPrefab;

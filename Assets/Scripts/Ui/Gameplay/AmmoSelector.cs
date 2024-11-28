@@ -22,6 +22,7 @@ namespace Ui.Gameplay
             playerAgent.SelectStandardAmmoEvent += () => SelectShell("StandardShellSelector");
             playerAgent.SelectExplosiveAmmoEvent += () => SelectShell("ExplosiveShellSelector");
             playerAgent.SelectRicochetAmmoEvent += () => SelectShell("RicochetShellSelector");
+            playerAgent.ChangeSelectedShellEvent += (shellName) => SelectShell(shellName  + "Selector");
             
             var playerCannon = playerTank.GetComponentInChildren<AutoLoadingCannon>();
             

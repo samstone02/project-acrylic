@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Scroll Ammo",
+                    "type": "Value",
+                    "id": "1a15c7d2-d4f1-4a49-bdd6-a148a9f65ce6",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -188,6 +197,17 @@
                     "processors": "",
                     "groups": ";Keyboard and Mouse",
                     "action": "Load Ricochet Shell - KBM2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a4cb379e-4774-456c-8290-dbfb44e38536",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard and Mouse",
+                    "action": "Scroll Ammo",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Projectiles;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace TankGuns
 {
@@ -20,6 +19,8 @@ namespace TankGuns
         public event Action InterClipReloadEndEvent;
         
         public float ReloadTimer { get; private set; }
+        
+        public float ShellLoadTimer { get; private set; }
 
         private bool _isReloading;
         
@@ -42,21 +43,24 @@ namespace TankGuns
             if (_isReloading)
             {
                 ReloadTimer -= Time.deltaTime;
+                ShellLoadTimer -= Time.deltaTime;
                 
                 if (ReloadTimer <= 0)
                 {
+                    for (int i = 0; i < MagazineCapacity; i++)
+                    {
+                        Magazine.Add(ProjectilePrefab);
+                    }
                     _isReloading = false;
                     InvokeReloadEnd();
                 }
-
-                if (ReloadTimer <= ReloadTimeSeconds - ReloadTimeSeconds / MagazineCapacity * (Magazine.Count + 1))
+                else if (ShellLoadTimer <= 0)
                 {
-                    Magazine.Add(ProjectilePrefab);
                     ShellLoadEvent?.Invoke();
+                    ShellLoadTimer = ReloadTimeSeconds / MagazineCapacity;
                 }
             }
-
-            if (_isInterClipReloading)
+            else if (_isInterClipReloading)
             {
                 _interClipReloadTimer -= Time.deltaTime;
 
@@ -114,6 +118,7 @@ namespace TankGuns
             Magazine.Clear();
             _isReloading = true;
             ReloadTimer = ReloadTimeSeconds;
+            ShellLoadTimer = ReloadTimeSeconds / MagazineCapacity;
         }
     }   
 }

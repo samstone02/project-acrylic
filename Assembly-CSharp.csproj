@@ -56,8 +56,8 @@
     <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\MagazineReloadEndAudioHook.cs" />
     <Compile Include="Assets\Scripts\TankAgents\BaseTankAgent.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RandomActionTankAgent.cs" />
-    <Compile Include="Assets\Scripts\Cannons\AutoLoadingCannon.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\AmmoSelector.cs" />
+    <Compile Include="Assets\Scripts\Cannons\AutoLoadingCannon.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\GameplayCursor\ReloadProgressCircle.cs" />
     <Compile Include="Assets\Scripts\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\Ui\MainMenu\CloseTutorialModalButton.cs" />

@@ -4,7 +4,13 @@ namespace Projectiles
 {
     public class RicochetShell : Shell
     {
+        [field: SerializeField] public bool RicochetInfinitely { get; private set; }
+        
         [field: SerializeField] public int RicochetCount { get; private set; }
+        
+        [field: SerializeField] public int DamageRampOnRicochet { get; private set; }
+        
+        [field: SerializeField] public int SpeedRampOnRicochet { get; private set; }
         
         [field: SerializeField] public float RicochetDetectionDistance { get; private set; }
         
@@ -19,14 +25,23 @@ namespace Projectiles
         {
             bool reflected = ReflectIfRaycastHit();
             
-            if (reflected)
+            if (!RicochetInfinitely)
             {
-                RicochetCount--;
+                if (reflected)
+                {
+                    RicochetCount--;
+                    
+                    if (RicochetCount < 0)
+                    {
+                        Destroy(gameObject);
+                    }
+                }
             }
             
-            if (RicochetCount == 0)
+            if (reflected)
             {
-                Destroy(gameObject);
+                Damage += DamageRampOnRicochet;
+                _rigidbody.velocity = _rigidbody.velocity.normalized * (_rigidbody.velocity.magnitude + SpeedRampOnRicochet);
             }
         }
 

@@ -97,11 +97,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67128c9ee134feea86fba4c06d6f418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EmpoweredProjectile>k__BackingField: {fileID: 0}
+  <EmpoweredProjectile>k__BackingField: {fileID: 5308777123184422408, guid: a948758018d4b5046ac32c3697168914, type: 3}
   <Damage>k__BackingField: 1
   <Speed>k__BackingField: 25
   <IgnoreArmor>k__BackingField: 0
+  <RicochetInfinitely>k__BackingField: 0
   <RicochetCount>k__BackingField: 1
+  <DamageRampOnRicochet>k__BackingField: 0
   <RicochetDetectionDistance>k__BackingField: 2
 --- !u!1001 &561009329854679482
 PrefabInstance:

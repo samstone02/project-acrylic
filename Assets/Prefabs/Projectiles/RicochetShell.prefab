@@ -60,7 +60,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!136 &7787856853100082362
 CapsuleCollider:
@@ -97,6 +97,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67128c9ee134feea86fba4c06d6f418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <EmpoweredProjectile>k__BackingField: {fileID: 0}
+  <Damage>k__BackingField: 1
+  <Speed>k__BackingField: 25
+  <IgnoreArmor>k__BackingField: 0
+  <RicochetCount>k__BackingField: 1
+  <RicochetDetectionDistance>k__BackingField: 2
 --- !u!1001 &561009329854679482
 PrefabInstance:
   m_ObjectHideFlags: 0

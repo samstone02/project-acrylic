@@ -3,9 +3,10 @@ using Projectiles;
 using UnityEngine;
 using TankAgents;
 using TankGuns;
+using Unity.Netcode;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Tank : MonoBehaviour
+public class Tank : NetworkBehaviour
 {
     [field: SerializeField] public int HitPointCapacity { get; set; } = 3;
     
@@ -46,6 +47,12 @@ public class Tank : MonoBehaviour
         
         LeftTrackRollPosition = transform.Find("LeftTrackRollPosition");
         RightTrackRollPosition = transform.Find("RightTrackRollPosition");
+    }
+
+    [Rpc.SendTo(Server)]
+    private void ServerAwake()
+    {
+        
     }
     
     private void Update()

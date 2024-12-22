@@ -38,7 +38,7 @@ namespace TankGuns
             projectile.transform.rotation = ShellSpawnPoint.rotation;
             var rb = projectile.GetComponent<Rigidbody>();
             var shell = projectile.GetComponent<Shell>().Speed;
-            rb.velocity = projectile.transform.forward * shell;
+            rb.linearVelocity = projectile.transform.forward * shell;
             return projectile;
         }
     }   

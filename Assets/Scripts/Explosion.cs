@@ -13,7 +13,7 @@ namespace DefaultNamespace
             if (collider.gameObject.layer == LayerMask.NameToLayer("Vehicle"))
             {
                 var tank = collider.gameObject.GetComponent<Tank>() ?? throw new Exception("Expected vehicle to have a Tank component");
-                tank.TakeDamage(_damage);
+                tank.TakeDamageRpc(_damage);
             }
         }
         

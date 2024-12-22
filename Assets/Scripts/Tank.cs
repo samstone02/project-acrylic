@@ -34,37 +34,41 @@ public class Tank : NetworkBehaviour
     
     private GameObject _turret;
     
-    private int _currentHitPoints;
+    //private int _currentHitPoints;
+
+    private NetworkVariable<int> _currentHitpoints = new NetworkVariable<int>();
     
-    private void Awake()
+    protected void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _agent = GetComponent<BaseTankAgent>();
         _cannon = GetComponentInChildren<BaseCannon>();
         _turret = transform.Find("Turret").gameObject;
-        
-        _currentHitPoints = HitPointCapacity;
-        
+                
         LeftTrackRollPosition = transform.Find("LeftTrackRollPosition");
         RightTrackRollPosition = transform.Find("RightTrackRollPosition");
     }
 
-    [Rpc.SendTo(Server)]
-    private void ServerAwake()
+    public override void OnNetworkSpawn()
     {
-        
+        _currentHitpoints.Value = HitPointCapacity;
     }
     
-    private void Update()
+    protected void Update()
     {
-        if (_agent is null || _currentHitPoints <= 0)
+        if (!IsOwner)
         {
             return;
         }
-        
+
+        if (_agent is null || _currentHitpoints.Value <= 0)
+        {
+            return;
+        }
+
         bool fireDecision = _agent.GetDecisionFire();
         bool reloadDecision = _agent.GetDecisionReload();
-        
+
         if (fireDecision)
         {
             GameObject projectile = _cannon.Fire();
@@ -73,12 +77,12 @@ public class Tank : NetworkBehaviour
         {
             _cannon.Reload();
         }
-        
+
         float rotationDirection = _agent.GetDecisionRotateTurret();
-        _turret.transform.Rotate(Vector3.up, rotationDirection * TurretRotationSpeed * Time.deltaTime);  
-        
+        _turret.transform.Rotate(Vector3.up, rotationDirection * TurretRotationSpeed * Time.deltaTime);
+
         (float left, float right) = _agent.GetDecisionRollTracks();
-        
+
         Move(left, right);
     }
 
@@ -87,7 +91,7 @@ public class Tank : NetworkBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Projectile"))
         {
             var shell = collision.gameObject.GetComponent<Shell>();
-            TakeDamage(shell.Damage);
+            TakeDamageRpc(shell.Damage);
         }
     }
 
@@ -97,17 +101,18 @@ public class Tank : NetworkBehaviour
         _rigidbody.AddForceAtPosition(right * TreadTorque * Time.deltaTime * transform.forward, RightTrackRollPosition.position);
     }
 
-    public void TakeDamage(int damage)
+    [Rpc(SendTo.Server)]
+    public void TakeDamageRpc(int damage)
     {
-        if (_currentHitPoints == 0)
+        if (_currentHitpoints.Value == 0)
         {
             return;
         }
         
-        _currentHitPoints -= damage;
+        _currentHitpoints.Value = Mathf.Clamp(_currentHitpoints.Value - damage, 0, int.MaxValue);
         OnReceiveDamage?.Invoke(damage); 
         
-        if (_currentHitPoints == 0)
+        if (_currentHitpoints.Value == 0)
         {
             Die();
         }
@@ -117,12 +122,12 @@ public class Tank : NetworkBehaviour
     {
         OnDeath?.Invoke();
     }
-    
 
-    public void Revive()
+    [Rpc(SendTo.Server)]
+    public void ReviveRpc()
     {
         OnRevival?.Invoke();
         
-        _currentHitPoints = HitPointCapacity;
+        _currentHitpoints.Value = HitPointCapacity;
     }
 }

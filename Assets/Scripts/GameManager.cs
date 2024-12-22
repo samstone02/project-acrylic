@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     {
         _deathScreen.SetActive(false);
         _gameplayCursor.SetActive(true);
-        _player.GetComponent<Tank>().Revive();
+        _player.GetComponent<Tank>().ReviveRpc();
         _player.transform.position = PlayerSpawnPoint.position;
         _player.transform.rotation = PlayerSpawnPoint.rotation;
     }

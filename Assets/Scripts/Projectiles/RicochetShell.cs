@@ -41,7 +41,7 @@ namespace Projectiles
             if (reflected)
             {
                 Damage += DamageRampOnRicochet;
-                _rigidbody.velocity = _rigidbody.velocity.normalized * (_rigidbody.velocity.magnitude + SpeedRampOnRicochet);
+                _rigidbody.linearVelocity = _rigidbody.linearVelocity.normalized * (_rigidbody.linearVelocity.magnitude + SpeedRampOnRicochet);
             }
         }
 
@@ -58,7 +58,7 @@ namespace Projectiles
             Vector3 reflectionForward = Vector3.Reflect(transform.forward, hitInfo.normal);
             float rotationAngle = 90 - Mathf.Atan2(reflectionForward.z, reflectionForward.x) * Mathf.Rad2Deg;
             transform.eulerAngles = new Vector3(0, rotationAngle, 0);
-            _rigidbody.velocity = _rigidbody.velocity.magnitude * reflectionForward;
+            _rigidbody.linearVelocity = _rigidbody.linearVelocity.magnitude * reflectionForward;
 
             return true;
         }

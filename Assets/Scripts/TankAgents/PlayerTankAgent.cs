@@ -45,8 +45,6 @@ namespace TankAgents
         public event Action SelectRicochetAmmoEvent;
         
         public event Action<string> ChangeSelectedShellEvent;
-        
-        private Camera _mainCamera;
 
         private MeshCollider _ground;
 
@@ -92,7 +90,6 @@ namespace TankAgents
                 Debug.LogError("Expected to have at least one available ammo type.");
             }
 
-            _mainCamera = Camera.main;
             _playerAimMask = LayerMask.GetMask("Player Aim");
         }
 
@@ -147,8 +144,8 @@ namespace TankAgents
         public override float GetDecisionRotateTurret()
         {
             Vector2 mousePos = Mouse.current.position.ReadValue();
-            Vector3 mousePosWorld = _mainCamera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
-            Physics.Raycast(mousePosWorld, _mainCamera.transform.forward, out RaycastHit hit, 100, _playerAimMask);
+            Vector3 mousePosWorld = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
+            Physics.Raycast(mousePosWorld, Camera.main.transform.forward, out RaycastHit hit, 100, _playerAimMask);
             
             Vector3 targetDirection = hit.point - Turret.transform.position;
             targetDirection.y = 0;

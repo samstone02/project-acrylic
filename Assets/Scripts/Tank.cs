@@ -1,9 +1,10 @@
 using System;
 using Projectiles;
-using UnityEngine;
 using TankAgents;
 using TankGuns;
 using Unity.Netcode;
+using UnityEngine;
+using static UnityEngine.GridBrushBase;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Tank : NetworkBehaviour
@@ -15,6 +16,8 @@ public class Tank : NetworkBehaviour
     public float TurretRotationSpeed { get; set; } = 120f;
     
     [field: SerializeField] public float TreadTorque { get; set; } = 10f;
+
+    [field: SerializeField] public GameObject AgentPrefab { get; set; }
     
     private Transform LeftTrackRollPosition { get; set; }
     
@@ -41,7 +44,6 @@ public class Tank : NetworkBehaviour
     protected void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _agent = GetComponent<BaseTankAgent>();
         _cannon = GetComponentInChildren<BaseCannon>();
         _turret = transform.Find("Turret").gameObject;
                 
@@ -52,6 +54,12 @@ public class Tank : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         _currentHitpoints.Value = HitPointCapacity;
+
+        if (IsOwner)
+        {
+            var agent = Instantiate(AgentPrefab, transform);
+            _agent = agent.GetComponent<BaseTankAgent>();
+        }
     }
     
     protected void Update()
@@ -71,7 +79,7 @@ public class Tank : NetworkBehaviour
 
         if (fireDecision)
         {
-            GameObject projectile = _cannon.Fire();
+             _cannon.FireRpc();
         }
         if (reloadDecision)
         {
@@ -79,11 +87,17 @@ public class Tank : NetworkBehaviour
         }
 
         float rotationDirection = _agent.GetDecisionRotateTurret();
-        _turret.transform.Rotate(Vector3.up, rotationDirection * TurretRotationSpeed * Time.deltaTime);
+        RotateTurretRpc(rotationDirection);
 
         (float left, float right) = _agent.GetDecisionRollTracks();
 
         Move(left, right);
+    }
+
+    [Rpc(SendTo.Server)]
+    private void RotateTurretRpc(float rotationDirection)
+    {
+        _turret.transform.Rotate(Vector3.up, rotationDirection * TurretRotationSpeed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)

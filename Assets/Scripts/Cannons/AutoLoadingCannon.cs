@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Projectiles;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace TankGuns
@@ -72,11 +73,12 @@ namespace TankGuns
             }
         }
 
-        public override GameObject Fire()
+        [Rpc(SendTo.Server)]
+        public override void FireRpc()
         {
             if (_isReloading || _isInterClipReloading || Magazine.Count <= 0)
             {
-                return null;
+                return;
             }
             
             base.OnFire();
@@ -103,8 +105,6 @@ namespace TankGuns
                 _isInterClipReloading = true;
                 _interClipReloadTimer = InterClipReloadTimeSeconds;
             }
-
-            return projectile;
         }
 
         public override void Reload()

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Unity.Netcode;
+using UnityEngine;
 
 namespace Projectiles
 {
-    public class Shell : MonoBehaviour
+    public class Shell : NetworkBehaviour
     {
         [field: SerializeField] public GameObject EmpoweredProjectile { get; set; } = null;
 

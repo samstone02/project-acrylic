@@ -26,11 +26,11 @@ namespace TankGuns
             }
         }
 
-        public override GameObject Fire()
+        public override void FireRpc()
         {
             if (_isReloading)
             {
-                return null;
+                return;
             }
 
             base.OnFire();
@@ -38,8 +38,6 @@ namespace TankGuns
             GameObject projectile = LaunchProjectile(ProjectilePrefab);
 
             Reload();
-
-            return projectile;
         }
 
         public override void Reload()

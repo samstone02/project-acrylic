@@ -9,7 +9,6 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace TankAgents
 {
-    [RequireComponent(typeof(Tank))]
     public class PlayerTankAgent : BaseTankAgent
     {
         [SerializeField] public InputActionReference fireInput;
@@ -46,11 +45,7 @@ namespace TankAgents
         
         public event Action<string> ChangeSelectedShellEvent;
 
-        private MeshCollider _ground;
-
         private LayerMask _playerAimMask;
-
-        private AutoLoadingCannon _autoLoadingCannon;
 
         private int _currentSelectedAmmo = 0;
 
@@ -77,7 +72,13 @@ namespace TankAgents
             LoadRicochetAmmoInput.action.Disable();
             ScrollAmmoInput.action.Disable();
         }
-        
+
+        protected void OnGUI()
+        {
+            GUILayout.BeginVertical();
+            GUILayout.EndVertical();
+        }
+
         protected void Start()
         {
             if (Gun.GetType() != typeof(AutoLoadingCannon))

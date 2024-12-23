@@ -44,6 +44,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 65034ca06b6025b4083d2857cc7281c3, type: 3}
+  m_Resource: {fileID: 8300000, guid: 65034ca06b6025b4083d2857cc7281c3, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -185,6 +186,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4f1cdfcbdc312434ea468c9520bde794, type: 3}
+  m_Resource: {fileID: 8300000, guid: 4f1cdfcbdc312434ea468c9520bde794, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -291,6 +293,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2078642851675763664}
+  - component: {fileID: 1885666191535287000}
   m_Layer: 10
   m_Name: Turret
   m_TagString: Untagged
@@ -315,6 +318,37 @@ Transform:
   - {fileID: 5413639279306411842}
   m_Father: {fileID: 3108015492128133522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1885666191535287000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925153702016408361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &1528600371032241312
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +424,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4f1cdfcbdc312434ea468c9520bde794, type: 3}
+  m_Resource: {fileID: 8300000, guid: 4f1cdfcbdc312434ea468c9520bde794, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -531,6 +566,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: be5a2b07101a772449590da12deb7054, type: 3}
+  m_Resource: {fileID: 8300000, guid: be5a2b07101a772449590da12deb7054, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -641,7 +677,6 @@ GameObject:
   - component: {fileID: 1971133636045251745}
   - component: {fileID: 870322017623641427}
   - component: {fileID: 6433303202565965350}
-  - component: {fileID: 3762889992302242440}
   - component: {fileID: 7316981481018817024}
   - component: {fileID: 8687135670579511178}
   m_Layer: 10
@@ -731,7 +766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1809477501
+  GlobalObjectIdHash: 1542053652
   InScenePlacedSourceGlobalObjectIdHash: 1809477501
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -755,34 +790,7 @@ MonoBehaviour:
   <HitPointCapacity>k__BackingField: 3
   <TurretRotationSpeed>k__BackingField: 120
   <TreadTorque>k__BackingField: 35000000
---- !u!114 &3762889992302242440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5087329328145373332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40e7154a64114fe3806803555ffdddf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fireInput: {fileID: 6553330231330604529, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  reloadInput: {fileID: 3992714865939853460, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  leftTrackRollInput: {fileID: -6944060838618043600, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  rightTrackRollInput: {fileID: -1896603884095017804, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  <LoadStandardAmmoInput>k__BackingField: {fileID: -3473811103361526945, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  <LoadExplosiveAmmoInput>k__BackingField: {fileID: 4749202672547205414, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  <LoadRicochetAmmoInput>k__BackingField: {fileID: -3113695040404336851, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  <ScrollAmmoInput>k__BackingField: {fileID: -7384933970097411565, guid: cc43bdf21b1c22c4daf3373c39377d40, type: 3}
-  <StandardAmmoPrefab>k__BackingField: {fileID: 5308777123184422408, guid: 33c87fd667362b34692dda69cf7018ad, type: 3}
-  <ExplosiveAmmoPrefab>k__BackingField: {fileID: 5308777123184422408, guid: e3d8af26524d071458844c405249ca5f, type: 3}
-  <RicochetAmmoPrefab>k__BackingField: {fileID: 5308777123184422408, guid: 7a536f7ac43ad75459f002b667a1a85a, type: 3}
-  <AvailableShellTypes>k__BackingField:
-  - {fileID: 5308777123184422408, guid: 33c87fd667362b34692dda69cf7018ad, type: 3}
-  - {fileID: 5308777123184422408, guid: e3d8af26524d071458844c405249ca5f, type: 3}
-  - {fileID: 5308777123184422408, guid: 7a536f7ac43ad75459f002b667a1a85a, type: 3}
-  <ShellScrollDeadZone>k__BackingField: 0
+  <AgentPrefab>k__BackingField: {fileID: 887874052009262286, guid: 576750d03b0a77d48b861714f613df7a, type: 3}
 --- !u!114 &7316981481018817024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -901,6 +909,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fc369923c894ff7408376477320972ea, type: 3}
+  m_Resource: {fileID: 8300000, guid: fc369923c894ff7408376477320972ea, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

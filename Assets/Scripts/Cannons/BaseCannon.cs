@@ -1,10 +1,11 @@
 ﻿using System;
 using Projectiles;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace TankGuns
 {
-    public abstract class BaseCannon : MonoBehaviour
+    public abstract class BaseCannon : NetworkBehaviour
     {
         [field: SerializeField] public GameObject ProjectilePrefab { get; set; }
 
@@ -15,13 +16,13 @@ namespace TankGuns
         public event Action ReloadStartEvent;
         
         public event Action ReloadEndEvent;
-
+        
         protected virtual void Awake()
         {
             ShellSpawnPoint = transform.Find("ShellSpawnPoint");
         }
     
-        public abstract GameObject Fire();
+        public abstract void FireRpc();
     
         public abstract void Reload();
         
@@ -33,7 +34,8 @@ namespace TankGuns
         
         protected GameObject LaunchProjectile(GameObject prefab)
         {
-            var projectile = Instantiate(prefab);
+            var networkObject = prefab.GetComponent<NetworkObject>();
+            var projectile = NetworkManager.SpawnManager.InstantiateAndSpawn(networkObject).gameObject;
             projectile.transform.position = ShellSpawnPoint.position;
             projectile.transform.rotation = ShellSpawnPoint.rotation;
             var rb = projectile.GetComponent<Rigidbody>();

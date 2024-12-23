@@ -13,8 +13,8 @@ namespace TankAgents
     
         protected virtual void Awake()
         {
-            Tank = GetComponent<Tank>();
-            Turret = transform.Find("Turret").gameObject;
+            Tank = GetComponentInParent<Tank>();
+            Turret = Tank.transform.Find("Turret").gameObject;
             Gun = Turret.transform.GetComponentInChildren<BaseCannon>();
         }
     

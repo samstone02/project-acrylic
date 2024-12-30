@@ -4,6 +4,7 @@ using TankAgents;
 using TankGuns;
 using Unity.Netcode;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.GridBrushBase;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -86,18 +87,24 @@ public class Tank : NetworkBehaviour
             _cannon.Reload();
         }
 
-        float rotationDirection = _agent.GetDecisionRotateTurret();
-        RotateTurretRpc(rotationDirection);
+        Vector3 targetDirection = _agent.GetDecisionRotateTurret();
+        RotateTurretRpc(targetDirection, Time.deltaTime);
 
         (float left, float right) = _agent.GetDecisionRollTracks();
 
-        Move(left, right);
+        MoveRpc(left, right, Time.deltaTime);
     }
 
     [Rpc(SendTo.Server)]
-    private void RotateTurretRpc(float rotationDirection)
+    private void RotateTurretRpc(Vector3 targetDirection, float deltaTime)
     {
-        _turret.transform.Rotate(Vector3.up, rotationDirection * TurretRotationSpeed * Time.deltaTime);
+        Vector3 currentDirection = _turret.transform.forward;
+        currentDirection.y = 0;
+        currentDirection.Normalize();
+
+        float rotationDirection = CalculateTurretRotationDirection(targetDirection, currentDirection, TurretRotationSpeed);
+
+        _turret.transform.Rotate(Vector3.up, rotationDirection * TurretRotationSpeed * deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -109,10 +116,11 @@ public class Tank : NetworkBehaviour
         }
     }
 
-    private void Move(float left, float right)
+    [Rpc(SendTo.Server)]
+    private void MoveRpc(float left, float right, float deltaTime)
     {
-        _rigidbody.AddForceAtPosition(left * TreadTorque * Time.deltaTime * transform.forward, LeftTrackRollPosition.position);
-        _rigidbody.AddForceAtPosition(right * TreadTorque * Time.deltaTime * transform.forward, RightTrackRollPosition.position);
+        _rigidbody.AddForceAtPosition(left * TreadTorque * deltaTime * transform.forward, LeftTrackRollPosition.position);
+        _rigidbody.AddForceAtPosition(right * TreadTorque * deltaTime * transform.forward, RightTrackRollPosition.position);
     }
 
     [Rpc(SendTo.Server)]
@@ -143,5 +151,28 @@ public class Tank : NetworkBehaviour
         OnRevival?.Invoke();
         
         _currentHitpoints.Value = HitPointCapacity;
+    }
+
+    /// <summary>
+    /// Returns the rotation direction as a percentage of the rotation speed.
+    /// Positive values are clockwise, negative values are counterclockwise.
+    /// </summary>
+    private static float CalculateTurretRotationDirection(
+        Vector3 targetDirection,
+        Vector3 currentDirection,
+        float rotationSpeed)
+    {
+        Vector3 turretTargetCross = Vector3.Cross(currentDirection, targetDirection);
+
+        int direction = turretTargetCross.y > 0 ? 1 : -1;
+        float angleDifference = Vector3.Angle(currentDirection, targetDirection);
+        float angleRotation = rotationSpeed * Time.deltaTime;
+
+        if (angleDifference < angleRotation)
+        {
+            return angleDifference / angleRotation * direction;
+        }
+
+        return direction;
     }
 }

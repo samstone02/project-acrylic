@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace TankAgents
@@ -68,9 +69,10 @@ namespace TankAgents
             return false;
         }
     
-        public override float GetDecisionRotateTurret()
+        public override Vector3 GetDecisionRotateTurret()
         {
-            return _turretRotationDirection;
+            Debug.LogError("Not implemented");
+            throw new NotImplementedException("Not implemented");
         }
 
         public override (float, float) GetDecisionRollTracks()

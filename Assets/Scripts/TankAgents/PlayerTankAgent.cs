@@ -142,7 +142,7 @@ namespace TankAgents
             return reloadInput.action.triggered;
         }
 
-        public override float GetDecisionRotateTurret()
+        public override Vector3 GetDecisionRotateTurret()
         {
             Vector2 mousePos = Mouse.current.position.ReadValue();
             Vector3 mousePosWorld = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
@@ -151,11 +151,8 @@ namespace TankAgents
             Vector3 targetDirection = hit.point - Turret.transform.position;
             targetDirection.y = 0;
             targetDirection.Normalize();
-            Vector3 turretDirection = Turret.transform.forward;
-            turretDirection.y = 0;
-            turretDirection.Normalize();
-            
-            return CalculateTurretRotationDirection(targetDirection, turretDirection, Tank.TurretRotationSpeed);
+
+            return targetDirection;
         }
 
         public override (float, float) GetDecisionRollTracks()

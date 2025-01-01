@@ -3,9 +3,8 @@ using Projectiles;
 using TankAgents;
 using TankGuns;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.GridBrushBase;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Tank : NetworkBehaviour
@@ -60,6 +59,7 @@ public class Tank : NetworkBehaviour
         {
             var agent = Instantiate(AgentPrefab, transform);
             _agent = agent.GetComponent<BaseTankAgent>();
+            _rigidbody.isKinematic = false;
         }
     }
     
@@ -92,7 +92,29 @@ public class Tank : NetworkBehaviour
 
         (float left, float right) = _agent.GetDecisionRollTracks();
 
-        MoveRpc(left, right, Time.deltaTime);
+        MoveLocal(left, right, Time.deltaTime);
+    }
+
+    private void MoveLocal(float left, float right, float deltaTime)
+    {
+        Move(left, right, deltaTime);
+
+        if (!IsServer)
+        {
+            MoveRpc(left, right, deltaTime);
+        }
+    }
+
+    [Rpc(SendTo.Server)]
+    private void MoveRpc(float left, float right, float deltaTime)
+    {
+        Move(left, right, deltaTime);
+    }
+
+    private void Move(float left, float right, float deltaTime)
+    {
+        _rigidbody.AddForceAtPosition(left * TreadTorque * deltaTime * transform.forward, LeftTrackRollPosition.position);
+        _rigidbody.AddForceAtPosition(right * TreadTorque * deltaTime * transform.forward, RightTrackRollPosition.position);
     }
 
     [Rpc(SendTo.Server)]
@@ -116,12 +138,6 @@ public class Tank : NetworkBehaviour
         }
     }
 
-    [Rpc(SendTo.Server)]
-    private void MoveRpc(float left, float right, float deltaTime)
-    {
-        _rigidbody.AddForceAtPosition(left * TreadTorque * deltaTime * transform.forward, LeftTrackRollPosition.position);
-        _rigidbody.AddForceAtPosition(right * TreadTorque * deltaTime * transform.forward, RightTrackRollPosition.position);
-    }
 
     [Rpc(SendTo.Server)]
     public void TakeDamageRpc(int damage)

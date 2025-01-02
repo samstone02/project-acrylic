@@ -36,8 +36,6 @@ public class Tank : NetworkBehaviour
     private BaseCannon _cannon;
     
     private GameObject _turret;
-    
-    //private int _currentHitPoints;
 
     private NetworkVariable<int> _currentHitpoints = new NetworkVariable<int>();
     
@@ -92,17 +90,7 @@ public class Tank : NetworkBehaviour
 
         (float left, float right) = _agent.GetDecisionRollTracks();
 
-        MoveLocal(left, right, Time.deltaTime);
-    }
-
-    private void MoveLocal(float left, float right, float deltaTime)
-    {
-        Move(left, right, deltaTime);
-
-        if (!IsServer)
-        {
-            MoveRpc(left, right, deltaTime);
-        }
+        MoveRpc(left, right, Time.deltaTime);
     }
 
     [Rpc(SendTo.Server)]

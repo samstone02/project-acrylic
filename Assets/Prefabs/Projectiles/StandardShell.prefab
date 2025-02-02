@@ -42,10 +42,10 @@ GameObject:
   - component: {fileID: 6766780095447203293}
   - component: {fileID: 3581479640962544882}
   - component: {fileID: 7787856853100082362}
-  - component: {fileID: 8501008045501228751}
+  - component: {fileID: 7005964728519813175}
   - component: {fileID: 7318724643900044937}
-  - component: {fileID: 2186314848425588740}
-  - component: {fileID: 3275925401561088660}
+  - component: {fileID: 4131846314335171979}
+  - component: {fileID: 7494109693141858152}
   m_Layer: 11
   m_Name: StandardShell
   m_TagString: Untagged
@@ -120,7 +120,7 @@ CapsuleCollider:
   m_Height: 3.75
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8501008045501228751
+--- !u!114 &7005964728519813175
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 501577806
+  GlobalObjectIdHash: 1735044533
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -157,7 +157,7 @@ MonoBehaviour:
   <Damage>k__BackingField: 1
   <Speed>k__BackingField: 25
   <IgnoreArmor>k__BackingField: 0
---- !u!114 &2186314848425588740
+--- !u!114 &4131846314335171979
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5308777123184422408}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 97616b67982a4be48d957d421e422433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UseUnreliableDeltas: 0
@@ -186,9 +186,10 @@ MonoBehaviour:
   UseQuaternionCompression: 0
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
-  Interpolate: 1
+  Interpolate: 0
   SlerpPosition: 0
---- !u!114 &3275925401561088660
+  StaleDataHandling: 1
+--- !u!114 &7494109693141858152
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

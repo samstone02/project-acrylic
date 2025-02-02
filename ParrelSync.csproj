@@ -62,7 +62,6 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.32f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\ParrelSync\Editor\NonCore\OtherMenuItem.cs" />
     <Compile Include="Assets\ParrelSync\Editor\ExternalLinks.cs" />
     <Compile Include="Assets\ParrelSync\Editor\AssetModBlock\EditorQuit.cs" />
     <Compile Include="Assets\ParrelSync\Editor\ClonesManager.cs" />
@@ -75,6 +74,7 @@
     <Compile Include="Assets\ParrelSync\Editor\ParrelSyncProjectSettings.cs" />
     <Compile Include="Assets\ParrelSync\Editor\Project.cs" />
     <Compile Include="Assets\ParrelSync\Editor\ClonesManagerWindow.cs" />
+    <Compile Include="Assets\ParrelSync\Editor\NonCore\OtherMenuItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ParrelSync\projectCloner.asmdef" />

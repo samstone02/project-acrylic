@@ -28,9 +28,9 @@ namespace TankGuns
         
         protected void OnFire() => FireEvent?.Invoke();
 
-        protected void InvokeReloadStart() => ReloadStartEvent?.Invoke();
-        
-        protected void InvokeReloadEnd() => ReloadEndEvent?.Invoke();
+        protected void OnReloadStart() => ReloadStartEvent?.Invoke();
+
+        protected void OnReloadEnd() => ReloadEndEvent?.Invoke();
         
         protected GameObject LaunchProjectile(GameObject prefab)
         {

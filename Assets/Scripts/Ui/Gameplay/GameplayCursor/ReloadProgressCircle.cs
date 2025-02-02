@@ -20,9 +20,9 @@ namespace Ui.Gameplay.GameplayCursor
         
         private void Update()
         {
-            if (_playerCannon.ReloadTimer >= 0)
+            if (_playerCannon.ReloadTimer.Value >= 0)
             {
-                _image.fillAmount = 1 - _playerCannon.ReloadTimer / _playerCannon.ReloadTimeSeconds;   
+                _image.fillAmount = 1 - _playerCannon.ReloadTimer.Value / _playerCannon.ReloadTimeSeconds;   
             }
             else
             {

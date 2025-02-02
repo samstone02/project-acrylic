@@ -19,55 +19,67 @@ namespace TankGuns
         
         public event Action InterClipReloadEndEvent;
         
-        public float ReloadTimer { get; private set; }
-        
-        public float ShellLoadTimer { get; private set; }
+        public NetworkVariable<float> ReloadTimer { get; private set; } = new NetworkVariable<float>(0);
 
-        private bool _isReloading;
-        
-        private bool _isInterClipReloading;
+        public NetworkVariable<float> ShellLoadTimer { get; private set; } = new NetworkVariable<float>(0);
+
+        private NetworkVariable<bool> _isReloading = new NetworkVariable<bool>(false);
+
+        private NetworkVariable<bool> _isInterClipReloading = new NetworkVariable<bool>(false);
         
         private float _interClipReloadTimer;
-        
-        private float _loadShellTimer;
         
         private List<GameObject> Magazine { get; set; } = new List<GameObject>();
 
         protected override void Awake()
         {
             base.Awake();
+        }
+
+        public override void OnNetworkSpawn()
+        {
             Reload();
+
+            if (IsClient)
+            {
+                _isReloading.OnValueChanged += HandleReloadingChange;
+            }
         }
 
         private void Update()
         {
-            if (_isReloading)
+            if (!IsServer)
             {
-                ReloadTimer -= Time.deltaTime;
-                ShellLoadTimer -= Time.deltaTime;
-                
-                if (ReloadTimer <= 0)
+                return;
+            }
+
+            if (_isReloading.Value)
+            {
+                ReloadTimer.Value -= Time.deltaTime;
+                ShellLoadTimer.Value -= Time.deltaTime;
+
+                if (ReloadTimer.Value <= 0)
                 {
                     for (int i = 0; i < MagazineCapacity; i++)
                     {
                         Magazine.Add(ProjectilePrefab);
                     }
-                    _isReloading = false;
-                    InvokeReloadEnd();
+                    _isReloading.Value = false;
+                    OnReloadEnd();
                 }
-                else if (ShellLoadTimer <= 0)
+                else if (ShellLoadTimer.Value <= 0)
                 {
                     ShellLoadEvent?.Invoke();
-                    ShellLoadTimer = ReloadTimeSeconds / MagazineCapacity;
+                    ShellLoadTimer.Value = ReloadTimeSeconds / MagazineCapacity;
                 }
             }
-            else if (_isInterClipReloading)
+            else if (_isInterClipReloading.Value)
             {
                 _interClipReloadTimer -= Time.deltaTime;
 
                 if (_interClipReloadTimer <= 0)
                 {
-                    _isInterClipReloading = false;
+                    _isInterClipReloading.Value = false;
                     InterClipReloadEndEvent?.Invoke();
                 }
             }
@@ -76,9 +88,9 @@ namespace TankGuns
         [Rpc(SendTo.Server)]
         public override void FireRpc()
         {
-            if (_isReloading || _isInterClipReloading || Magazine.Count <= 0)
+            if (_isReloading.Value || _isInterClipReloading.Value || Magazine.Count <= 0)
             {
-                return;
+                return; 
             }
             
             base.OnFire();
@@ -102,23 +114,41 @@ namespace TankGuns
             }
             else
             {
-                _isInterClipReloading = true;
+                _isInterClipReloading.Value = true;
                 _interClipReloadTimer = InterClipReloadTimeSeconds;
             }
         }
 
         public override void Reload()
         {
-            if (_isReloading || Magazine.Count == MagazineCapacity)
+            if (_isReloading.Value || Magazine.Count == MagazineCapacity)
             {
                 return;
             }
 
-            InvokeReloadStart();
+            OnReloadStart();
+            ReloadRpc();
+        }
+
+        [Rpc(SendTo.Server)]
+        private void ReloadRpc()
+        {
             Magazine.Clear();
-            _isReloading = true;
-            ReloadTimer = ReloadTimeSeconds;
-            ShellLoadTimer = ReloadTimeSeconds / MagazineCapacity;
+            _isReloading.Value = true;
+            ReloadTimer.Value = ReloadTimeSeconds;
+            ShellLoadTimer.Value = ReloadTimeSeconds / MagazineCapacity;
+        }
+
+        private void HandleReloadingChange(bool previous, bool current)
+        {
+            if (current)
+            {
+                OnReloadStart();
+            }
+            else
+            {
+                OnReloadEnd();
+            }
         }
     }   
 }

@@ -51,7 +51,10 @@ public class Tank : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        _currentHitpoints.Value = HitPointCapacity;
+        if (IsServer)
+        {
+            _currentHitpoints.Value = HitPointCapacity;
+        }
 
         if (IsOwner)
         {

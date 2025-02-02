@@ -679,6 +679,7 @@ GameObject:
   - component: {fileID: 870322017623641427}
   - component: {fileID: 6433303202565965350}
   - component: {fileID: 1721014318378528940}
+  - component: {fileID: 4373334637356955831}
   m_Layer: 10
   m_Name: PlayerTank
   m_TagString: Untagged
@@ -725,7 +726,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.5, y: 5, z: 9}
+  m_Size: {x: 6, y: 5, z: 9}
   m_Center: {x: 0, y: 2.5, z: 0}
 --- !u!54 &1971133636045251745
 Rigidbody:
@@ -823,6 +824,18 @@ MonoBehaviour:
   Interpolate: 0
   SlerpPosition: 0
   StaleDataHandling: 1
+--- !u!114 &4373334637356955831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5087329328145373332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5584448713913931488
 GameObject:
   m_ObjectHideFlags: 0
@@ -1083,6 +1096,10 @@ PrefabInstance:
     - target: {fileID: 2820846131939147831, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
       propertyPath: m_Name
       value: AutoLoadingCannon
+      objectReference: {fileID: 0}
+    - target: {fileID: 8626962917752931364, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.89
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

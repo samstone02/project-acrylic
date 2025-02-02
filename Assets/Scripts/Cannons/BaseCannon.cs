@@ -35,9 +35,10 @@ namespace TankGuns
         protected GameObject LaunchProjectile(GameObject prefab)
         {
             var networkObject = prefab.GetComponent<NetworkObject>();
-            var projectile = NetworkManager.SpawnManager.InstantiateAndSpawn(networkObject).gameObject;
-            projectile.transform.position = ShellSpawnPoint.position;
-            projectile.transform.rotation = ShellSpawnPoint.rotation;
+            var projectile = NetworkManager.SpawnManager.InstantiateAndSpawn(
+                networkObject,
+                position: ShellSpawnPoint.position,
+                rotation: ShellSpawnPoint.rotation).gameObject;
             var rb = projectile.GetComponent<Rigidbody>();
             var shell = projectile.GetComponent<Shell>().Speed;
             rb.linearVelocity = projectile.transform.forward * shell;

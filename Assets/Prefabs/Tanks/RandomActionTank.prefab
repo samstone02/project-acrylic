@@ -133,6 +133,7 @@ MonoBehaviour:
   <HitPointCapacity>k__BackingField: 3
   <TurretRotationSpeed>k__BackingField: 120
   <TreadTorque>k__BackingField: 10
+  <AgentPrefab>k__BackingField: {fileID: 0}
 --- !u!114 &-1789219057784029254
 MonoBehaviour:
   m_ObjectHideFlags: 0

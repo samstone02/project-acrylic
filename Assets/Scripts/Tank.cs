@@ -18,6 +18,8 @@ public class Tank : NetworkBehaviour
     [field: SerializeField] public float TreadTorque { get; set; } = 10f;
 
     [field: SerializeField] public GameObject AgentPrefab { get; set; }
+
+    [field: SerializeField] public GameObject GameplayUi { get; set; }
     
     private Transform LeftTrackRollPosition { get; set; }
     
@@ -61,6 +63,7 @@ public class Tank : NetworkBehaviour
             var agent = Instantiate(AgentPrefab, transform);
             _agent = agent.GetComponent<BaseTankAgent>();
             _rigidbody.isKinematic = false;
+            Instantiate(GameplayUi);
         }
     }
     
@@ -81,7 +84,7 @@ public class Tank : NetworkBehaviour
 
         if (fireDecision)
         {
-             _cannon.FireRpc();
+             _cannon.Fire();
         }
         if (reloadDecision)
         {

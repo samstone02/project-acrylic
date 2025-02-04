@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TankGuns;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Ui.Gameplay
@@ -15,11 +16,11 @@ namespace Ui.Gameplay
         private void Start()
         {
             _ammoText = GetComponentInChildren<TextMeshProUGUI>();
-            _autoLoadingCannon = GameObject.Find("PlayerTank").GetComponentInChildren<AutoLoadingCannon>();
+            _autoLoadingCannon = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<AutoLoadingCannon>();
             
             _ammoText.text = _autoLoadingCannon.MagazineCapacity.ToString();
             
-            _autoLoadingCannon.FireEvent += OnPlayerFireEvent;
+            _autoLoadingCannon.FireClientEvent += OnPlayerFireEvent;
             _autoLoadingCannon.ReloadStartEvent += OnPlayerReloadStartEvent;
             _autoLoadingCannon.ReloadEndEvent += OnPlayerReloadEndEvent;
         }

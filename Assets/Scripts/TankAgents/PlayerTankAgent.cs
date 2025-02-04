@@ -97,7 +97,6 @@ namespace TankAgents
         protected void Update()
         {
             int mouseScrollDelta = (int) ScrollAmmoInput.action.ReadValue<float>();
-            Debug.Log($"Mouse scroll delta: {mouseScrollDelta}");
             if (SystemInfo.operatingSystemFamily == OperatingSystemFamily.Windows)
             {
                 mouseScrollDelta /= 120;

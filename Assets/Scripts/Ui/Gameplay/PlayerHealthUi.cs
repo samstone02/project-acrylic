@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Ui.Gameplay
@@ -11,7 +12,7 @@ namespace Ui.Gameplay
     
         private void Start()
         {
-            _playerTank = GameObject.Find("PlayerTank").GetComponent<Tank>();
+            _playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Tank>();
             _healthText = GetComponentInChildren<TextMeshProUGUI>();
         
             _playerTank.OnReceiveDamage += HandlePlayerTankDamage;

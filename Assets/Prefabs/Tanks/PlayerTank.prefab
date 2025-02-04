@@ -767,7 +767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1542053652
+  GlobalObjectIdHash: 151818698
   InScenePlacedSourceGlobalObjectIdHash: 1809477501
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -792,6 +792,7 @@ MonoBehaviour:
   <TurretRotationSpeed>k__BackingField: 120
   <TreadTorque>k__BackingField: 35000000
   <AgentPrefab>k__BackingField: {fileID: 887874052009262286, guid: 576750d03b0a77d48b861714f613df7a, type: 3}
+  <GameplayUi>k__BackingField: {fileID: 6171383244529121313, guid: dfd9b1d88a1695642869b22a878ea5e8, type: 3}
 --- !u!114 &1721014318378528940
 MonoBehaviour:
   m_ObjectHideFlags: 0

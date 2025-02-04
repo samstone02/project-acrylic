@@ -1,4 +1,5 @@
 using TankGuns;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,7 @@ namespace Ui.Gameplay.GameplayCursor
         {
             _image = GetComponent<Image>();
             Cursor.visible = false;
-            var playerTank = GameObject.Find("PlayerTank").GetComponent<Tank>();
+            var playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Tank>();
             _playerCannon = playerTank.GetComponentInChildren<AutoLoadingCannon>();
         }
         

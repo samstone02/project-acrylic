@@ -11,22 +11,28 @@ namespace TankGuns
 
         [field: SerializeField] public Transform ShellSpawnPoint { get; set; }
 
-        public event Action FireEvent;
-        
+        public event Action FireClientEvent;
+
         public event Action ReloadStartEvent;
-        
+
         public event Action ReloadEndEvent;
-        
+
         protected virtual void Awake()
         {
             ShellSpawnPoint = transform.Find("ShellSpawnPoint");
         }
-    
-        public abstract void FireRpc();
-    
+
+        public abstract void Fire();
+
         public abstract void Reload();
-        
-        protected void OnFire() => FireEvent?.Invoke();
+
+        protected void OnFire()
+        {
+            if (IsClient)
+            {
+                FireClientEvent?.Invoke();
+            }
+        }
 
         protected void OnReloadStart() => ReloadStartEvent?.Invoke();
 

@@ -26,7 +26,7 @@ namespace TankGuns
             }
         }
 
-        public override void FireRpc()
+        public override void Fire()
         {
             if (_isReloading)
             {

@@ -15,7 +15,7 @@ namespace Ui.Gameplay
             _playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Tank>();
             _healthText = GetComponentInChildren<TextMeshProUGUI>();
         
-            _playerTank.ReceiveDamageEvent += HandlePlayerTankDamage;
+            _playerTank.DamagedEvent += HandlePlayerTankDamage;
             _playerTank.RevivalEvent += PlayerRevive;
 
             _healthText.text = _playerTank.HealthCapacity.ToString();

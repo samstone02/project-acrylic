@@ -21,9 +21,9 @@ public class Tank : NetworkBehaviour
     [field: SerializeField] public GameObject GameplayUi { get; set; }
     
     
-    public event Action<int> ReceiveDamageEvent;
+    public event Action<int> DamagedEvent;
 
-    public event Action<int> HealEvent;
+    public event Action<int> HealedEvent;
     
     public event Action DeathEvent;
     
@@ -149,7 +149,7 @@ public class Tank : NetworkBehaviour
     {
         if (previous > next)
         {
-            ReceiveDamageEvent?.Invoke(previous - next);
+            DamagedEvent?.Invoke(previous - next);
 
             if (next <= 0)
             {
@@ -158,7 +158,7 @@ public class Tank : NetworkBehaviour
         }
         else if (previous < next)
         {
-            HealEvent?.Invoke(next - previous);
+            HealedEvent?.Invoke(next - previous);
         }
     }
 

@@ -21,7 +21,7 @@ namespace Ui.Gameplay
                 
             GameObject player = GameObject.Find("PlayerTank");
             var playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Tank>();
-            playerTank.OnDeath += () => _stopwatch.Stop();
+            playerTank.DeathEvent += () => _stopwatch.Stop();
             
             var retryButton = FindObjectsOfType<Button>(true)
                 .First(b => b.name == "RetryButton")

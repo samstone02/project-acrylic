@@ -15,22 +15,22 @@ namespace Ui.Gameplay
             _playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Tank>();
             _healthText = GetComponentInChildren<TextMeshProUGUI>();
         
-            _playerTank.OnReceiveDamage += HandlePlayerTankDamage;
-            _playerTank.OnRevival += PlayerRevive;
+            _playerTank.ReceiveDamageEvent += HandlePlayerTankDamage;
+            _playerTank.RevivalEvent += PlayerRevive;
 
-            _healthText.text = _playerTank.HitPointCapacity.ToString();
+            _healthText.text = _playerTank.HealthCapacity.ToString();
         }
 
         private void HandlePlayerTankDamage(int damage)
         {
             int currentDisplayHealth = int.Parse(_healthText.text) - damage;
-            currentDisplayHealth = Mathf.Clamp(currentDisplayHealth, 0, _playerTank.HitPointCapacity);
+            currentDisplayHealth = Mathf.Clamp(currentDisplayHealth, 0, _playerTank.HealthCapacity);
             _healthText.text = currentDisplayHealth.ToString();
         }
 
         private void PlayerRevive()
         {
-            _healthText.text = _playerTank.HitPointCapacity.ToString();
+            _healthText.text = _playerTank.HealthCapacity.ToString();
         }
     }
    

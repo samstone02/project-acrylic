@@ -10,7 +10,7 @@ public class TankEditor : Editor
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Take Damage"))
         {
-            tank.TakeDamageRpc(1);
+            tank.TakeDamage(1);
         }
         EditorGUILayout.EndHorizontal();
         DrawDefaultInspector();

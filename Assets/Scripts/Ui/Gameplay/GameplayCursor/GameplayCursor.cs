@@ -19,7 +19,7 @@ namespace Ui.Gameplay.GameplayCursor
             retryButton.onClick.AddListener(() => Cursor.visible = false);
             
             var playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Tank>();
-            playerTank.OnDeath += () => Cursor.visible = true;
+            playerTank.DeathEvent += () => Cursor.visible = true;
         }
         
         private void Update()

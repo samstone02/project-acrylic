@@ -26,7 +26,7 @@ namespace Ui.Gameplay
             _gameplayCursor = GameObject.Find("GameplayCursor");
 
             _player = NetworkManager.Singleton.LocalClient.PlayerObject.gameObject;
-            _player.GetComponent<Tank>().OnDeath += OnPlayerDeath;
+            _player.GetComponent<Tank>().DeathEvent += OnPlayerDeath;
         }
 
         private void OnPlayerDeath()
@@ -39,7 +39,7 @@ namespace Ui.Gameplay
         {
             _deathScreen.SetActive(false);
             _gameplayCursor.SetActive(true);
-            _player.GetComponent<Tank>().ReviveRpc();
+            _player.GetComponent<Tank>().Revive();
 
             if (PlayerSpawnPoint != null)
             {

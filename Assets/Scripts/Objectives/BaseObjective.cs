@@ -113,13 +113,17 @@ public abstract class BaseObjective : MonoBehaviour
         if (_captureTimer <= 0)
         {
             ObjectiveCapturedEvent?.Invoke(ControllingTeam);
-            OnCapture();
+            var winnerClientIds = isBlueContesting
+                ? ContestingTanks.Where(t => _TeamManager.GetTeamName(t) == TeamManager.TEAM_BLUE)
+                : ContestingTanks.Where(t => _TeamManager.GetTeamName(t) == TeamManager.TEAM_ORANGE);
+            OnCapture(winnerClientIds);
+            Destroy(this.gameObject);
         }
     }
 
     protected abstract void StartObjective();
 
-    protected abstract void OnCapture();
+    protected abstract void OnCapture(IEnumerable<ulong> teamMemberClientIds);
 
     private void OnTriggerEnter(Collider other)
     {

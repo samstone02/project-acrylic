@@ -768,7 +768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3458262301
+  GlobalObjectIdHash: 1542053652
   InScenePlacedSourceGlobalObjectIdHash: 1809477501
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -792,6 +792,7 @@ MonoBehaviour:
   <HealthCapacity>k__BackingField: 3
   <TurretRotationSpeed>k__BackingField: 120
   <TreadTorque>k__BackingField: 35000000
+  <AmmoCapacity>k__BackingField: 30
   <AgentPrefab>k__BackingField: {fileID: 887874052009262286, guid: 576750d03b0a77d48b861714f613df7a, type: 3}
   <GameplayUi>k__BackingField: {fileID: 6171383244529121313, guid: dfd9b1d88a1695642869b22a878ea5e8, type: 3}
   <MainCamera>k__BackingField: {fileID: 5119088166696300199, guid: ad8502e2890649d40979136864aa9663, type: 3}
@@ -1130,6 +1131,10 @@ PrefabInstance:
     - target: {fileID: 2820846131939147831, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
       propertyPath: m_Name
       value: AutoLoadingCannon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3129915186199121772, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
+      propertyPath: <AmmoCapacity>k__BackingField
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8626962917752931364, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
       propertyPath: m_LocalPosition.z

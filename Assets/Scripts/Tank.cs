@@ -16,6 +16,8 @@ public class Tank : NetworkBehaviour
     
     [field: SerializeField] public float TreadTorque { get; set; } = 10f;
 
+    [field: SerializeField] public int AmmoCapacity { get; set; } = 30;
+
     [field: SerializeField] public GameObject AgentPrefab { get; set; }
 
     [field: SerializeField] public GameObject GameplayUi { get; set; }
@@ -43,7 +45,7 @@ public class Tank : NetworkBehaviour
 
     private GameObject _turret { get; set; }
 
-    private NetworkVariable<int> _healthNetVar = new NetworkVariable<int>();
+    private readonly NetworkVariable<int> _healthNetVar = new NetworkVariable<int>();
     
     protected void Awake()
     {
@@ -142,6 +144,11 @@ public class Tank : NetworkBehaviour
         {
             Debug.LogWarning("Only the server should call this method.");
         }
+    }
+
+    public void FillAmmo(int count)
+    {
+        _cannon.FillAmmo(count);
     }
 
     private void Move(float left, float right, float deltaTime)

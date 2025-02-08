@@ -23,13 +23,15 @@ namespace TankGuns
 
         public NetworkVariable<float> ShellLoadTimer { get; private set; } = new NetworkVariable<float>(0);
 
+        public int MagazineCount { get => MagazineCountNetVar.Value; }
+
         private NetworkVariable<bool> _isReloading = new NetworkVariable<bool>(false);
 
         private NetworkVariable<bool> _isInterClipReloading = new NetworkVariable<bool>(false);
         
         private float _interClipReloadTimer;
         
-        private NetworkVariable<int> MagazineCount { get; set; } = new NetworkVariable<int>(0);
+        private NetworkVariable<int> MagazineCountNetVar { get; set; } = new NetworkVariable<int>(0);
 
         protected override void Awake()
         {
@@ -60,7 +62,7 @@ namespace TankGuns
                 {
                     if (IsServer)
                     {
-                        MagazineCount.Value = MagazineCapacity;
+                        MagazineCountNetVar.Value = Math.Min(CurrentAmmo, MagazineCapacity);
                         _isReloading.Value = false;
                     }
                     else
@@ -105,19 +107,19 @@ namespace TankGuns
 
         public override void Fire()
         {
-            if (_isReloading.Value || _isInterClipReloading.Value || MagazineCount.Value <= 0)
+            if (_isReloading.Value || _isInterClipReloading.Value || MagazineCountNetVar.Value <= 0)
             {
                 return; 
             }
-            
-            base.OnFire();
+
+            base.Fire();
 
             FireRpc();
         }
 
         public override void Reload()
         {
-            if (_isReloading.Value || MagazineCount.Value == MagazineCapacity)
+            if (_isReloading.Value || MagazineCountNetVar.Value == MagazineCapacity)
             {
                 return;
             }
@@ -129,15 +131,15 @@ namespace TankGuns
         [Rpc(SendTo.Server)]
         private void FireRpc()
         {
-            if (_isReloading.Value || MagazineCount.Value == 0)
+            if (_isReloading.Value || MagazineCountNetVar.Value == 0)
             {
                 return;
             }
 
             var shell = ProjectilePrefab;
-            MagazineCount.Value--;
+            MagazineCountNetVar.Value--;
 
-            if (MagazineCount.Value == 0)
+            if (MagazineCountNetVar.Value == 0)
             {
                 if (shell.GetComponent<Shell>().EmpoweredProjectile != null)
                 {
@@ -147,7 +149,7 @@ namespace TankGuns
 
             GameObject projectile = LaunchProjectile(shell);
 
-            if (MagazineCount.Value == 0)
+            if (MagazineCountNetVar.Value == 0)
             {
                 Reload();
             }
@@ -161,10 +163,13 @@ namespace TankGuns
         [Rpc(SendTo.Server)]
         private void ReloadRpc()
         {
-            MagazineCount.Value = 0;
-            _isReloading.Value = true;
-            ReloadTimer.Value = ReloadTimeSeconds;
-            ShellLoadTimer.Value = ReloadTimeSeconds / MagazineCapacity;
+            if (CurrentAmmo > 0)
+            {
+                MagazineCountNetVar.Value = 0;
+                _isReloading.Value = true;
+                ReloadTimer.Value = ReloadTimeSeconds;
+                ShellLoadTimer.Value = ReloadTimeSeconds / MagazineCapacity;
+            }
         }
 
         private void HandleReloadingChange(bool previous, bool current)

@@ -33,7 +33,7 @@ namespace TankGuns
                 return;
             }
 
-            base.OnFire();
+            base.Fire();
 
             GameObject projectile = LaunchProjectile(ProjectilePrefab);
 

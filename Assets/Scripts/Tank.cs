@@ -19,6 +19,8 @@ public class Tank : NetworkBehaviour
     [field: SerializeField] public GameObject AgentPrefab { get; set; }
 
     [field: SerializeField] public GameObject GameplayUi { get; set; }
+
+    [field: SerializeField] public GameObject MainCamera { get; set; }
     
     
     public event Action<int> DamagedEvent;
@@ -67,6 +69,9 @@ public class Tank : NetworkBehaviour
             _rigidbody.isKinematic = false;
             Instantiate(GameplayUi);
             _healthNetVar.OnValueChanged += OnHealthNetVarChanged;
+
+            var mainCameraPos = transform.Find("MainCameraPosition").transform;
+            Instantiate(MainCamera, mainCameraPos);
         }
     }
 

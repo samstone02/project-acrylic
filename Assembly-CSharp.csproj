@@ -62,6 +62,7 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.32f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\TeamControls.cs" />
     <Compile Include="Assets\Scripts\Cannons\BaseCannon.cs" />
     <Compile Include="Assets\Scripts\MainCamera.cs" />
     <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\MagazineReloadStartAudioHook.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Assets\Scripts\TankAgents\RushdownTankAgent.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\AmmoSelector.cs" />
     <Compile Include="Assets\Scripts\Cannons\AutoLoadingCannon.cs" />
+    <Compile Include="Assets\Scripts\Objectives\ObjectiveType.cs" />
     <Compile Include="Assets\Scripts\TankAgents\PlayerTankAgent.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\GameplayCursor\GameplayCursor.cs" />
     <Compile Include="Assets\Scripts\AudioHooks\CannonFireAudioHook.cs" />
@@ -82,7 +84,10 @@
     <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\ShellLoadAudioHook.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\PlayerHealthUi.cs" />
     <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\MagazineReloadEndAudioHook.cs" />
+    <Compile Include="Assets\Scripts\Objectives\ObjectiveManager.cs" />
+    <Compile Include="Assets\Scripts\TeamManager.cs" />
     <Compile Include="Assets\Scripts\TankAgents\BaseTankAgent.cs" />
+    <Compile Include="Assets\Scripts\Objectives\AmmoObjective.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RandomActionTankAgent.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\GameplayCursor\ReloadProgressCircle.cs" />
     <Compile Include="Assets\Scripts\EnemySpawner.cs" />
@@ -93,7 +98,9 @@
     <Compile Include="Assets\Scripts\Tank.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\PlayerAmmoUi.cs" />
     <Compile Include="Assets\Scripts\Projectiles\ExplosiveShell.cs" />
+    <Compile Include="Assets\Scripts\Objectives\BaseObjective.cs" />
     <Compile Include="Assets\Scripts\Projectiles\Shell.cs" />
+    <Compile Include="Assets\Scripts\Ui\Gameplay\Scoreboard.cs" />
     <Compile Include="Assets\Scripts\NetworkingControls.cs" />
   </ItemGroup>
   <ItemGroup>

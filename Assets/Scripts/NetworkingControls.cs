@@ -3,28 +3,28 @@ using UnityEngine;
 
 public class NetworkingControls : MonoBehaviour
 {
-    private NetworkManager networkManager;
+    private NetworkManager _networkManager;
     
     void Start()
     {
-        networkManager = GetComponent<NetworkManager>();
+        _networkManager = GetComponent<NetworkManager>();
     }
 
     protected void OnGUI()
     {
-        if (!networkManager.IsServer && !networkManager.IsClient)
+        if (!_networkManager.IsServer && !_networkManager.IsClient)
         {
             RenderDisconnectedGui();
         }
-        else if (networkManager.IsHost)
+        else if (_networkManager.IsHost)
         {
             RenderHostGui();
         }
-        else if (networkManager.IsServer)
+        else if (_networkManager.IsServer)
         {
             RenderServerGui();
         }
-        else if (networkManager.IsClient)
+        else if (_networkManager.IsClient)
         {
             RenderClientGui();
         }
@@ -36,17 +36,17 @@ public class NetworkingControls : MonoBehaviour
 
         if (GUILayout.Button("Start Host"))
         {
-            networkManager.StartHost();
+            _networkManager.StartHost();
         }
         
         if (GUILayout.Button("Start Server"))
         {
-            networkManager.StartServer();
+            _networkManager.StartServer();
         }
         
         if (GUILayout.Button("Start Client"))
         {
-            networkManager.StartClient();
+            _networkManager.StartClient();
         }
         
         GUILayout.EndArea();

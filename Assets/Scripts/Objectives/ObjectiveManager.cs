@@ -74,6 +74,6 @@ public class ObjectiveManager : MonoBehaviour
     {
         var go = Instantiate(AmmoObjectivePrefab);
         var objective = go.GetComponent<AmmoObjective>();
-        objective.Timer = ObjectiveSpawnTimeSeconds;
+        objective.TimeToStartSeconds = ObjectiveSpawnTimeSeconds;
     }
 }

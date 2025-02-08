@@ -9,8 +9,8 @@ public class TeamManager : NetworkBehaviour
 
     public event Action<ulong, string> PlayerChangeTeamClientEvent;
 
-    public const string BLUE = "blue";
-    public const string ORANGE = "orange";
+    public const string TEAM_BLUE = "blue";
+    public const string TEAM_ORANGE = "orange";
     public const string NO_TEAM = "no team";
 
     [Rpc(SendTo.Server)]
@@ -26,7 +26,7 @@ public class TeamManager : NetworkBehaviour
             OrangeTeam.Remove(clientId);
         }
 
-        PlayerChangeTeamRpc(clientId, BLUE);
+        PlayerChangeTeamRpc(clientId, TEAM_BLUE);
         BlueTeam.Add(clientId);
     }
 
@@ -43,7 +43,7 @@ public class TeamManager : NetworkBehaviour
             BlueTeam.Remove(clientId);
         }
 
-        PlayerChangeTeamRpc(clientId, ORANGE);
+        PlayerChangeTeamRpc(clientId, TEAM_ORANGE);
         OrangeTeam.Add(clientId);
     }
 
@@ -65,11 +65,11 @@ public class TeamManager : NetworkBehaviour
     {
         if (BlueTeam.Contains(clientId))
         {
-            return BLUE;
+            return TEAM_BLUE;
         }
         else if (OrangeTeam.Contains(clientId))
         {
-            return ORANGE;
+            return TEAM_ORANGE;
         }
         else
         {

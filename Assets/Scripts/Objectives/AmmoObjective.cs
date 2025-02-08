@@ -1,14 +1,15 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class AmmoObjective : BaseObjective
 {
     protected override void OnCapture()
     {
-        throw new System.NotImplementedException();
+        NetworkLog.LogInfoServer("Captured!");
     }
 
     protected override void StartObjective()
     {
-        throw new System.NotImplementedException();
+        NetworkLog.LogInfoServer("Objective started!");
     }
 }

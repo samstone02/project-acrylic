@@ -33,6 +33,11 @@ public abstract class BaseObjective : MonoBehaviour
 
     private void Update()
     {
+        if (!NetworkManager.Singleton.IsServer)
+        {
+            return;
+        }
+
         if (_objectiveStartTimer > 0)
         {
             _objectiveStartTimer -= Time.deltaTime;
@@ -123,7 +128,10 @@ public abstract class BaseObjective : MonoBehaviour
 
     protected abstract void StartObjective();
 
-    protected abstract void OnCapture(IEnumerable<ulong> teamMemberClientIds);
+    protected virtual void OnCapture(IEnumerable<ulong> teamMemberClientIds)
+    {
+        NetworkLog.LogInfoServer($"Objective captured by {ControllingTeam}!");
+    }
 
     private void OnTriggerEnter(Collider other)
     {

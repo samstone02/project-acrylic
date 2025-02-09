@@ -8,6 +8,8 @@ public class AmmoObjective : BaseObjective
 
     protected override void OnCapture(IEnumerable<ulong> teamMembersClientIds)
     {
+        base.OnCapture(teamMembersClientIds);
+
         foreach (var teamMemberClientId in teamMembersClientIds)
         {
             var client = NetworkManager.Singleton.ConnectedClients[teamMemberClientId];

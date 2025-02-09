@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class ObjectiveManager : MonoBehaviour
 {
-    [field: SerializeField] public GameObject AmmoObjectivePrefab { get; set; }
-    [field: SerializeField] public GameObject LifeObjectivePrefab { get; set; }
-    [field: SerializeField] public GameObject HealthObjectivePrefab { get; set; }
-    [field: SerializeField] public List<GameObject> ObjectiveLocations { get; set; }
+    [field: SerializeField] public List<GameObject> Objectives { get; set; }
     [field: SerializeField] public float TimeBetweenObjectivesSeconds { get; set; } = 30;
     [field: SerializeField] public float ObjectiveSpawnTimeSeconds { get; set; } = 30;
 
@@ -47,8 +44,8 @@ public class ObjectiveManager : MonoBehaviour
     }
     private Vector3 GetRandomLocation()
     {
-        int idx = UnityEngine.Random.Range(0, ObjectiveLocations.Count);
-        return ObjectiveLocations[idx].transform.position;
+        int idx = UnityEngine.Random.Range(0, Objectives.Count);
+        return Objectives[idx].transform.position;
     }
 
     private ObjectiveType GetRandomObjectiveType()
@@ -59,6 +56,9 @@ public class ObjectiveManager : MonoBehaviour
 
     private void StartObjective(Vector3 location, ObjectiveType objectiveType)
     {
+        StartAmmoObjective(location);
+        return;
+
         switch (objectiveType)
         {
             case ObjectiveType.Ammo:
@@ -72,9 +72,9 @@ public class ObjectiveManager : MonoBehaviour
 
     private void StartAmmoObjective(Vector3 location)
     {
-        var go = Instantiate(AmmoObjectivePrefab);
-        var objective = go.GetComponent<AmmoObjective>();
-        objective.TimeToStartSeconds = ObjectiveSpawnTimeSeconds;
+        //var go = Instantiate(AmmoObjectivePrefab);
+        //var objective = go.GetComponent<AmmoObjective>();
+        //objective.TimeToStartSeconds = ObjectiveSpawnTimeSeconds;
         //objective.ObjectiveCapturedEvent += OnObjectiveCaptured;
     }
 }

@@ -1134,7 +1134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3129915186199121772, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
       propertyPath: <AmmoCapacity>k__BackingField
-      value: 10
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 8626962917752931364, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
       propertyPath: m_LocalPosition.z

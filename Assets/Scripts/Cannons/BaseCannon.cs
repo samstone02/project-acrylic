@@ -13,7 +13,10 @@ namespace TankGuns
 
         [field: SerializeField] public Transform ShellSpawnPoint { get; set; }
 
-        public int CurrentAmmo { get => _ammoNetVar.Value; }
+        /// <summary>
+        /// The amount of total ammo left for the cannon to fire.
+        /// </summary>
+        public int AmmoReserve { get => _ammoReserveNetVar.Value; }
 
         public event Action FireClientEvent;
 
@@ -23,14 +26,23 @@ namespace TankGuns
 
         public event Action AmmoRefillClientEvent;
 
-        private readonly NetworkVariable<int> _ammoNetVar = new NetworkVariable<int>();
+        private readonly NetworkVariable<int> _ammoReserveNetVar = new NetworkVariable<int>();
 
         protected virtual void Awake()
         {
-            _ammoNetVar.Value = AmmoCapacity;
             ShellSpawnPoint = transform.Find("ShellSpawnPoint");
+        }
 
-            _ammoNetVar.OnValueChanged += OnAmmoNetVarChanged;
+        public override void OnNetworkSpawn()
+        {
+            if (IsServer)
+            {
+                _ammoReserveNetVar.Value = AmmoCapacity;
+            }
+            if (IsClient)
+            {
+                _ammoReserveNetVar.OnValueChanged += OnAmmoReserveNetVarChanged;
+            }
         }
 
         public virtual void Fire()
@@ -47,25 +59,31 @@ namespace TankGuns
 
         public void FillAmmo(int count)
         {
+            // TODO: The player can have greater than the ammo capacity if they have shells loaded into their autoloader.
+            // Is this something that needs to be fixed?
             if (IsServer)
             {
-                _ammoNetVar.Value += count;
-                _ammoNetVar.Value = Mathf.Clamp(_ammoNetVar.Value, 0, AmmoCapacity);
+                _ammoReserveNetVar.Value += count;
+                _ammoReserveNetVar.Value = Mathf.Clamp(_ammoReserveNetVar.Value, 0, AmmoCapacity);
             }
         }
 
         [Rpc(SendTo.Server)]
         private void ReloadServerRpc()
         {
-            _ammoNetVar.Value--;
+            _ammoReserveNetVar.Value--;
         }
 
-        private void OnAmmoNetVarChanged(int previous, int current)
+        private void OnAmmoReserveNetVarChanged(int previous, int current)
         {
-            if (previous == 0)
+            if (previous == 0 && current > 0)
+            {
+                Reload();
+            }
+
+            if (previous < current)
             {
                 AmmoRefillClientEvent?.Invoke();
-                Reload();
             }
         }
         

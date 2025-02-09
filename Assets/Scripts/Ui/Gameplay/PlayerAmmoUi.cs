@@ -25,7 +25,7 @@ namespace Ui.Gameplay
             _ammoText = GetComponentsInChildren<TextMeshProUGUI>().First(c => c.name == "Ammo Text");
             _loadedAmmoText = GetComponentsInChildren<TextMeshProUGUI>().First(c => c.name == "Loaded Ammo Text");
 
-            _ammoText.text = _cannon.CurrentAmmo.ToString();
+            _ammoText.text = _cannon.AmmoReserve.ToString();
 
             if (_cannon is not AutoLoadingCannon)
             {
@@ -54,7 +54,7 @@ namespace Ui.Gameplay
             {
                 // subtract 1 because this is a client event
                 // the current ammo count won't be updated yet
-                _ammoText.text = (_cannon.CurrentAmmo - 1).ToString();
+                _ammoText.text = (_cannon.AmmoReserve - 1).ToString();
             }
         }
 
@@ -62,7 +62,7 @@ namespace Ui.Gameplay
         {
             if (_cannon is AutoLoadingCannon autoLoader)
             {
-                _ammoText.text = _cannon.CurrentAmmo.ToString();
+                _ammoText.text = _cannon.AmmoReserve.ToString();
 
                 _loadedAmmoText.text = "...";
             }
@@ -72,7 +72,7 @@ namespace Ui.Gameplay
         {
             if (_cannon is AutoLoadingCannon autoLoader)
             {
-                _ammoText.text = (_cannon.CurrentAmmo - autoLoader.MagazineCapacity).ToString();
+                _ammoText.text = (_cannon.AmmoReserve - autoLoader.MagazineCapacity).ToString();
                 _loadedAmmoText.text = autoLoader.MagazineCapacity.ToString();
             }
         }
@@ -81,7 +81,7 @@ namespace Ui.Gameplay
         {
             if (_cannon is AutoLoadingCannon autoLoader)
             {
-                _ammoText.text = (_cannon.CurrentAmmo - autoLoader.MagazineCapacity).ToString();
+                _ammoText.text = (_cannon.AmmoReserve - autoLoader.MagazineCapacity).ToString();
             }
         }
     }

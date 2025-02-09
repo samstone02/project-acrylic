@@ -40,6 +40,8 @@ namespace TankGuns
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
+
             Reload();
 
             if (IsClient)
@@ -62,7 +64,7 @@ namespace TankGuns
                 {
                     if (IsServer)
                     {
-                        MagazineCountNetVar.Value = Math.Min(CurrentAmmo, MagazineCapacity);
+                        MagazineCountNetVar.Value = Math.Min(AmmoReserve, MagazineCapacity);
                         _isReloading.Value = false;
                     }
                     else
@@ -163,7 +165,7 @@ namespace TankGuns
         [Rpc(SendTo.Server)]
         private void ReloadRpc()
         {
-            if (CurrentAmmo > 0)
+            if (MagazineCount < MagazineCapacity)
             {
                 MagazineCountNetVar.Value = 0;
                 _isReloading.Value = true;

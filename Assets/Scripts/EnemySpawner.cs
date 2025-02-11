@@ -18,7 +18,7 @@ public class EnemySpawner : MonoBehaviour
     protected void Start()
     {
         var playerTank = GameObject.Find("PlayerTank").GetComponent<Tank>();
-        playerTank.RevivalEvent += () => FindObjectsByType<Tank>(FindObjectsSortMode.None)
+        playerTank.RevivalClientEvent += () => FindObjectsByType<Tank>(FindObjectsSortMode.None)
             .Where(t => t != playerTank)
             .ToList()
             .ForEach(tank => Destroy(tank.gameObject));

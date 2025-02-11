@@ -18,20 +18,24 @@ public class Tank : NetworkBehaviour
 
     [field: SerializeField] public int AmmoCapacity { get; set; } = 30;
 
+    [field: SerializeField] public int StartingLives { get; set; } = 3;
+
     [field: SerializeField] public GameObject AgentPrefab { get; set; }
 
     [field: SerializeField] public GameObject GameplayUi { get; set; }
 
     [field: SerializeField] public GameObject MainCamera { get; set; }
-    
+
+    public int Health { get => _healthNetVar.Value; }
+    public int Lives { get => _numLivesNetVar.Value; }
     
     public event Action<int> DamagedEvent;
 
     public event Action<int> HealedEvent;
     
-    public event Action DeathEvent;
+    public event Action DeathClientEvent;
     
-    public event Action RevivalEvent;
+    public event Action RevivalClientEvent;
 
     private Transform LeftTrackRollPosition { get; set; }
 
@@ -46,6 +50,8 @@ public class Tank : NetworkBehaviour
     private GameObject _turret { get; set; }
 
     private readonly NetworkVariable<int> _healthNetVar = new NetworkVariable<int>();
+
+    private readonly NetworkVariable<int> _numLivesNetVar = new NetworkVariable<int>();
     
     protected void Awake()
     {
@@ -62,6 +68,7 @@ public class Tank : NetworkBehaviour
         if (IsServer)
         {
             _healthNetVar.Value = HealthCapacity;
+            _numLivesNetVar.Value = StartingLives;
         }
 
         if (IsOwner)
@@ -120,7 +127,7 @@ public class Tank : NetworkBehaviour
 
     public void Revive()
     {
-        RevivalEvent?.Invoke();
+        RevivalClientEvent?.Invoke();
         ReviveRpc();
     }
 
@@ -133,12 +140,17 @@ public class Tank : NetworkBehaviour
                 return;
             }
 
-            _healthNetVar.Value = Mathf.Clamp(_healthNetVar.Value - damage, 0, int.MaxValue);
+            // OnHealthNetVarChanged is called immediately on assignment to _healthNetVar.Value on the server/host.
+            // In order to prevent the `DeathClientEvent` from occuring when the tank has > 0 health the new value is stored in a temp var.
+            // If the next health is zero, we fire the first decrement the lives THEN set the health to zero.
+            var nextHealth = Mathf.Clamp(_healthNetVar.Value - damage, 0, int.MaxValue);
 
-            if (_healthNetVar.Value == 0)
+            if (nextHealth == 0)
             {
-                Die();
+                _numLivesNetVar.Value--;
             }
+
+            _healthNetVar.Value = nextHealth;
         }
         else
         {
@@ -165,18 +177,13 @@ public class Tank : NetworkBehaviour
 
             if (next <= 0)
             {
-                DeathEvent?.Invoke();
+                DeathClientEvent?.Invoke();
             }
         }
         else if (previous < next)
         {
             HealedEvent?.Invoke(next - previous);
         }
-    }
-
-    private void Die()
-    {
-        DeathEvent?.Invoke();
     }
 
     /// <summary>
@@ -205,8 +212,21 @@ public class Tank : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void ReviveRpc()
     {
+        if (_numLivesNetVar.Value == 0)
+        {
+            NetworkLog.LogInfoServer($"{NetworkManager.LocalClientId} cannot revive because they have no lives left.");
+            return;
+        }
         _healthNetVar.Value = HealthCapacity;
+        ReviveClientRpc();
     }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void ReviveClientRpc()
+    {
+        RevivalClientEvent?.Invoke();
+    }
+
 
     [Rpc(SendTo.Server)]
     private void MoveRpc(float left, float right, float deltaTime)
@@ -226,5 +246,4 @@ public class Tank : NetworkBehaviour
 
         _turret.transform.Rotate(Vector3.up, rotationDirection * TurretRotationSpeed * deltaTime);
     }
-
 }

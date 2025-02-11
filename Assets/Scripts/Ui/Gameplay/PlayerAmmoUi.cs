@@ -72,7 +72,7 @@ namespace Ui.Gameplay
         {
             if (_cannon is AutoLoadingCannon autoLoader)
             {
-                _ammoText.text = (_cannon.AmmoReserve - autoLoader.MagazineCapacity).ToString();
+                _ammoText.text = _cannon.AmmoReserve.ToString();
                 _loadedAmmoText.text = autoLoader.MagazineCapacity.ToString();
             }
         }
@@ -81,7 +81,7 @@ namespace Ui.Gameplay
         {
             if (_cannon is AutoLoadingCannon autoLoader)
             {
-                _ammoText.text = (_cannon.AmmoReserve - autoLoader.MagazineCapacity).ToString();
+                _ammoText.text = _cannon.AmmoReserve.ToString();
             }
         }
     }

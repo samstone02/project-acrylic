@@ -1,78 +1,87 @@
 using System;
 using Projectiles;
-using UnityEngine;
 using TankAgents;
 using TankGuns;
+using Unity.Netcode;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Tank : MonoBehaviour
+public class Tank : NetworkBehaviour
 {
-    [field: SerializeField] public int HitPointCapacity { get; set; } = 3;
+    [field: SerializeField] public int HealthCapacity { get; set; } = 3;
     
     [field: SerializeField]
     [Tooltip("In degrees per second.")]
     public float TurretRotationSpeed { get; set; } = 120f;
     
     [field: SerializeField] public float TreadTorque { get; set; } = 10f;
+
+    [field: SerializeField] public int AmmoCapacity { get; set; } = 30;
+
+    [field: SerializeField] public int StartingLives { get; set; } = 3;
+
+    [field: SerializeField] public GameObject AgentPrefab { get; set; }
+
+    [field: SerializeField] public GameObject GameplayUi { get; set; }
+
+    [field: SerializeField] public GameObject MainCamera { get; set; }
+
+    public int Health { get => _healthNetVar.Value; }
+    public int Lives { get => _numLivesNetVar.Value; }
     
+    public event Action<int> DamagedEvent;
+
+    public event Action<int> HealedEvent;
+    
+    public event Action DeathClientEvent;
+    
+    public event Action RevivalClientEvent;
+
     private Transform LeftTrackRollPosition { get; set; }
-    
+
     private Transform RightTrackRollPosition { get; set; }
-    
-    public event Action<int> OnReceiveDamage;
-    
-    public event Action OnDeath;
-    
-    public event Action OnRevival;
-    
-    private Rigidbody _rigidbody;
 
-    private BaseTankAgent _agent;
+    private Rigidbody _rigidbody { get; set; }
 
-    private BaseCannon _cannon;
+    private BaseTankAgent _agent { get; set; }
+
+    private BaseCannon _cannon { get; set; }
+
+    private GameObject _turret { get; set; }
+
+    private readonly NetworkVariable<int> _healthNetVar = new NetworkVariable<int>();
+
+    private readonly NetworkVariable<int> _numLivesNetVar = new NetworkVariable<int>();
     
-    private GameObject _turret;
-    
-    private int _currentHitPoints;
-    
-    private void Awake()
+    protected void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _agent = GetComponent<BaseTankAgent>();
         _cannon = GetComponentInChildren<BaseCannon>();
         _turret = transform.Find("Turret").gameObject;
-        
-        _currentHitPoints = HitPointCapacity;
-        
+                
         LeftTrackRollPosition = transform.Find("LeftTrackRollPosition");
         RightTrackRollPosition = transform.Find("RightTrackRollPosition");
     }
-    
-    private void Update()
+
+    public override void OnNetworkSpawn()
     {
-        if (_agent is null || _currentHitPoints <= 0)
+        if (IsServer)
         {
-            return;
+            _healthNetVar.Value = HealthCapacity;
+            _numLivesNetVar.Value = StartingLives;
         }
-        
-        bool fireDecision = _agent.GetDecisionFire();
-        bool reloadDecision = _agent.GetDecisionReload();
-        
-        if (fireDecision)
+
+        if (IsOwner)
         {
-            GameObject projectile = _cannon.Fire();
+            var agent = Instantiate(AgentPrefab, transform);
+            _agent = agent.GetComponent<BaseTankAgent>();
+            _rigidbody.isKinematic = false;
+            Instantiate(GameplayUi);
+            _healthNetVar.OnValueChanged += OnHealthNetVarChanged;
+
+            var mainCameraPos = transform.Find("MainCameraPosition").transform;
+            Instantiate(MainCamera, mainCameraPos);
         }
-        if (reloadDecision)
-        {
-            _cannon.Reload();
-        }
-        
-        float rotationDirection = _agent.GetDecisionRotateTurret();
-        _turret.transform.Rotate(Vector3.up, rotationDirection * TurretRotationSpeed * Time.deltaTime);  
-        
-        (float left, float right) = _agent.GetDecisionRollTracks();
-        
-        Move(left, right);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -84,38 +93,157 @@ public class Tank : MonoBehaviour
         }
     }
 
-    private void Move(float left, float right)
+    protected void Update()
     {
-        _rigidbody.AddForceAtPosition(left * TreadTorque * Time.deltaTime * transform.forward, LeftTrackRollPosition.position);
-        _rigidbody.AddForceAtPosition(right * TreadTorque * Time.deltaTime * transform.forward, RightTrackRollPosition.position);
+        if (!IsOwner)
+        {
+            return;
+        }
+
+        if (_agent is null || _healthNetVar.Value <= 0)
+        {
+            return;
+        }
+
+        bool fireDecision = _agent.GetDecisionFire();
+        bool reloadDecision = _agent.GetDecisionReload();
+
+        if (fireDecision)
+        {
+             _cannon.Fire();
+        }
+        if (reloadDecision)
+        {
+            _cannon.Reload();
+        }
+
+        Vector3 targetDirection = _agent.GetDecisionRotateTurret();
+        RotateTurretRpc(targetDirection, Time.deltaTime);
+
+        (float left, float right) = _agent.GetDecisionRollTracks();
+
+        MoveRpc(left, right, Time.deltaTime);
+    }
+
+    public void Revive()
+    {
+        RevivalClientEvent?.Invoke();
+        ReviveRpc();
     }
 
     public void TakeDamage(int damage)
     {
-        if (_currentHitPoints == 0)
+        if (IsServer)
         {
+            if (_healthNetVar.Value == 0)
+            {
+                return;
+            }
+
+            // OnHealthNetVarChanged is called immediately on assignment to _healthNetVar.Value on the server/host.
+            // In order to prevent the `DeathClientEvent` from occuring when the tank has > 0 health the new value is stored in a temp var.
+            // If the next health is zero, we fire the first decrement the lives THEN set the health to zero.
+            var nextHealth = Mathf.Clamp(_healthNetVar.Value - damage, 0, int.MaxValue);
+
+            if (nextHealth == 0)
+            {
+                _numLivesNetVar.Value--;
+            }
+
+            _healthNetVar.Value = nextHealth;
+        }
+        else
+        {
+            Debug.LogWarning("Only the server should call this method.");
+        }
+    }
+
+    public void FillAmmo(int count)
+    {
+        _cannon.FillAmmo(count);
+    }
+
+    private void Move(float left, float right, float deltaTime)
+    {
+        _rigidbody.AddForceAtPosition(left * TreadTorque * deltaTime * transform.forward, LeftTrackRollPosition.position);
+        _rigidbody.AddForceAtPosition(right * TreadTorque * deltaTime * transform.forward, RightTrackRollPosition.position);
+    }
+
+    private void OnHealthNetVarChanged(int previous, int next)
+    {
+        if (previous > next)
+        {
+            DamagedEvent?.Invoke(previous - next);
+
+            if (next <= 0)
+            {
+                DeathClientEvent?.Invoke();
+            }
+        }
+        else if (previous < next)
+        {
+            HealedEvent?.Invoke(next - previous);
+        }
+    }
+
+    /// <summary>
+    /// Returns the rotation direction as a percentage of the rotation speed.
+    /// Positive values are clockwise, negative values are counterclockwise.
+    /// </summary>
+    private static float CalculateTurretRotationDirection(
+        Vector3 targetDirection,
+        Vector3 currentDirection,
+        float rotationSpeed)
+    {
+        Vector3 turretTargetCross = Vector3.Cross(currentDirection, targetDirection);
+
+        int direction = turretTargetCross.y > 0 ? 1 : -1;
+        float angleDifference = Vector3.Angle(currentDirection, targetDirection);
+        float angleRotation = rotationSpeed * Time.deltaTime;
+
+        if (angleDifference < angleRotation)
+        {
+            return angleDifference / angleRotation * direction;
+        }
+
+        return direction;
+    }
+
+    [Rpc(SendTo.Server)]
+    private void ReviveRpc()
+    {
+        if (_numLivesNetVar.Value == 0)
+        {
+            NetworkLog.LogInfoServer($"{NetworkManager.LocalClientId} cannot revive because they have no lives left.");
             return;
         }
-        
-        _currentHitPoints -= damage;
-        OnReceiveDamage?.Invoke(damage); 
-        
-        if (_currentHitPoints == 0)
-        {
-            Die();
-        }
+        _healthNetVar.Value = HealthCapacity;
+        ReviveClientRpc();
     }
 
-    private void Die()
+    [Rpc(SendTo.ClientsAndHost)]
+    private void ReviveClientRpc()
     {
-        OnDeath?.Invoke();
+        RevivalClientEvent?.Invoke();
     }
-    
 
-    public void Revive()
+
+    [Rpc(SendTo.Server)]
+    private void MoveRpc(float left, float right, float deltaTime)
     {
-        OnRevival?.Invoke();
-        
-        _currentHitPoints = HitPointCapacity;
+        Move(left, right, deltaTime);
+    }
+
+
+    [Rpc(SendTo.Server)]
+    private void RotateTurretRpc(Vector3 targetDirection, float deltaTime)
+    {
+        Vector3 currentDirection = _turret.transform.forward;
+        currentDirection.y = 0;
+        currentDirection.Normalize();
+
+        float rotationDirection = CalculateTurretRotationDirection(targetDirection, currentDirection, TurretRotationSpeed);
+
+        _turret.transform.Rotate(Vector3.up, rotationDirection * TurretRotationSpeed * deltaTime);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TankAgents;
 using TankGuns;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +18,7 @@ namespace Ui.Gameplay
                 SelectorList.Add(transform.GetChild(i).gameObject);
             }
 
-            var playerTank = GameObject.Find("PlayerTank");
+            var playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Tank>();
             var playerAgent = playerTank.GetComponentInChildren<PlayerTankAgent>();
             playerAgent.SelectStandardAmmoEvent += () => SelectShell("StandardShellSelector");
             playerAgent.SelectExplosiveAmmoEvent += () => SelectShell("ExplosiveShellSelector");

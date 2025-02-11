@@ -9,7 +9,6 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace TankAgents
 {
-    [RequireComponent(typeof(Tank))]
     public class PlayerTankAgent : BaseTankAgent
     {
         [SerializeField] public InputActionReference fireInput;
@@ -45,14 +44,8 @@ namespace TankAgents
         public event Action SelectRicochetAmmoEvent;
         
         public event Action<string> ChangeSelectedShellEvent;
-        
-        private Camera _mainCamera;
-
-        private MeshCollider _ground;
 
         private LayerMask _playerAimMask;
-
-        private AutoLoadingCannon _autoLoadingCannon;
 
         private int _currentSelectedAmmo = 0;
 
@@ -79,7 +72,13 @@ namespace TankAgents
             LoadRicochetAmmoInput.action.Disable();
             ScrollAmmoInput.action.Disable();
         }
-        
+
+        protected void OnGUI()
+        {
+            GUILayout.BeginVertical();
+            GUILayout.EndVertical();
+        }
+
         protected void Start()
         {
             if (Gun.GetType() != typeof(AutoLoadingCannon))
@@ -92,14 +91,12 @@ namespace TankAgents
                 Debug.LogError("Expected to have at least one available ammo type.");
             }
 
-            _mainCamera = Camera.main;
             _playerAimMask = LayerMask.GetMask("Player Aim");
         }
 
         protected void Update()
         {
             int mouseScrollDelta = (int) ScrollAmmoInput.action.ReadValue<float>();
-            Debug.Log($"Mouse scroll delta: {mouseScrollDelta}");
             if (SystemInfo.operatingSystemFamily == OperatingSystemFamily.Windows)
             {
                 mouseScrollDelta /= 120;
@@ -144,20 +141,17 @@ namespace TankAgents
             return reloadInput.action.triggered;
         }
 
-        public override float GetDecisionRotateTurret()
+        public override Vector3 GetDecisionRotateTurret()
         {
             Vector2 mousePos = Mouse.current.position.ReadValue();
-            Vector3 mousePosWorld = _mainCamera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
-            Physics.Raycast(mousePosWorld, _mainCamera.transform.forward, out RaycastHit hit, 100, _playerAimMask);
+            Vector3 mousePosWorld = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
+            Physics.Raycast(mousePosWorld, Camera.main.transform.forward, out RaycastHit hit, 100, _playerAimMask);
             
             Vector3 targetDirection = hit.point - Turret.transform.position;
             targetDirection.y = 0;
             targetDirection.Normalize();
-            Vector3 turretDirection = Turret.transform.forward;
-            turretDirection.y = 0;
-            turretDirection.Normalize();
-            
-            return CalculateTurretRotationDirection(targetDirection, turretDirection, Tank.TurretRotationSpeed);
+
+            return targetDirection;
         }
 
         public override (float, float) GetDecisionRollTracks()

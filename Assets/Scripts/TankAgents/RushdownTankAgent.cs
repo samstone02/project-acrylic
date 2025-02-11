@@ -38,15 +38,13 @@ namespace TankAgents
             return false;
         }
 
-        public override float GetDecisionRotateTurret()
+        public override Vector3 GetDecisionRotateTurret()
         {
             Vector3 playerDirection = _playerTank.transform.position - transform.position;
             playerDirection.y = 0;
             playerDirection.Normalize();
-            Vector3 turretDirection = Turret.transform.forward;
-            turretDirection.y = 0;
-            turretDirection.Normalize();
-            return CalculateTurretRotationDirection(playerDirection, turretDirection, Tank.TurretRotationSpeed);
+
+            return playerDirection;
         }
 
         public override (float, float) GetDecisionRollTracks()

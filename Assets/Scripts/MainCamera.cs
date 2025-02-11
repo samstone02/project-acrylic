@@ -1,28 +1,21 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class MainCamera : MonoBehaviour
 {
-    public GameObject target;
+    private GameObject _target;
 
     private Vector3 _offset;
 
-    private void Awake()
+    public void Start()
     {
-        if (target is null)
-        {
-            return;
-        }
-        
-        _offset = transform.position - target.transform.position;
+        _target = NetworkManager.Singleton.LocalClient.PlayerObject.gameObject;
+        _offset = transform.position - _target.transform.position;
+        this.transform.parent = null;
     }
     
     private void Update()
-    {
-        if (target is null)
-        {
-            return;
-        }
-        
-        transform.position = target.transform.position + _offset;
+    {        
+        transform.position = _target.transform.position + _offset;
     }
 }

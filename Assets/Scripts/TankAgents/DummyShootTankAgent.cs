@@ -28,7 +28,7 @@ namespace TankAgents
 
         public override bool GetDecisionReload() => false;
 
-        public override float GetDecisionRotateTurret() => 0f;
+        public override Vector3 GetDecisionRotateTurret() => Vector3.zero;
     
         public override (float, float) GetDecisionRollTracks() => (0f, 0f);
     }   

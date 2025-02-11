@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Projectiles;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace TankGuns
@@ -18,107 +19,171 @@ namespace TankGuns
         
         public event Action InterClipReloadEndEvent;
         
-        public float ReloadTimer { get; private set; }
-        
-        public float ShellLoadTimer { get; private set; }
+        public NetworkVariable<float> ReloadTimer { get; private set; } = new NetworkVariable<float>(0);
 
-        private bool _isReloading;
-        
-        private bool _isInterClipReloading;
+        public NetworkVariable<float> ShellLoadTimer { get; private set; } = new NetworkVariable<float>(0);
+
+        public int MagazineCount { get => MagazineCountNetVar.Value; }
+
+        private NetworkVariable<bool> _isReloading = new NetworkVariable<bool>(false);
+
+        private NetworkVariable<bool> _isInterClipReloading = new NetworkVariable<bool>(false);
         
         private float _interClipReloadTimer;
         
-        private float _loadShellTimer;
-        
-        private List<GameObject> Magazine { get; set; } = new List<GameObject>();
+        private NetworkVariable<int> MagazineCountNetVar { get; set; } = new NetworkVariable<int>(0);
 
         protected override void Awake()
         {
             base.Awake();
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+
             Reload();
+
+            if (IsClient)
+            {
+                _isReloading.OnValueChanged += HandleReloadingChange;
+            }
         }
 
         private void Update()
         {
-            if (_isReloading)
+            if (_isReloading.Value)
             {
-                ReloadTimer -= Time.deltaTime;
-                ShellLoadTimer -= Time.deltaTime;
-                
-                if (ReloadTimer <= 0)
+                if (IsServer)
                 {
-                    for (int i = 0; i < MagazineCapacity; i++)
-                    {
-                        Magazine.Add(ProjectilePrefab);
-                    }
-                    _isReloading = false;
-                    InvokeReloadEnd();
+                    ReloadTimer.Value -= Time.deltaTime;
+                    ShellLoadTimer.Value -= Time.deltaTime;
                 }
-                else if (ShellLoadTimer <= 0)
+
+                if (ReloadTimer.Value <= 0)
                 {
-                    ShellLoadEvent?.Invoke();
-                    ShellLoadTimer = ReloadTimeSeconds / MagazineCapacity;
+                    if (IsServer)
+                    {
+                        MagazineCountNetVar.Value = Math.Min(AmmoReserve, MagazineCapacity);
+                        _isReloading.Value = false;
+                    }
+                    else
+                    {
+                        OnReloadEnd();
+                    }
+                }
+                else if (ShellLoadTimer.Value <= 0)
+                {
+                    if (IsServer)
+                    {
+                        ShellLoadTimer.Value = ReloadTimeSeconds / MagazineCapacity;
+                    }
+                    else
+                    {
+                        ShellLoadEvent?.Invoke();
+                    }
                 }
             }
-            else if (_isInterClipReloading)
+            else if (_isInterClipReloading.Value)
             {
-                _interClipReloadTimer -= Time.deltaTime;
+                if (IsServer)
+                {
+                    _interClipReloadTimer -= Time.deltaTime;
+                }
 
                 if (_interClipReloadTimer <= 0)
                 {
-                    _isInterClipReloading = false;
-                    InterClipReloadEndEvent?.Invoke();
+                    if (IsServer)
+                    {
+                        _isInterClipReloading.Value = false;
+                    }
+                    else
+                    {
+                        // TODO: I think the interclip reload isn't firing BC it is never <= 0 on the client.
+                        // Solution is to have a separate client and server timer?
+                        InterClipReloadEndEvent?.Invoke();
+                    }
                 }
             }
         }
 
-        public override GameObject Fire()
+        public override void Fire()
         {
-            if (_isReloading || _isInterClipReloading || Magazine.Count <= 0)
+            if (_isReloading.Value || _isInterClipReloading.Value || MagazineCountNetVar.Value <= 0)
             {
-                return null;
+                return; 
             }
-            
-            base.OnFire();
 
-            var shell = Magazine.Last();
-            Magazine.RemoveAt(Magazine.Count - 1);
+            base.Fire();
 
-            if (Magazine.Count == 0)
+            FireRpc();
+        }
+
+        public override void Reload()
+        {
+            if (_isReloading.Value || MagazineCountNetVar.Value == MagazineCapacity)
+            {
+                return;
+            }
+
+            OnReloadStart();
+            ReloadRpc();
+        }
+
+        [Rpc(SendTo.Server)]
+        private void FireRpc()
+        {
+            if (_isReloading.Value || MagazineCountNetVar.Value == 0)
+            {
+                return;
+            }
+
+            var shell = ProjectilePrefab;
+            MagazineCountNetVar.Value--;
+
+            if (MagazineCountNetVar.Value == 0)
             {
                 if (shell.GetComponent<Shell>().EmpoweredProjectile != null)
                 {
                     shell = shell.GetComponent<Shell>().EmpoweredProjectile;
                 }
             }
-            
+
             GameObject projectile = LaunchProjectile(shell);
 
-            if (Magazine.Count == 0)
+            if (MagazineCountNetVar.Value == 0)
             {
                 Reload();
             }
             else
             {
-                _isInterClipReloading = true;
+                _isInterClipReloading.Value = true;
                 _interClipReloadTimer = InterClipReloadTimeSeconds;
             }
-
-            return projectile;
         }
 
-        public override void Reload()
+        [Rpc(SendTo.Server)]
+        private void ReloadRpc()
         {
-            if (_isReloading || Magazine.Count == MagazineCapacity)
+            if (MagazineCount < MagazineCapacity)
             {
-                return;
+                MagazineCountNetVar.Value = 0;
+                _isReloading.Value = true;
+                ReloadTimer.Value = ReloadTimeSeconds;
+                ShellLoadTimer.Value = ReloadTimeSeconds / MagazineCapacity;
             }
+        }
 
-            InvokeReloadStart();
-            Magazine.Clear();
-            _isReloading = true;
-            ReloadTimer = ReloadTimeSeconds;
-            ShellLoadTimer = ReloadTimeSeconds / MagazineCapacity;
+        private void HandleReloadingChange(bool previous, bool current)
+        {
+            if (current)
+            {
+                OnReloadStart();
+            }
+            else
+            {
+                OnReloadEnd();
+            }
         }
     }   
 }

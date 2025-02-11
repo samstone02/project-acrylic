@@ -13,8 +13,8 @@ namespace TankAgents
     
         protected virtual void Awake()
         {
-            Tank = GetComponent<Tank>();
-            Turret = transform.Find("Turret").gameObject;
+            Tank = GetComponentInParent<Tank>();
+            Turret = Tank.transform.Find("Turret").gameObject;
             Gun = Turret.transform.GetComponentInChildren<BaseCannon>();
         }
     
@@ -22,31 +22,9 @@ namespace TankAgents
     
         public abstract bool GetDecisionReload();
     
-        public abstract float GetDecisionRotateTurret();
+        /// <returns>The direction the agent wants the turret to face as a Vector3.</returns>
+        public abstract Vector3 GetDecisionRotateTurret();
     
         public abstract (float, float) GetDecisionRollTracks();
-
-        /// <summary>
-        /// Returns the rotation direction as a percentage of the rotation speed.
-        /// Positive values are clockwise, negative values are counterclockwise.
-        /// </summary>
-        protected static float CalculateTurretRotationDirection(
-            Vector3 targetDirection,
-            Vector3 currentDirection,
-            float rotationSpeed)
-        {
-            Vector3 turretTargetCross = Vector3.Cross(currentDirection, targetDirection);
-
-            int direction = turretTargetCross.y > 0 ? 1 : -1;
-            float angleDifference = Vector3.Angle(currentDirection, targetDirection);
-            float angleRotation = rotationSpeed * Time.deltaTime;
-
-            if (angleDifference < angleRotation)
-            {
-                return angleDifference / angleRotation * direction;
-            }
-        
-            return direction;
-        }
     }
 }

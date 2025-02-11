@@ -18,4 +18,8 @@
 # Windows
 *.ini
 
+# Visual Studio
+.vs/
+.vsconfig
+
 !/[Aa]ssets/**/*.meta

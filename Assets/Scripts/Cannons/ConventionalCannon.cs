@@ -21,25 +21,23 @@ namespace TankGuns
                 if (_reloadTimer <= 0)
                 {
                     _isReloading = false;
-                    InvokeReloadEnd();
+                    OnReloadEnd();
                 }
             }
         }
 
-        public override GameObject Fire()
+        public override void Fire()
         {
             if (_isReloading)
             {
-                return null;
+                return;
             }
 
-            base.OnFire();
+            base.Fire();
 
             GameObject projectile = LaunchProjectile(ProjectilePrefab);
 
             Reload();
-
-            return projectile;
         }
 
         public override void Reload()

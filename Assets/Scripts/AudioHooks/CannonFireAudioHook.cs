@@ -12,7 +12,7 @@ namespace AudioHooks
         {
             AudioSource = GetComponent<AudioSource>();
             var cannon = GetComponentInParent<Tank>().GetComponentInChildren<BaseCannon>();
-            cannon.FireEvent += () => AudioSource.Play();
+            cannon.FireClientEvent += () => AudioSource.Play();
         }
     }
 }

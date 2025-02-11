@@ -58,6 +58,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -139,7 +142,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProjectilePrefab>k__BackingField: {fileID: 5308777123184422408, guid: 33c87fd667362b34692dda69cf7018ad, type: 3}
   <ShellSpawnPoint>k__BackingField: {fileID: 8626962917752931364}
-  <NextShellToLoadPrefab>k__BackingField: {fileID: 5308777123184422408, guid: 33c87fd667362b34692dda69cf7018ad, type: 3}
   <MagazineCapacity>k__BackingField: 5
   <ReloadTimeSeconds>k__BackingField: 5
   <InterClipReloadTimeSeconds>k__BackingField: 1

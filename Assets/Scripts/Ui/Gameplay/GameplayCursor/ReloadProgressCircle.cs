@@ -1,4 +1,5 @@
 using TankGuns;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,15 +15,15 @@ namespace Ui.Gameplay.GameplayCursor
         {
             _image = GetComponent<Image>();
             Cursor.visible = false;
-            var playerTank = GameObject.Find("PlayerTank").GetComponent<Tank>();
+            var playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Tank>();
             _playerCannon = playerTank.GetComponentInChildren<AutoLoadingCannon>();
         }
         
         private void Update()
         {
-            if (_playerCannon.ReloadTimer >= 0)
+            if (_playerCannon.ReloadTimer.Value >= 0)
             {
-                _image.fillAmount = 1 - _playerCannon.ReloadTimer / _playerCannon.ReloadTimeSeconds;   
+                _image.fillAmount = 1 - _playerCannon.ReloadTimer.Value / _playerCannon.ReloadTimeSeconds;   
             }
             else
             {

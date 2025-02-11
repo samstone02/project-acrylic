@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,8 +20,8 @@ namespace Ui.Gameplay
             _stopwatchText = GetComponentInChildren<TextMeshProUGUI>();
                 
             GameObject player = GameObject.Find("PlayerTank");
-            var playerTank = player.GetComponent<Tank>();
-            playerTank.OnDeath += () => _stopwatch.Stop();
+            var playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Tank>();
+            playerTank.DeathClientEvent += () => _stopwatch.Stop();
             
             var retryButton = FindObjectsOfType<Button>(true)
                 .First(b => b.name == "RetryButton")

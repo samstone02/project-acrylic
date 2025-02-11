@@ -56,7 +56,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ProjectilePrefab>k__BackingField: {fileID: 5308777123184422408, guid: 33c87fd667362b34692dda69cf7018ad, type: 3}
   <ShellSpawnPoint>k__BackingField: {fileID: 3405535015109567963}
-  <NextShellToLoadPrefab>k__BackingField: {fileID: 0}
   <ReloadTimeSeconds>k__BackingField: 5
 --- !u!1 &4967923142007459378
 GameObject:
@@ -116,6 +115,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

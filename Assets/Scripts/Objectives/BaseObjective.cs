@@ -1,49 +1,66 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
 using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public abstract class BaseObjective : MonoBehaviour
+public abstract class BaseObjective : NetworkBehaviour
 {
     [field: SerializeField] public float TimeToStartSeconds {  get; set; }
 
     [field: SerializeField] public float CaptureTimeSeconds { get; set; }
 
-    [field: SerializeField] private TeamManager _TeamManager { get; set; }
+    public Team ControllingTeam { get; private set; }
 
-    public event Action<string> ObjectiveCapturedEvent;
+    public float ObjectiveStartTimer { get; private set; }
 
-    private float _objectiveStartTimer { get; set; }
+    public float CaptureTimer { get; private set; }
 
-    private float _captureTimer { get; set; }
+    public event Action<Team> ObjectiveCapturedEvent;
 
-    private List<ulong> ContestingTanks { get; set; } = new List<ulong>();
+    private TeamManager _TeamManager { get; set; }
 
-    public string ControllingTeam { get; private set; }
+    private NetworkVariable<float> ObjectiveStartTimerNetVar { get; } = new NetworkVariable<float>();
 
-    private void Start()
+    private NetworkVariable<float> CaptureTimerNetVar { get; } = new NetworkVariable<float>();
+
+    private List<ulong> ContestingTanks { get; } = new List<ulong>();
+
+    private NetworkVariable<Team> ControllingTeamNetVar { get; } = new NetworkVariable<Team>(Team.None);
+
+    public override void OnNetworkSpawn()
     {
-        _objectiveStartTimer = TimeToStartSeconds;
-        _captureTimer = CaptureTimeSeconds;
-        ControllingTeam = TeamManager.NO_TEAM;
+        base.OnNetworkSpawn();
+
+        _TeamManager = FindObjectsByType<TeamManager>(FindObjectsSortMode.None).First();
+
+        if (IsServer)
+        {
+            ObjectiveStartTimerNetVar.Value = TimeToStartSeconds;
+            CaptureTimerNetVar.Value = CaptureTimeSeconds;
+        }
+        if (IsClient)
+        {
+            ControllingTeamNetVar.OnValueChanged = (_, next) => ControllingTeam = next;
+            ObjectiveStartTimerNetVar.OnValueChanged = (_, next) => ObjectiveStartTimer = next;
+            CaptureTimerNetVar.OnValueChanged = (_, next) => CaptureTimer = next;
+        }
     }
 
     private void Update()
     {
-        if (!NetworkManager.Singleton.IsServer)
+        if (!IsServer || !IsSpawned)
         {
             return;
         }
 
-        if (_objectiveStartTimer > 0)
+        if (ObjectiveStartTimerNetVar.Value > 0)
         {
-            _objectiveStartTimer -= Time.deltaTime;
-            _objectiveStartTimer = Mathf.Clamp(_objectiveStartTimer, 0, TimeToStartSeconds);
+            ObjectiveStartTimerNetVar.Value -= Time.deltaTime;
+            ObjectiveStartTimerNetVar.Value = Mathf.Clamp(ObjectiveStartTimerNetVar.Value, 0, TimeToStartSeconds);
 
-            if (_objectiveStartTimer <= 0)
+            if (ObjectiveStartTimerNetVar.Value <= 0)
             {
                 StartObjective();
             }
@@ -51,8 +68,8 @@ public abstract class BaseObjective : MonoBehaviour
             return;
         }
 
-        var isBlueContesting = ContestingTanks.Any(t => _TeamManager.GetTeamName(t) == TeamManager.TEAM_BLUE);
-        var isOrangeContesting = ContestingTanks.Any(t => _TeamManager.GetTeamName(t) == TeamManager.TEAM_ORANGE);
+        var isBlueContesting = ContestingTanks.Any(t => _TeamManager.GetTeam(t) == Team.Blue);
+        var isOrangeContesting = ContestingTanks.Any(t => _TeamManager.GetTeam(t) == Team.Orange);
 
         if (isBlueContesting && isOrangeContesting)
         {
@@ -60,67 +77,67 @@ public abstract class BaseObjective : MonoBehaviour
         }
         else if (!isBlueContesting && !isOrangeContesting)
         {
-            ControllingTeam = TeamManager.NO_TEAM;
+            ControllingTeamNetVar.Value = Team.None;
 
-            if (_captureTimer < CaptureTimeSeconds)
+            if (CaptureTimerNetVar.Value < CaptureTimeSeconds)
             {
-                _captureTimer += Time.deltaTime;
-                _captureTimer = Mathf.Clamp(_captureTimer, 0, CaptureTimeSeconds);
+                CaptureTimerNetVar.Value += Time.deltaTime;
+                CaptureTimerNetVar.Value = Mathf.Clamp(CaptureTimerNetVar.Value, 0, CaptureTimeSeconds);
             }
         }
         else if (isBlueContesting)
         {
-            if (ControllingTeam == TeamManager.TEAM_BLUE)
+            if (ControllingTeamNetVar.Value == Team.Blue)
             {
-                if (_captureTimer > 0)
+                if (CaptureTimerNetVar.Value > 0)
                 {
-                    _captureTimer -= Time.deltaTime;
+                    CaptureTimerNetVar.Value -= Time.deltaTime;
                 }
             }
             else
             {
-                if (_captureTimer < CaptureTimeSeconds)
+                if (CaptureTimerNetVar.Value < CaptureTimeSeconds)
                 {
-                    _captureTimer += Time.deltaTime;
-                    _captureTimer = Mathf.Clamp(_captureTimer, 0, CaptureTimeSeconds);
+                    CaptureTimerNetVar.Value += Time.deltaTime;
+                    CaptureTimerNetVar.Value = Mathf.Clamp(CaptureTimerNetVar.Value, 0, CaptureTimeSeconds);
                 }
 
-                if (_captureTimer == CaptureTimeSeconds)
+                if (CaptureTimerNetVar.Value == CaptureTimeSeconds)
                 {
-                    ControllingTeam = TeamManager.TEAM_BLUE;
+                    ControllingTeamNetVar.Value = Team.Blue;
                 }
             }
         }
         else if (isOrangeContesting)
         {
-            if (ControllingTeam == TeamManager.TEAM_ORANGE)
+            if (ControllingTeamNetVar.Value == Team.Orange)
             {
-                if (_captureTimer > 0)
+                if (CaptureTimerNetVar.Value > 0)
                 {
-                    _captureTimer -= Time.deltaTime;
+                    CaptureTimerNetVar.Value -= Time.deltaTime;
                 }
             }
             else
             {
-                if (_captureTimer < CaptureTimeSeconds)
+                if (CaptureTimerNetVar.Value < CaptureTimeSeconds)
                 {
-                    _captureTimer += Time.deltaTime;
-                    _captureTimer = Mathf.Clamp(_captureTimer, 0, CaptureTimeSeconds);
+                    CaptureTimerNetVar.Value += Time.deltaTime;
+                    CaptureTimerNetVar.Value = Mathf.Clamp(CaptureTimerNetVar.Value, 0, CaptureTimeSeconds);
                 }
 
-                if (_captureTimer == CaptureTimeSeconds)
+                if (CaptureTimerNetVar.Value == CaptureTimeSeconds)
                 {
-                    ControllingTeam = TeamManager.TEAM_ORANGE;
+                    ControllingTeamNetVar.Value = Team.Orange;
                 }
             }
         }
 
-        if (_captureTimer <= 0)
+        if (CaptureTimerNetVar.Value <= 0)
         {
-            ObjectiveCapturedEvent?.Invoke(ControllingTeam);
+            ObjectiveCapturedEvent?.Invoke(ControllingTeamNetVar.Value);
             var winnerClientIds = isBlueContesting
-                ? ContestingTanks.Where(t => _TeamManager.GetTeamName(t) == TeamManager.TEAM_BLUE)
-                : ContestingTanks.Where(t => _TeamManager.GetTeamName(t) == TeamManager.TEAM_ORANGE);
+                ? ContestingTanks.Where(t => _TeamManager.GetTeam(t) == Team.Blue)
+                : ContestingTanks.Where(t => _TeamManager.GetTeam(t) == Team.Orange);
             OnCapture(winnerClientIds);
             Destroy(this.gameObject);
         }
@@ -130,7 +147,7 @@ public abstract class BaseObjective : MonoBehaviour
 
     protected virtual void OnCapture(IEnumerable<ulong> teamMemberClientIds)
     {
-        NetworkLog.LogInfoServer($"Objective captured by {ControllingTeam}!");
+        NetworkLog.LogInfoServer($"Objective captured by {ControllingTeamNetVar}!");
     }
 
     private void OnTriggerEnter(Collider other)

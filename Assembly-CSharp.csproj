@@ -87,11 +87,13 @@
     <Compile Include="Assets\Scripts\Objectives\ObjectiveManager.cs" />
     <Compile Include="Assets\Scripts\TeamManager.cs" />
     <Compile Include="Assets\Scripts\TankAgents\BaseTankAgent.cs" />
+    <Compile Include="Assets\Scripts\NetworkGameplaySceneManager.cs" />
     <Compile Include="Assets\Scripts\Objectives\AmmoObjective.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RandomActionTankAgent.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\GameplayCursor\ReloadProgressCircle.cs" />
     <Compile Include="Assets\Scripts\EnemySpawner.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\GameplayUiManager.cs" />
+    <Compile Include="Assets\Scripts\Team.cs" />
     <Compile Include="Assets\Scripts\Ui\MainMenu\CloseTutorialModalButton.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\RetryButton.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="Assets\Scripts\Projectiles\ExplosiveShell.cs" />
     <Compile Include="Assets\Scripts\Objectives\BaseObjective.cs" />
     <Compile Include="Assets\Scripts\Projectiles\Shell.cs" />
+    <Compile Include="Assets\Scripts\Objectives\LivesObjective.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\Scoreboard.cs" />
     <Compile Include="Assets\Scripts\NetworkingControls.cs" />
   </ItemGroup>

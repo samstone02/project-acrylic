@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using Unity.Netcode;
 
 public class TeamManager : NetworkBehaviour
@@ -7,11 +6,12 @@ public class TeamManager : NetworkBehaviour
     private NetworkList<ulong> BlueTeam { get; } = new NetworkList<ulong>();
     private NetworkList<ulong> OrangeTeam { get; } = new NetworkList<ulong>();
 
-    public event Action<ulong, string> PlayerChangeTeamClientEvent;
+    public event Action<ulong, Team> PlayerChangeTeamClientEvent;
 
-    public const string TEAM_BLUE = "blue";
-    public const string TEAM_ORANGE = "orange";
-    public const string NO_TEAM = "no team";
+    public override void OnNetworkSpawn()
+    {
+        NetworkLog.LogInfoServer("Team Manager spawned!");
+    }
 
     [Rpc(SendTo.Server)]
     public void JoinBlueTeamRpc(ulong clientId)
@@ -26,7 +26,7 @@ public class TeamManager : NetworkBehaviour
             OrangeTeam.Remove(clientId);
         }
 
-        PlayerChangeTeamRpc(clientId, TEAM_BLUE);
+        PlayerChangeTeamRpc(clientId, Team.Blue);
         BlueTeam.Add(clientId);
     }
 
@@ -43,7 +43,7 @@ public class TeamManager : NetworkBehaviour
             BlueTeam.Remove(clientId);
         }
 
-        PlayerChangeTeamRpc(clientId, TEAM_ORANGE);
+        PlayerChangeTeamRpc(clientId, Team.Orange);
         OrangeTeam.Add(clientId);
     }
 
@@ -51,34 +51,34 @@ public class TeamManager : NetworkBehaviour
     public void LeaveBlueTeamRpc(ulong clientId)
     {
         BlueTeam.Remove(clientId);
-        PlayerChangeTeamRpc(clientId, NO_TEAM);
+        PlayerChangeTeamRpc(clientId, Team.None);
     }
 
     [Rpc(SendTo.Server)]
     public void LeaveOrangeTeamRpc(ulong clientId)
     {
         OrangeTeam.Remove(clientId);
-        PlayerChangeTeamRpc(clientId, NO_TEAM);
+        PlayerChangeTeamRpc(clientId, Team.None);
     }
 
-    public string GetTeamName(ulong clientId)
+    public Team GetTeam(ulong clientId)
     {
         if (BlueTeam.Contains(clientId))
         {
-            return TEAM_BLUE;
+            return Team.Blue;
         }
         else if (OrangeTeam.Contains(clientId))
         {
-            return TEAM_ORANGE;
+            return Team.Orange;
         }
         else
         {
-            return NO_TEAM;
+            return Team.None;
         }
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void PlayerChangeTeamRpc(ulong clientId, string newTeam)
+    private void PlayerChangeTeamRpc(ulong clientId, Team newTeam)
     {
         NetworkLog.LogInfoServer($"Joined {newTeam}");
         PlayerChangeTeamClientEvent?.Invoke(clientId, newTeam);

@@ -12,16 +12,25 @@ namespace Ui.Gameplay
         private TextMeshProUGUI _healthText;
 
         private TextMeshProUGUI _livesText;
-    
+
         private void Start()
+        {
+            if (NetworkManager.Singleton != null)
+            {
+                NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+            }
+        }
+
+        private void OnClientConnected(ulong clientId)
         {
             _playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Tank>();
             _healthText = GetComponentsInChildren<TextMeshProUGUI>().First(c => c.name == "HealthText");
             _livesText = GetComponentsInChildren<TextMeshProUGUI>().First(c => c.name == "LivesText");
         
             _playerTank.DamagedEvent += HandlePlayerTakeDamage;
-            _playerTank.RevivalClientEvent += PlayerRevive;
+            _playerTank.RevivalClientEvent += HandlePlayerRevive;
             _playerTank.DeathClientEvent += HandlePlayerDie;
+            _playerTank.AddLivesClientEvent += HandlePlayerAddLives;
 
             _healthText.text = _playerTank.Health.ToString();
             _livesText.text = _playerTank.Lives.ToString();
@@ -39,10 +48,14 @@ namespace Ui.Gameplay
             _livesText.text = _playerTank.Lives.ToString();
         }
 
-        private void PlayerRevive()
+        private void HandlePlayerRevive()
         {
             _healthText.text = _playerTank.HealthCapacity.ToString();
         }
+
+        private void HandlePlayerAddLives()
+        {
+            _healthText.text = _playerTank.Lives.ToString();
+        }
     }
-   
 }

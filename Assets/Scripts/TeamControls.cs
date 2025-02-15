@@ -14,13 +14,13 @@ public class TeamControls : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsClient)
         {
-            string teamName = _teamManager.GetTeamName(NetworkManager.Singleton.LocalClientId);
+            Team team = _teamManager.GetTeam(NetworkManager.Singleton.LocalClientId);
             
-            if (teamName == "blue")
+            if (team == Team.Blue)
             {
                 RenderBlueTeamButtons();
             }
-            else if (teamName == "orange")
+            else if (team == Team.Orange)
             {
                 RenderOrangeTeamButtons();
             }

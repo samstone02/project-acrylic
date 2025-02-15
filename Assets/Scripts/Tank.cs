@@ -37,6 +37,8 @@ public class Tank : NetworkBehaviour
     
     public event Action RevivalClientEvent;
 
+    public event Action AddLivesClientEvent;
+
     private Transform LeftTrackRollPosition { get; set; }
 
     private Transform RightTrackRollPosition { get; set; }
@@ -78,6 +80,7 @@ public class Tank : NetworkBehaviour
             _rigidbody.isKinematic = false;
             Instantiate(GameplayUi);
             _healthNetVar.OnValueChanged += OnHealthNetVarChanged;
+            _numLivesNetVar.OnValueChanged += OnNumLivesNetVarChanged;
 
             var mainCameraPos = transform.Find("MainCameraPosition").transform;
             Instantiate(MainCamera, mainCameraPos);
@@ -163,6 +166,11 @@ public class Tank : NetworkBehaviour
         _cannon.FillAmmo(count);
     }
 
+    public void AddLives(int count)
+    {
+        _numLivesNetVar.Value += count;
+    }
+
     private void Move(float left, float right, float deltaTime)
     {
         _rigidbody.AddForceAtPosition(left * TreadTorque * deltaTime * transform.forward, LeftTrackRollPosition.position);
@@ -183,6 +191,14 @@ public class Tank : NetworkBehaviour
         else if (previous < next)
         {
             HealedEvent?.Invoke(next - previous);
+        }
+    }
+
+    private void OnNumLivesNetVarChanged(int previous, int next)
+    {
+        if (previous < next)
+        {
+            AddLivesClientEvent?.Invoke();
         }
     }
 

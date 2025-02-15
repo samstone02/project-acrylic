@@ -6,6 +6,11 @@ public class AmmoObjective : BaseObjective
 {
     [field: SerializeField] public int AmmoFillAmount { get; set; }
 
+    protected override void StartObjective()
+    {
+        NetworkLog.LogInfoServer("Ammo objective started!");
+    }
+
     protected override void OnCapture(IEnumerable<ulong> teamMembersClientIds)
     {
         base.OnCapture(teamMembersClientIds);
@@ -16,10 +21,5 @@ public class AmmoObjective : BaseObjective
             var tank = client.PlayerObject.GetComponent<Tank>();
             tank.FillAmmo(AmmoFillAmount);
         }
-    }
-
-    protected override void StartObjective()
-    {
-        NetworkLog.LogInfoServer("Objective started!");
     }
 }

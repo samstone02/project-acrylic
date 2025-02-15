@@ -98,6 +98,7 @@
     <Compile Include="Assets\Scripts\Ui\Gameplay\RetryButton.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Dummy.cs" />
+    <Compile Include="Assets\Scripts\Utils\NetworkListExtensions.cs" />
     <Compile Include="Assets\Scripts\Tank.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\PlayerAmmoUi.cs" />
     <Compile Include="Assets\Scripts\Projectiles\ExplosiveShell.cs" />

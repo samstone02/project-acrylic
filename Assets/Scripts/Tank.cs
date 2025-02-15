@@ -32,6 +32,8 @@ public class Tank : NetworkBehaviour
     public event Action<int> HealedEvent;
     
     public event Action DeathClientEvent;
+
+    public event Action DeathServerEvent;
     
     public event Action RevivalClientEvent;
 
@@ -148,6 +150,7 @@ public class Tank : NetworkBehaviour
             if (nextHealth == 0)
             {
                 _numLivesNetVar.Value--;
+                DeathServerEvent?.Invoke();
             }
 
             _healthNetVar.Value = nextHealth;

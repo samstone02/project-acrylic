@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 
 public class TeamManager : NetworkBehaviour
@@ -74,6 +76,44 @@ public class TeamManager : NetworkBehaviour
         else
         {
             return Team.None;
+        }
+    }
+
+    public bool AnyMembers(Team team)
+    {
+        List<ulong> teamMemberIds = team == Team.Blue
+            ? BlueTeam.ToList()
+            : OrangeTeam.ToList();
+        return teamMemberIds.Any();
+    }
+
+    public bool AnyMembersAlive(Team team)
+    {
+        if (team == Team.None)
+        {
+            throw new ArgumentException("Team.None is an invalid argument.");
+        }
+
+        List<ulong> teamMemberIds= team == Team.Blue
+            ? BlueTeam.ToList()
+            : OrangeTeam.ToList();
+        IEnumerable<Tank> teamMemberTanks = teamMemberIds.Select(tmid => NetworkManager.ConnectedClients[tmid].PlayerObject.GetComponent<Tank>());
+        return teamMemberTanks.Any(t => t.Lives > 0);
+    }
+
+    public IEnumerable<ulong> GetTeamMembers(Team team)
+    {
+        if (team == Team.Blue)
+        {
+            return BlueTeam.ToList();
+        }
+        else if (team == Team.Orange)
+        {
+            return OrangeTeam.ToList();
+        }
+        else
+        {
+            return Enumerable.Empty<ulong>();
         }
     }
 

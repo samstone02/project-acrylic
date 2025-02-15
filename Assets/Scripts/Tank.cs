@@ -22,8 +22,6 @@ public class Tank : NetworkBehaviour
 
     [field: SerializeField] public GameObject AgentPrefab { get; set; }
 
-    [field: SerializeField] public GameObject GameplayUi { get; set; }
-
     [field: SerializeField] public GameObject MainCamera { get; set; }
 
     public int Health { get => _healthNetVar.Value; }
@@ -78,7 +76,6 @@ public class Tank : NetworkBehaviour
             var agent = Instantiate(AgentPrefab, transform);
             _agent = agent.GetComponent<BaseTankAgent>();
             _rigidbody.isKinematic = false;
-            Instantiate(GameplayUi);
             _healthNetVar.OnValueChanged += OnHealthNetVarChanged;
             _numLivesNetVar.OnValueChanged += OnNumLivesNetVarChanged;
 

@@ -227,7 +227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7e85ff32ee81e54894a450b7544d6e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TeamManagerPrefab: {fileID: 9129536220317902378, guid: 2285ad058d0efbe42be5714371b32e3d, type: 3}
+  <TeamManagerPrefab>k__BackingField: {fileID: 8583877502097323933, guid: 2285ad058d0efbe42be5714371b32e3d, type: 3}
+  <GameplayOverlaySceneName>k__BackingField: GameplayOverlay
 --- !u!4 &2030751807
 Transform:
   m_ObjectHideFlags: 0

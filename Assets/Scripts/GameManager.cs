@@ -1,9 +1,9 @@
 using System;
-using System.Linq;
+using TMPro;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
+using Unity.Netcode.Transports.UTP;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : NetworkBehaviour
 {
@@ -11,11 +11,20 @@ public class GameManager : NetworkBehaviour
     public event Action<Team> DeclareWinnerServerEvent;
     private TeamManager teamManager;
     private GameplaySceneManager gameplaySceneManager;
+    private TMP_Text addressInputText;
+    private TMP_Text portInputText;
 
     public void Awake()
     {
         teamManager = FindAnyObjectByType<TeamManager>();
         gameplaySceneManager = FindAnyObjectByType<GameplaySceneManager>();
+        addressInputText = GameObject.Find("IpAddressInputField").transform.Find("Text Area").Find("Text").GetComponentInChildren<TMP_Text>();
+        portInputText = GameObject.Find("PortNumberInputField").transform.Find("Text Area").Find("Text").GetComponentInChildren<TMP_Text>();
+
+        var hostSessionButton = GameObject.Find("HostSessionButton").GetComponent<Button>();
+        var joinSessionButton = GameObject.Find("JoinSessionButton").GetComponent<Button>();
+        hostSessionButton.onClick.AddListener(HostSession);
+        joinSessionButton.onClick.AddListener(JoinSession);
     }
 
     public override void OnNetworkSpawn()
@@ -51,10 +60,42 @@ public class GameManager : NetworkBehaviour
         };
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
-    public void EndSessionClientRpc()
+    public void HostSession()
     {
-        gameplaySceneManager.LeaveGame();
+        var camera = GameObject.Find("Camera");
+        var canvas = GameObject.Find("Canvas");
+        var eventSystem = GameObject.Find("EventSystem");
+        Destroy(camera);
+        Destroy(canvas);
+        Destroy(eventSystem);
+
+        //var unityTransport = NetworkManager.GetComponent<UnityTransport>();
+        //unityTransport.ConnectionData = new UnityTransport.ConnectionAddressData
+        //{
+        //    Address = "127.0.0.1",
+        //    Port = ushort.Parse(portInputText.text.Substring(0, portInputText.text.Length - 1)),
+        //    ServerListenAddress = "0.0.0.0",
+        //};
+        NetworkManager.StartHost();
+    }
+
+    public void JoinSession()
+    {
+        var camera = GameObject.Find("Camera");
+        var canvas = GameObject.Find("Canvas");
+        var eventSystem = GameObject.Find("EventSystem");
+        Destroy(camera);
+        Destroy(canvas);
+        Destroy(eventSystem);
+
+        var unityTransport = NetworkManager.GetComponent<UnityTransport>();
+        unityTransport.ConnectionData = new UnityTransport.ConnectionAddressData
+        {
+            Address = addressInputText.text.Substring(0, addressInputText.text.Length - 1),
+            Port = ushort.Parse(portInputText.text.Substring(0, portInputText.text.Length - 1)),
+            ServerListenAddress = "0.0.0.0",
+        };
+        NetworkManager.StartClient();
     }
 
     public void LeaveSession()
@@ -62,6 +103,12 @@ public class GameManager : NetworkBehaviour
         NetworkManager.Shutdown();
         Destroy(NetworkManager.gameObject); // Destroy manually since NetworkManager lives in DDoL
         EndSessionClientRpc();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void EndSessionClientRpc()
+    {
+        gameplaySceneManager.LeaveGame();
     }
 
     private void DeclareWinner(Team team)

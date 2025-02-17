@@ -5,14 +5,21 @@ using Unity.Netcode;
 
 public class TeamManager : NetworkBehaviour
 {
-    private NetworkList<ulong> BlueTeam { get; } = new NetworkList<ulong>();
-    private NetworkList<ulong> OrangeTeam { get; } = new NetworkList<ulong>();
+    private NetworkList<ulong> BlueTeam { get; set; } = new NetworkList<ulong>();
+    private NetworkList<ulong> OrangeTeam { get; set; } = new NetworkList<ulong>();
 
     public event Action<ulong, Team> PlayerChangeTeamClientEvent;
 
     public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
         NetworkLog.LogInfoServer("Team Manager spawned!");
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        NetworkLog.LogInfoServer("Team Manager despawned!");
     }
 
     [Rpc(SendTo.Server)]

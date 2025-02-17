@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NetworkGameplaySceneManager : NetworkBehaviour
+public class GameplaySceneManager : NetworkBehaviour
 {
     [field: SerializeField] public string GameplayOverlaySceneName { get; private set; }
 
@@ -12,13 +12,18 @@ public class NetworkGameplaySceneManager : NetworkBehaviour
         {
             NetworkManager.SceneManager.LoadScene("Lab", LoadSceneMode.Additive);
 
-            NetworkManager.OnClientConnectedCallback += (_) =>
+            NetworkManager.OnClientConnectedCallback += (clientId) =>
             {
-                if (IsClient)
-                { 
+                if (clientId == OwnerClientId)
+                {
                     SceneManager.LoadScene(GameplayOverlaySceneName, LoadSceneMode.Additive);
                 }
             };
         }
+    }
+
+    public void LeaveGame()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

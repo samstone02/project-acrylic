@@ -1,18 +1,21 @@
 using System;
 using System.Linq;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
     public event Action<Team> DeclareWinnerClientEvent;
     public event Action<Team> DeclareWinnerServerEvent;
     private TeamManager teamManager;
-    //private ObjectiveManager objectiveManager;
+    private GameplaySceneManager gameplaySceneManager;
 
     public void Awake()
     {
-        teamManager = FindObjectsByType<TeamManager>(FindObjectsSortMode.None).First();
+        teamManager = FindAnyObjectByType<TeamManager>();
+        gameplaySceneManager = FindAnyObjectByType<GameplaySceneManager>();
     }
 
     public override void OnNetworkSpawn()
@@ -21,6 +24,11 @@ public class GameManager : NetworkBehaviour
 
         NetworkManager.OnClientConnectedCallback += (connectedClientId) =>
         {
+            if (!IsServer)
+            {
+                return;
+            }
+
             var tank = NetworkManager.ConnectedClients[connectedClientId].PlayerObject.GetComponent<Tank>();
             tank.DeathServerEvent += () =>
             {
@@ -43,6 +51,19 @@ public class GameManager : NetworkBehaviour
         };
     }
 
+    [Rpc(SendTo.ClientsAndHost)]
+    public void EndSessionClientRpc()
+    {
+        gameplaySceneManager.LeaveGame();
+    }
+
+    public void LeaveSession()
+    {
+        NetworkManager.Shutdown();
+        Destroy(NetworkManager.gameObject); // Destroy manually since NetworkManager lives in DDoL
+        EndSessionClientRpc();
+    }
+
     private void DeclareWinner(Team team)
     {
         NetworkLog.LogInfoServer($"{team.ToString()} team won!");
@@ -54,7 +75,5 @@ public class GameManager : NetworkBehaviour
     private void DeclareWinnerClientRpc(Team team)
     {
         DeclareWinnerClientEvent?.Invoke(team);
-
-        // TODO: UI listeners for overlay updates
     }
 }

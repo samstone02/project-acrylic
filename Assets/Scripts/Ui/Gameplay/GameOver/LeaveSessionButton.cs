@@ -2,12 +2,12 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui.Gameplay
+namespace Ui.Gameplay.GameOver
 {
-    public class RetryButton : MonoBehaviour
+    public class LeaveSessionButton : MonoBehaviour
     {
-        public Action OnRetry;
-        
+        public Action OnLeaveSession;
+
         private void Start()
         {
             transform.GetComponent<Button>().onClick.AddListener(OnClick);
@@ -15,7 +15,7 @@ namespace Ui.Gameplay
 
         private void OnClick()
         {
-            OnRetry?.Invoke();
+            OnLeaveSession?.Invoke();
         }
     }
 }

@@ -12,6 +12,14 @@ public class TeamControls : MonoBehaviour
 
     protected void OnGUI()
     {
+        if (NetworkManager.Singleton == null)
+        {
+            // On session leave, NetworkManager would be set to null and NullReferenceException would be thrown.
+            return;
+        }
+
+        GUILayout.BeginArea(new Rect(10, 60, 300, 300));
+
         if (NetworkManager.Singleton.IsClient)
         {
             Team team = _teamManager.GetTeam(NetworkManager.Singleton.LocalClientId);
@@ -29,36 +37,28 @@ public class TeamControls : MonoBehaviour
                 RenderJoinTeamButtons();
             }
         }
+
+        GUILayout.EndArea();
     }
 
     private void RenderBlueTeamButtons()
     {
-        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
-
         if (GUILayout.Button("Leave Blue Team"))
         {
             _teamManager.LeaveBlueTeamRpc(NetworkManager.Singleton.LocalClientId);
         }
-
-        GUILayout.EndArea();
     }
 
     private void RenderOrangeTeamButtons()
     {
-        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
-
         if (GUILayout.Button("Leave Orange Team"))
         {
             _teamManager.LeaveOrangeTeamRpc(NetworkManager.Singleton.LocalClientId);
         }
-
-        GUILayout.EndArea();
     }
 
     private void RenderJoinTeamButtons()
     {
-        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
-
         if (GUILayout.Button("Join Blue Team"))
         {
             _teamManager.JoinBlueTeamRpc(NetworkManager.Singleton.LocalClientId);
@@ -68,7 +68,5 @@ public class TeamControls : MonoBehaviour
         {
             _teamManager.JoinOrangeTeamRpc(NetworkManager.Singleton.LocalClientId);
         }
-
-        GUILayout.EndArea();
     }
 }

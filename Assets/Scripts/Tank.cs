@@ -171,6 +171,19 @@ public class Tank : NetworkBehaviour
         _numLivesNetVar.Value += count;
     }
 
+    public void DieImmediate()
+    {
+        DieImmediateServerRpc();
+    }
+
+    [Rpc(SendTo.Server)]
+    public void DieImmediateServerRpc()
+    {
+        _numLivesNetVar.Value = 0;
+        _healthNetVar.Value = 0;
+        DeathServerEvent?.Invoke();
+    }
+
     private void Move(float left, float right, float deltaTime)
     {
         _rigidbody.AddForceAtPosition(left * TreadTorque * deltaTime * transform.forward, LeftTrackRollPosition.position);

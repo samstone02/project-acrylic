@@ -4,19 +4,33 @@ using UnityEngine;
 public class NetworkingControls : MonoBehaviour
 {
     private NetworkManager _networkManager;
+    private GameManager _gameManager;
     
     void Start()
     {
         _networkManager = GetComponent<NetworkManager>();
+        _gameManager = FindAnyObjectByType<GameManager>();
     }
 
     protected void OnGUI()
     {
-        if (!_networkManager.IsServer && !_networkManager.IsClient)
+        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
+
+        if (_networkManager.IsConnectedClient)
+        {
+            RenderConnectedGui();
+        }
+        else 
         {
             RenderDisconnectedGui();
         }
-        else if (_networkManager.IsHost)
+
+        GUILayout.EndArea();
+    }
+
+    private void RenderConnectedGui()
+    {
+        if (_networkManager.IsHost)
         {
             RenderHostGui();
         }
@@ -28,12 +42,15 @@ public class NetworkingControls : MonoBehaviour
         {
             RenderClientGui();
         }
+
+        if (GUILayout.Button("Leave Session"))
+        {
+            _gameManager.LeaveSession();
+        }
     }
 
     private void RenderDisconnectedGui()
     {
-        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
-
         if (GUILayout.Button("Start Host"))
         {
             _networkManager.StartHost();
@@ -48,34 +65,20 @@ public class NetworkingControls : MonoBehaviour
         {
             _networkManager.StartClient();
         }
-        
-        GUILayout.EndArea();
     }
     
     private void RenderHostGui()
     {
-        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
-
         GUILayout.Label("Host");
-        
-        GUILayout.EndArea();
     }
 
     private void RenderServerGui()
     {
-        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
-
         GUILayout.Label("Server");
-        
-        GUILayout.EndArea();
     }
     
     private void RenderClientGui()
     {
-        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
-
         GUILayout.Label("Client");
-        
-        GUILayout.EndArea();
     }
 }

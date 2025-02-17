@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 4500562103158993517}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 44, y: 3.7, z: 43.1}
+  m_LocalPosition: {x: 42.770668, y: 3.7500076, z: 42.442238}
   m_LocalScale: {x: 25, y: 10, z: 25}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -175,7 +175,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <TimeToStartSeconds>k__BackingField: 5
   <CaptureTimeSeconds>k__BackingField: 5
-  <_TeamManager>k__BackingField: {fileID: 0}
   <AmmoFillAmount>k__BackingField: 0
 --- !u!114 &5584920023425502693
 MonoBehaviour:

@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameplayOverlay.unity
     guid: 3b8e64f9df3a7ad4cbcd5c19a2664c98
+  - enabled: 1
+    path: Assets/Scenes/Main.unity
+    guid: 5c8ac06d1f91c0b47b8bd0aade77171b
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

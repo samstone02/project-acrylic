@@ -1,4 +1,5 @@
 using System.Linq;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,28 +14,55 @@ namespace Ui.Gameplay
 
         private GameObject _outOfLivesScreen;
 
+        private GameObject _gameOverScreen;
+
         private GameObject _hud;
 
         private Button _retryButton;
 
         private GameObject _gameplayCursor;
 
+        private TextMeshProUGUI _winLossText;
+
         private Tank _playerTank;
+
+        private GameManager gameManager;
+
+        private TeamManager teamManager;
 
         private void Start()
         {
-            _deathScreen = GameObject.Find("DeathScreen");
+            var overlay = GameObject.Find("GameplayOverlayCanvas");
+
+            _deathScreen = overlay.transform.Find("DeathScreen").gameObject;
             _deathScreen.SetActive(false);
+
             _retryButton = _deathScreen.GetComponentsInChildren<Button>().FirstOrDefault(x => x.name == "RetryButton");
             _retryButton?.onClick.AddListener(OnPlayerRetry);
-            _gameplayCursor = GameObject.Find("GameplayCursor");
-            _outOfLivesScreen = GameObject.Find("OutOfLivesScreen");
+
+            _gameplayCursor = overlay.transform.Find("GameplayCursor").gameObject;
+
+            _outOfLivesScreen = overlay.transform.Find("OutOfLivesScreen").gameObject;
             _outOfLivesScreen.SetActive(false);
-            _hud = GameObject.Find("Hud");
+
+            _hud = overlay.transform.Find("Hud").gameObject;
             _hud.SetActive(true);
+
+            _gameOverScreen = overlay.transform.Find("GameOverScreen").gameObject;
+            _gameOverScreen.SetActive(false);
+
+            _winLossText = _gameOverScreen.transform.Find("WinLossText").GetComponent<TextMeshProUGUI>();
+
+            var leaveSessionButton = _gameOverScreen.transform.Find("LeaveSessionButton").GetComponent<Button>();
+            leaveSessionButton.onClick.AddListener(OnPlayerLeaveSession); 
 
             _playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.gameObject.GetComponent<Tank>();
             _playerTank.GetComponent<Tank>().DeathClientEvent += OnPlayerDeath;
+
+            gameManager = FindFirstObjectByType<GameManager>();
+            gameManager.DeclareWinnerClientEvent += OnWinnerDeclared;
+
+            teamManager = FindFirstObjectByType<TeamManager>();
         }
 
         private void OnPlayerDeath()
@@ -64,6 +92,28 @@ namespace Ui.Gameplay
                 _playerTank.transform.SetPositionAndRotation(PlayerSpawnPoint.position, PlayerSpawnPoint.rotation);
             }
         }
-    }
 
+        private void OnWinnerDeclared(Team winningTeam)
+        {
+            _deathScreen.SetActive(false);
+            _hud.SetActive(false);
+            _outOfLivesScreen.SetActive(false);
+            _gameOverScreen.SetActive(true);
+
+            var thisTeam = teamManager.GetTeam(NetworkManager.Singleton.LocalClientId);
+            if (thisTeam == winningTeam)
+            {
+                _winLossText.text = "Victory!";
+            }
+            else
+            {
+                _winLossText.text = "Defeat...";
+            }
+        }
+
+        private void OnPlayerLeaveSession()
+        {
+            gameManager.LeaveSession();
+        }
+    }
 }

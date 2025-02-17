@@ -12,6 +12,10 @@ public class TankEditor : Editor
         {
             tank.TakeDamage(1);
         }
+        if (GUILayout.Button("Die"))
+        {
+            tank.DieImmediate();
+        }
         EditorGUILayout.EndHorizontal();
         DrawDefaultInspector();
     }

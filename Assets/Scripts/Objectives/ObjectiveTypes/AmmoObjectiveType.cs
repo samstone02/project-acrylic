@@ -2,19 +2,17 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class AmmoObjective : BaseObjective
+public class AmmoObjectiveType : BaseObjectiveType
 {
     [field: SerializeField] public int AmmoFillAmount { get; set; }
 
-    protected override void StartObjective()
+    public override void OnStart()
     {
         NetworkLog.LogInfoServer("Ammo objective started!");
     }
 
-    protected override void OnCapture(IEnumerable<ulong> teamMembersClientIds)
+    public override void OnCapture(IEnumerable<ulong> teamMembersClientIds)
     {
-        base.OnCapture(teamMembersClientIds);
-
         foreach (var teamMemberClientId in teamMembersClientIds)
         {
             var client = NetworkManager.Singleton.ConnectedClients[teamMemberClientId];

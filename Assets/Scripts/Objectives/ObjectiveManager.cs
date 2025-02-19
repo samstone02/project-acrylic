@@ -1,23 +1,25 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
 public class ObjectiveManager : NetworkBehaviour
 {
-    [field: SerializeField] public List<NetworkObject> ObjectivePrefabs { get; private set; } = new List<NetworkObject>();
     [field: SerializeField] public float TimeBetweenObjectivesSeconds { get; private set; } = 30;
-    [field: SerializeField] public List<Vector3> ObjectiveLocations { get; private set; } = new List<Vector3>();
+
+    [field: SerializeField] private List<Objective> Objectives = new List<Objective>();
 
     private float _objectivesTimer;
 
-    private BaseObjective _currentObjective;
+    private Objective _currentObjective;
 
     public override void OnNetworkSpawn()
     {
         if (IsServer)
         {
-            StartRandomObjective();
+            Objectives = FindObjectsByType<Objective>(FindObjectsSortMode.None).ToList();
+            _objectivesTimer = TimeBetweenObjectivesSeconds;
         }
     }
 
@@ -28,48 +30,51 @@ public class ObjectiveManager : NetworkBehaviour
             return;
         }
 
-        if (_currentObjective == null && _objectivesTimer > 0)
+        if (_currentObjective == null)
         {
-            _objectivesTimer -= Time.deltaTime;
-            _objectivesTimer = Mathf.Clamp(_objectivesTimer, 0, TimeBetweenObjectivesSeconds); 
-        }
+            if (_objectivesTimer > 0)
+            {
+                _objectivesTimer -= Time.deltaTime;
+                _objectivesTimer = Mathf.Clamp(_objectivesTimer, 0, TimeBetweenObjectivesSeconds);
+            }
 
-        if (_objectivesTimer <= 0)
-        {
-            StartRandomObjective();
+            if (_objectivesTimer <= 0)
+            {
+                StartRandomObjective();
+            }
         }
     }
 
     private void StartRandomObjective()
     {
-        _objectivesTimer = TimeBetweenObjectivesSeconds;
+        var objective = GetRandomObjective();
+        var objectiveType = GetRandomObjectiveType(objective);
 
-        var location = GetRandomLocation();
-        var objectivePrefab = GetRandomObjectiveType();
-
-        StartObjective(location, objectivePrefab);
+        StartObjective(objective, objectiveType);
     }
 
-    private Vector3 GetRandomLocation()
+    private Objective GetRandomObjective()
     {
-        int idx = UnityEngine.Random.Range(0, ObjectiveLocations.Count);
-        return ObjectiveLocations[idx];
+        int idx = UnityEngine.Random.Range(0, Objectives.Count);
+        return Objectives[idx];
     }
 
-    private NetworkObject GetRandomObjectiveType()
+    private BaseObjectiveType GetRandomObjectiveType(Objective objective)
     {
-        int idx = UnityEngine.Random.Range(0, ObjectivePrefabs.Count);
-        return ObjectivePrefabs[idx];
+        var objectiveTypes = objective.GetComponentsInChildren<BaseObjectiveType>();
+        int idx = UnityEngine.Random.Range(0, objectiveTypes.Length);
+        return objectiveTypes[idx];
     }
 
-    private void StartObjective(Vector3 location, NetworkObject objectivePrefab)
+    private void StartObjective(Objective selectedObjective, BaseObjectiveType selectedObjetiveType)
     {
-        NetworkLog.LogInfoServer($"Started a new objective: {objectivePrefab.name}.");
-        var go = NetworkManager.SpawnManager.InstantiateAndSpawn(objectivePrefab, position: location);
-        _currentObjective = go.GetComponent<BaseObjective>();
-        _currentObjective.ObjectiveCapturedEvent += (_) => {
+        NetworkLog.LogInfoServer($"Started a new objective: {selectedObjective.name}.");
+
+        _currentObjective = selectedObjective;
+        _currentObjective.ObjectiveCapturedEvent += (team) => {
             _objectivesTimer = TimeBetweenObjectivesSeconds;
             _currentObjective = null;
         };
+        _currentObjective.PrepObjective(selectedObjetiveType);
     }
 }

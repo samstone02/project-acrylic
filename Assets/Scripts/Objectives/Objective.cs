@@ -5,15 +5,15 @@ using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public abstract class BaseObjective : NetworkBehaviour
+public class Objective : NetworkBehaviour
 {
-    [field: SerializeField] public float TimeToStartSeconds {  get; set; }
+    [field: SerializeField] public float PrepTimeSeconds {  get; set; }
 
     [field: SerializeField] public float CaptureTimeSeconds { get; set; }
 
     public Team ControllingTeam { get; private set; }
 
-    public float ObjectiveStartTimer { get; private set; }
+    public float PrepTimer { get; private set; }
 
     public float CaptureTimer { get; private set; }
 
@@ -21,13 +21,17 @@ public abstract class BaseObjective : NetworkBehaviour
 
     private TeamManager _TeamManager { get; set; }
 
-    private NetworkVariable<float> ObjectiveStartTimerNetVar { get; } = new NetworkVariable<float>();
+    private MeshRenderer _MeshRenderer { get; set; }
+
+    private NetworkVariable<float> PrepTimeNetVar { get; } = new NetworkVariable<float>();
 
     private NetworkVariable<float> CaptureTimerNetVar { get; } = new NetworkVariable<float>();
 
     private List<ulong> ContestingTanks { get; } = new List<ulong>();
 
     private NetworkVariable<Team> ControllingTeamNetVar { get; } = new NetworkVariable<Team>(Team.None);
+
+    private BaseObjectiveType ObjectiveType { get; set; }
 
     public override void OnNetworkSpawn()
     {
@@ -37,32 +41,37 @@ public abstract class BaseObjective : NetworkBehaviour
 
         if (IsServer)
         {
-            ObjectiveStartTimerNetVar.Value = TimeToStartSeconds;
+            PrepTimeNetVar.Value = PrepTimeSeconds;
             CaptureTimerNetVar.Value = CaptureTimeSeconds;
         }
         if (IsClient)
         {
+            _MeshRenderer = GetComponent<MeshRenderer>();
+            _MeshRenderer.enabled = false;
+
+            // Used for rendering in the inspector
             ControllingTeamNetVar.OnValueChanged = (_, next) => ControllingTeam = next;
-            ObjectiveStartTimerNetVar.OnValueChanged = (_, next) => ObjectiveStartTimer = next;
+            PrepTimeNetVar.OnValueChanged = (_, next) => PrepTimer = next;
             CaptureTimerNetVar.OnValueChanged = (_, next) => CaptureTimer = next;
         }
     }
 
     private void Update()
     {
-        if (!IsServer || !IsSpawned)
+        if (!IsServer || !IsSpawned || ObjectiveType == null)
         {
             return;
         }
 
-        if (ObjectiveStartTimerNetVar.Value > 0)
+        if (PrepTimeNetVar.Value > 0)
         {
-            ObjectiveStartTimerNetVar.Value -= Time.deltaTime;
-            ObjectiveStartTimerNetVar.Value = Mathf.Clamp(ObjectiveStartTimerNetVar.Value, 0, TimeToStartSeconds);
+            PrepTimeNetVar.Value -= Time.deltaTime;
+            PrepTimeNetVar.Value = Mathf.Clamp(PrepTimeNetVar.Value, 0, PrepTimeSeconds);
 
-            if (ObjectiveStartTimerNetVar.Value <= 0)
+            if (PrepTimeNetVar.Value <= 0)
             {
-                StartObjective();
+                ObjectiveType.OnStart();
+                ShowObjectiveClientRpc();
             }
 
             return;
@@ -92,6 +101,7 @@ public abstract class BaseObjective : NetworkBehaviour
                 if (CaptureTimerNetVar.Value > 0)
                 {
                     CaptureTimerNetVar.Value -= Time.deltaTime;
+                    CaptureTimerNetVar.Value = Mathf.Clamp(CaptureTimerNetVar.Value, 0, CaptureTimeSeconds);
                 }
             }
             else
@@ -115,6 +125,11 @@ public abstract class BaseObjective : NetworkBehaviour
                 if (CaptureTimerNetVar.Value > 0)
                 {
                     CaptureTimerNetVar.Value -= Time.deltaTime;
+                    CaptureTimerNetVar.Value = Mathf.Clamp(CaptureTimerNetVar.Value, 0, CaptureTimeSeconds);
+                }
+                else
+                {
+                    NetworkLog.LogInfoServer("Ok");
                 }
             }
             else
@@ -135,19 +150,20 @@ public abstract class BaseObjective : NetworkBehaviour
         if (CaptureTimerNetVar.Value <= 0)
         {
             ObjectiveCapturedEvent?.Invoke(ControllingTeamNetVar.Value);
+
             var winnerClientIds = isBlueContesting
                 ? ContestingTanks.Where(t => _TeamManager.GetTeam(t) == Team.Blue)
                 : ContestingTanks.Where(t => _TeamManager.GetTeam(t) == Team.Orange);
-            OnCapture(winnerClientIds);
-            Destroy(this.gameObject);
+
+            // Reset timers. Cannot do in PrepObjective because it can be called before this Objective is Spawned
+            CaptureTimerNetVar.Value = CaptureTimeSeconds;
+            PrepTimeNetVar.Value = PrepTimeSeconds;
+
+            _MeshRenderer.enabled = false;
+            ObjectiveType.OnCapture(winnerClientIds);
+            ObjectiveType = null;
+            HideObjectiveClientRpc();
         }
-    }
-
-    protected abstract void StartObjective();
-
-    protected virtual void OnCapture(IEnumerable<ulong> teamMemberClientIds)
-    {
-        NetworkLog.LogInfoServer($"Objective captured by {ControllingTeamNetVar}!");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -170,5 +186,29 @@ public abstract class BaseObjective : NetworkBehaviour
 
         var netObj = other.GetComponent<NetworkObject>();
         ContestingTanks.Remove(netObj.OwnerClientId);
+    }
+
+    /// <summary>
+    /// "Preps" the objective (becomes visible on the map).
+    /// After the configured "TimeToStartSeconds", the objective will "Start" and become available for capture.
+    /// </summary>
+    public void PrepObjective(BaseObjectiveType objectiveType)
+    {
+        PrepTimeNetVar.Value = PrepTimeSeconds;
+        CaptureTimerNetVar.Value = CaptureTimeSeconds;
+        ObjectiveType = objectiveType;
+        ShowObjectiveClientRpc();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void ShowObjectiveClientRpc()
+    {
+        _MeshRenderer.enabled = true;
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void HideObjectiveClientRpc()
+    {
+        _MeshRenderer.enabled = false;
     }
 }

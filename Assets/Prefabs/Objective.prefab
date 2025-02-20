@@ -173,8 +173,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488f78dd18b35cb4bae6752cdef63f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <PrepTimeSeconds>k__BackingField: 5
-  <CaptureTimeSeconds>k__BackingField: 5
+  <PrepTimeSeconds>k__BackingField: 15
+  <CaptureTimeSeconds>k__BackingField: 15
+  <ObjectiveLocationName>k__BackingField: 
 --- !u!114 &3774132603434522163
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,8 @@ public class LivesObjectiveType : BaseObjectiveType
 {
     [field: SerializeField] public int NumLivesToAdd { get; set; }
 
+    public override string ObjectiveName => "Lives Objective";
+
     public override void OnStart()
     {
         NetworkLog.LogInfoServer("Lives objective started!");

@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\MagazineReloadStartAudioHook.cs" />
     <Compile Include="Assets\Scripts\TankAgents\DummyShootTankAgent.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RushdownTankAgent.cs" />
+    <Compile Include="Assets\Scripts\Ui\Gameplay\Objective\ObjectiveTimerUi.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\AmmoSelector.cs" />
     <Compile Include="Assets\Scripts\Cannons\AutoLoadingCannon.cs" />
     <Compile Include="Assets\Scripts\Objectives\ObjectiveType.cs" />
@@ -75,12 +76,12 @@
     <Compile Include="Assets\Scripts\Ui\Gameplay\GameplayCursor\GameplayCursor.cs" />
     <Compile Include="Assets\Scripts\AudioHooks\CannonFireAudioHook.cs" />
     <Compile Include="Assets\Scripts\Ui\MainMenu\PlayButton.cs" />
-    <Compile Include="Assets\Scripts\Ui\Gameplay\GameplayStopwatch.cs" />
     <Compile Include="Assets\Scripts\Projectiles\RicochetShell.cs" />
     <Compile Include="Assets\Scripts\Objectives\ObjectiveTypes\AmmoObjectiveType.cs" />
     <Compile Include="Assets\Scripts\Ui\MainMenu\TutorialButton.cs" />
     <Compile Include="Assets\Scripts\Objectives\ObjectiveTypes\LivesObjectiveType.cs" />
     <Compile Include="Assets\Scripts\Cannons\ConventionalCannon.cs" />
+    <Compile Include="Assets\Scripts\Ui\Gameplay\Objective\ObjectiveLocationUi.cs" />
     <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\InterClipReloadedAudioHook.cs" />
     <Compile Include="Assets\Scripts\Explosion.cs" />
     <Compile Include="Assets\Scripts\Objectives\Objective.cs" />

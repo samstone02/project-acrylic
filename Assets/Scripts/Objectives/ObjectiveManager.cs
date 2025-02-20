@@ -10,6 +10,8 @@ public class ObjectiveManager : NetworkBehaviour
 
     [field: SerializeField] private List<Objective> Objectives = new List<Objective>();
 
+    public event Action<ulong> ObjectiveSelectedClientEvent;
+
     private float _objectivesTimer;
 
     private Objective _currentObjective;
@@ -71,10 +73,18 @@ public class ObjectiveManager : NetworkBehaviour
         NetworkLog.LogInfoServer($"Started a new objective: {selectedObjective.name}.");
 
         _currentObjective = selectedObjective;
-        _currentObjective.ObjectiveCapturedEvent += (team) => {
+        _currentObjective.ObjectiveCapturedServerEvent += (team) => {
             _objectivesTimer = TimeBetweenObjectivesSeconds;
             _currentObjective = null;
         };
         _currentObjective.PrepObjective(selectedObjetiveType);
+
+        ObjectiveSelectedClientRpc(_currentObjective.NetworkObjectId);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void ObjectiveSelectedClientRpc(ulong selectedObjectiveNetworkObjectId)
+    {
+        ObjectiveSelectedClientEvent?.Invoke(selectedObjectiveNetworkObjectId);
     }
 }

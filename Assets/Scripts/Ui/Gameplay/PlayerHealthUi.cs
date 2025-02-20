@@ -15,14 +15,6 @@ namespace Ui.Gameplay
 
         private void Start()
         {
-            if (NetworkManager.Singleton != null)
-            {
-                NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-            }
-        }
-
-        private void OnClientConnected(ulong clientId)
-        {
             _playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Tank>();
             _healthText = GetComponentsInChildren<TextMeshProUGUI>().First(c => c.name == "HealthText");
             _livesText = GetComponentsInChildren<TextMeshProUGUI>().First(c => c.name == "LivesText");

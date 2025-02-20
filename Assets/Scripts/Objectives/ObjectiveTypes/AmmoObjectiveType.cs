@@ -6,6 +6,8 @@ public class AmmoObjectiveType : BaseObjectiveType
 {
     [field: SerializeField] public int AmmoFillAmount { get; set; }
 
+    public override string ObjectiveName => "Ammo Objective";
+
     public override void OnStart()
     {
         NetworkLog.LogInfoServer("Ammo objective started!");

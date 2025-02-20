@@ -11,13 +11,17 @@ public class Objective : NetworkBehaviour
 
     [field: SerializeField] public float CaptureTimeSeconds { get; set; }
 
+    [field: SerializeField] public string ObjectiveLocationName { get; set; }
+
     public Team ControllingTeam { get; private set; }
 
     public float PrepTimer { get; private set; }
 
     public float CaptureTimer { get; private set; }
 
-    public event Action<Team> ObjectiveCapturedEvent;
+    public event Action<Team> ObjectiveCapturedServerEvent;
+
+    public event Action ObjectiveCapturedClientEvent;
 
     private TeamManager _TeamManager { get; set; }
 
@@ -149,7 +153,7 @@ public class Objective : NetworkBehaviour
 
         if (CaptureTimerNetVar.Value <= 0)
         {
-            ObjectiveCapturedEvent?.Invoke(ControllingTeamNetVar.Value);
+            ObjectiveCapturedServerEvent?.Invoke(ControllingTeamNetVar.Value);
 
             var winnerClientIds = isBlueContesting
                 ? ContestingTanks.Where(t => _TeamManager.GetTeam(t) == Team.Blue)
@@ -162,7 +166,7 @@ public class Objective : NetworkBehaviour
             _MeshRenderer.enabled = false;
             ObjectiveType.OnCapture(winnerClientIds);
             ObjectiveType = null;
-            HideObjectiveClientRpc();
+            ObjectiveCapturedClientRpc();
         }
     }
 
@@ -207,8 +211,9 @@ public class Objective : NetworkBehaviour
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void HideObjectiveClientRpc()
+    private void ObjectiveCapturedClientRpc()
     {
         _MeshRenderer.enabled = false;
+        ObjectiveCapturedClientEvent?.Invoke();
     }
 }

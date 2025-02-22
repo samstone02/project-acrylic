@@ -80,13 +80,14 @@
     <Compile Include="Assets\Scripts\Objectives\ObjectiveTypes\AmmoObjectiveType.cs" />
     <Compile Include="Assets\Scripts\Ui\MainMenu\TutorialButton.cs" />
     <Compile Include="Assets\Scripts\Objectives\ObjectiveTypes\LivesObjectiveType.cs" />
-    <Compile Include="Assets\Scripts\Cannons\ConventionalCannon.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\Objective\ObjectiveLocationUi.cs" />
+    <Compile Include="Assets\Scripts\Cannons\ConventionalCannon.cs" />
     <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\InterClipReloadedAudioHook.cs" />
     <Compile Include="Assets\Scripts\Explosion.cs" />
     <Compile Include="Assets\Scripts\Objectives\Objective.cs" />
     <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\ShellLoadAudioHook.cs" />
     <Compile Include="Assets\Scripts\GameplaySceneManager.cs" />
+    <Compile Include="Assets\Scripts\TankTeamColorController.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\PlayerHealthUi.cs" />
     <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\MagazineReloadEndAudioHook.cs" />
     <Compile Include="Assets\Scripts\Objectives\ObjectiveManager.cs" />

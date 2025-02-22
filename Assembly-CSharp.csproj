@@ -103,6 +103,7 @@
     <Compile Include="Assets\Scripts\Ui\MainMenu\CloseTutorialModalButton.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\RetryButton.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\CustomNetworkBillboard.cs" />
     <Compile Include="Assets\Scripts\Dummy.cs" />
     <Compile Include="Assets\Scripts\Utils\NetworkListExtensions.cs" />
     <Compile Include="Assets\Scripts\Tank.cs" />

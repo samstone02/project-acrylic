@@ -11,7 +11,7 @@ namespace Ui.MainMenu
         void Start()
         {
             Button button = GetComponent<Button>();
-            button.onClick.AddListener(() => UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Gameplay"));
+            button.onClick.AddListener(() => SceneManager.LoadScene("Scenes/SessionControls"));
         }
     }
 }

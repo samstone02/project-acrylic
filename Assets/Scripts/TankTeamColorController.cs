@@ -11,7 +11,7 @@ public class TankTeamColorController : NetworkBehaviour
     private MeshRenderer ChassisMesh { get; set; }
     private MeshRenderer TurretMesh { get; set; }
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
         if (!IsClient)
         {

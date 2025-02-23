@@ -1,7 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,13 +16,16 @@ public class GameManager : NetworkBehaviour
     public event Action<Team> DeclareWinnerServerEvent;
     private TeamManager teamManager;
     private GameplaySceneManager gameplaySceneManager;
+    private TMP_Text displayNameInputText;
     private TMP_Text addressInputText;
     private TMP_Text portInputText;
+    private FixedString32Bytes localPlayerName;
 
     public void Awake()
     {
         teamManager = FindAnyObjectByType<TeamManager>();
         gameplaySceneManager = FindAnyObjectByType<GameplaySceneManager>();
+        displayNameInputText = GameObject.Find("DisplayNameInputField").transform.Find("Text Area").Find("Text").GetComponentInChildren<TMP_Text>();
         addressInputText = GameObject.Find("IpAddressInputField").transform.Find("Text Area").Find("Text").GetComponentInChildren<TMP_Text>();
         portInputText = GameObject.Find("PortNumberInputField").transform.Find("Text Area").Find("Text").GetComponentInChildren<TMP_Text>();
 
@@ -33,12 +41,20 @@ public class GameManager : NetworkBehaviour
 
         NetworkManager.OnClientConnectedCallback += (connectedClientId) =>
         {
+            if (NetworkManager.LocalClientId == connectedClientId)
+            {
+                var clientTank = NetworkManager.LocalClient.PlayerObject.GetComponent<Tank>();
+                clientTank.SetPlayerNameServerRpc(localPlayerName);
+            }
+
             if (!IsServer)
             {
                 return;
             }
 
             var tank = NetworkManager.ConnectedClients[connectedClientId].PlayerObject.GetComponent<Tank>();
+            tank.transform.position = new Vector3(0, 10, 0);
+            tank.gameObject.SetActive(false); // TODO: There must be a better way to "disable" a network object? I want the NetObj to be completely disabled on client and host 
             tank.DeathServerEvent += () =>
             {
                 NetworkLog.LogInfoServer($"Player [{connectedClientId}] died.");
@@ -62,13 +78,7 @@ public class GameManager : NetworkBehaviour
 
     public void HostSession()
     {
-        var camera = GameObject.Find("Camera");
-        var canvas = GameObject.Find("Canvas");
-        var eventSystem = GameObject.Find("EventSystem");
-        Destroy(camera);
-        Destroy(canvas);
-        Destroy(eventSystem);
-
+        PrepareSession();
         //var unityTransport = NetworkManager.GetComponent<UnityTransport>();
         //unityTransport.ConnectionData = new UnityTransport.ConnectionAddressData
         //{
@@ -76,18 +86,13 @@ public class GameManager : NetworkBehaviour
         //    Port = ushort.Parse(portInputText.text.Substring(0, portInputText.text.Length - 1)),
         //    ServerListenAddress = "0.0.0.0",
         //};
+
         NetworkManager.StartHost();
     }
 
     public void JoinSession()
     {
-        var camera = GameObject.Find("Camera");
-        var canvas = GameObject.Find("Canvas");
-        var eventSystem = GameObject.Find("EventSystem");
-        Destroy(camera);
-        Destroy(canvas);
-        Destroy(eventSystem);
-
+        PrepareSession();
         var unityTransport = NetworkManager.GetComponent<UnityTransport>();
         unityTransport.ConnectionData = new UnityTransport.ConnectionAddressData
         {
@@ -96,6 +101,28 @@ public class GameManager : NetworkBehaviour
             ServerListenAddress = "0.0.0.0",
         };
         NetworkManager.StartClient();
+    }
+
+    private void PrepareSession()
+    {
+        // Clear unneeded objects from the "Gameplay" scene
+        var camera = GameObject.Find("Camera");
+        var canvas = GameObject.Find("Canvas");
+        var eventSystem = GameObject.Find("EventSystem");
+        Destroy(camera);
+        Destroy(canvas);
+        Destroy(eventSystem);
+
+        localPlayerName = displayNameInputText.text.Substring(0, displayNameInputText.text.Length - 1);
+    }
+
+    public void BeginGame()
+    {
+        gameplaySceneManager.LoadGameplayScene();
+        foreach (var tank in NetworkManager.ConnectedClientsList.Select(c => c.PlayerObject.GetComponent<Tank>()))
+        {
+            tank.gameObject.SetActive(true);
+        }
     }
 
     public void LeaveSession()

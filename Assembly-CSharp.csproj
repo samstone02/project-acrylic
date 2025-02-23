@@ -76,6 +76,7 @@
     <Compile Include="Assets\Scripts\Ui\Gameplay\GameplayCursor\GameplayCursor.cs" />
     <Compile Include="Assets\Scripts\AudioHooks\CannonFireAudioHook.cs" />
     <Compile Include="Assets\Scripts\Ui\MainMenu\PlayButton.cs" />
+    <Compile Include="Assets\Scripts\Ui\Lobby\LobbyUiManager.cs" />
     <Compile Include="Assets\Scripts\Projectiles\RicochetShell.cs" />
     <Compile Include="Assets\Scripts\Objectives\ObjectiveTypes\AmmoObjectiveType.cs" />
     <Compile Include="Assets\Scripts\Ui\MainMenu\TutorialButton.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Assets\Scripts\Projectiles\Shell.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\Scoreboard.cs" />
     <Compile Include="Assets\Scripts\NetworkingControls.cs" />
+    <Compile Include="Assets\Scripts\PlayerNametag.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

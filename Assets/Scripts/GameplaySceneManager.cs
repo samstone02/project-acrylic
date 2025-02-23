@@ -8,15 +8,18 @@ public class GameplaySceneManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (IsServer)
+        if (IsOwner)
         {
-            NetworkManager.SceneManager.LoadScene("Lab", LoadSceneMode.Additive);
+            SceneManager.LoadScene("Lobby", LoadSceneMode.Additive);
+        }
 
-            NetworkManager.OnClientConnectedCallback += (clientId) =>
+        if (IsClient)
+        {
+            NetworkManager.SceneManager.OnLoadComplete += (clientId, name, mode) =>
             {
-                if (clientId == OwnerClientId)
+                if (name == "Lab")
                 {
-                    SceneManager.LoadScene(GameplayOverlaySceneName, LoadSceneMode.Additive);
+                    LoadGameplayOverlay();
                 }
             };
         }
@@ -25,5 +28,22 @@ public class GameplaySceneManager : NetworkBehaviour
     public void LeaveGame()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void LoadGameplayScene()
+    {
+        UnloadLobbySceneClientRpc();
+        NetworkManager.SceneManager.LoadScene("Lab", LoadSceneMode.Additive);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    public void UnloadLobbySceneClientRpc()
+    {
+        SceneManager.UnloadSceneAsync("Lobby");
+    }
+
+    public void LoadGameplayOverlay()
+    {
+        SceneManager.LoadSceneAsync("GameplayOverlay", LoadSceneMode.Additive);
     }
 }

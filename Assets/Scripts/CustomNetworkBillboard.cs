@@ -9,11 +9,19 @@ public class CustomNetworkBillboard : NetworkBehaviour
     {
         if (IsClient)
         {
-            _cameraTrans = FindFirstObjectByType<Camera>().transform;
+            this.enabled = false;
+            NetworkManager.Singleton.SceneManager.OnLoadComplete += (clientId, sceneName, mode) =>
+            {
+                if (sceneName == "Lab")
+                {
+                    _cameraTrans = FindFirstObjectByType<Camera>().transform;
+                    this.enabled = true;
+                }
+            };
         }
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         if (IsClient)
         {

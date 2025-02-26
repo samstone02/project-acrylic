@@ -17,7 +17,7 @@ public class LobbyUiManager : MonoBehaviour
     private void Start()
     {
         _teamManager = FindAnyObjectByType<TeamManager>();
-        var gameManager = FindAnyObjectByType<GameManager>();
+        var gameManager = FindAnyObjectByType<SessionOrchestrator>();
         var buttons = GetComponentsInChildren<Button>();
         _joinBlueButton = buttons.First(b => b.name == "JoinBlueTeamButton");
         _joinOrangeButton = buttons.First(b => b.name == "JoinOrangeTeamButton");

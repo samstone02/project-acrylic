@@ -10,7 +10,7 @@ using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : NetworkBehaviour
+public class SessionOrchestrator : NetworkBehaviour
 {
     public event Action<Team> DeclareWinnerClientEvent;
     public event Action<Team> DeclareWinnerServerEvent;

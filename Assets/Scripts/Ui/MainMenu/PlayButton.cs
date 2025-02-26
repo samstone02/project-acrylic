@@ -11,7 +11,7 @@ namespace Ui.MainMenu
         void Start()
         {
             Button button = GetComponent<Button>();
-            button.onClick.AddListener(() => SceneManager.LoadScene("Scenes/SessionControls"));
+            button.onClick.AddListener(() => SceneManager.LoadScene("Scenes/Session"));
         }
     }
 }

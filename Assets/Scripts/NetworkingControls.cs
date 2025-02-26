@@ -4,12 +4,12 @@ using UnityEngine;
 public class NetworkingControls : MonoBehaviour
 {
     private NetworkManager _networkManager;
-    private GameManager _gameManager;
+    private SessionOrchestrator _gameManager;
     
     void Start()
     {
         _networkManager = GetComponent<NetworkManager>();
-        _gameManager = FindAnyObjectByType<GameManager>();
+        _gameManager = FindAnyObjectByType<SessionOrchestrator>();
     }
 
     protected void OnGUI()

@@ -26,7 +26,7 @@ namespace Ui.Gameplay
 
         private Tank _playerTank;
 
-        private GameManager gameManager;
+        private SessionOrchestrator gameManager;
 
         private TeamManager teamManager;
 
@@ -59,7 +59,7 @@ namespace Ui.Gameplay
             _playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.gameObject.GetComponent<Tank>();
             _playerTank.GetComponent<Tank>().DeathClientEvent += OnPlayerDeath;
 
-            gameManager = FindFirstObjectByType<GameManager>();
+            gameManager = FindFirstObjectByType<SessionOrchestrator>();
             gameManager.DeclareWinnerClientEvent += OnWinnerDeclared;
 
             teamManager = FindFirstObjectByType<TeamManager>();

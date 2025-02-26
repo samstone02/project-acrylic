@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\TeamControls.cs" />
     <Compile Include="Assets\Scripts\Cannons\BaseCannon.cs" />
     <Compile Include="Assets\Scripts\MainCamera.cs" />
+    <Compile Include="Assets\Scripts\Ui\FindMatch\FindMatchUiManager.cs" />
     <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\MagazineReloadStartAudioHook.cs" />
     <Compile Include="Assets\Scripts\TankAgents\DummyShootTankAgent.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RushdownTankAgent.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Assets\Scripts\TankAgents\RandomActionTankAgent.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\GameplayCursor\ReloadProgressCircle.cs" />
     <Compile Include="Assets\Scripts\EnemySpawner.cs" />
+    <Compile Include="Assets\Scripts\GameplayOrchestrator.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\GameOver\LeaveSessionButton.cs" />
     <Compile Include="Assets\Scripts\MainSceneManager.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\GameplayUiManager.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="Assets\Scripts\Projectiles\ExplosiveShell.cs" />
     <Compile Include="Assets\Scripts\Projectiles\Shell.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\Scoreboard.cs" />
+    <Compile Include="Assets\Scripts\SessionSceneManager.cs" />
     <Compile Include="Assets\Scripts\NetworkingControls.cs" />
     <Compile Include="Assets\Scripts\PlayerNametag.cs" />
   </ItemGroup>

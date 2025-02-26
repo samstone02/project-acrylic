@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,24 +7,7 @@ public class GameplaySceneManager : NetworkBehaviour
 {
     [field: SerializeField] public string GameplayOverlaySceneName { get; private set; }
 
-    public override void OnNetworkSpawn()
-    {
-        if (IsOwner)
-        {
-            SceneManager.LoadScene("Lobby", LoadSceneMode.Additive);
-        }
-
-        if (IsClient)
-        {
-            NetworkManager.SceneManager.OnLoadComplete += (clientId, name, mode) =>
-            {
-                if (name == "Lab")
-                {
-                    LoadGameplayOverlay();
-                }
-            };
-        }
-    }
+    public event Action GameplaySceneLoadEvent;
 
     public void LeaveGame()
     {
@@ -34,6 +18,7 @@ public class GameplaySceneManager : NetworkBehaviour
     {
         UnloadLobbySceneClientRpc();
         NetworkManager.SceneManager.LoadScene("Lab", LoadSceneMode.Additive);
+        NetworkManager.SceneManager.OnSceneEvent += OnSceneEvent;
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -45,5 +30,18 @@ public class GameplaySceneManager : NetworkBehaviour
     public void LoadGameplayOverlay()
     {
         SceneManager.LoadSceneAsync("GameplayOverlay", LoadSceneMode.Additive);
+    }
+
+    private void OnSceneEvent(SceneEvent sceneEvent)
+    {
+        if (sceneEvent.SceneEventType != SceneEventType.LoadComplete)
+        {
+            return;
+        }
+
+        if (sceneEvent.SceneName == "Lab")
+        {
+            GameplaySceneLoadEvent?.Invoke();
+        }
     }
 }

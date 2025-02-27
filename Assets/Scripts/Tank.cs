@@ -27,8 +27,6 @@ public class Tank : NetworkBehaviour
 
     public int Health { get => _healthNetVar.Value; }
     public int Lives { get => _numLivesNetVar.Value; }
-
-    public FixedString32Bytes PlayerName { get => PlayerNameNetVar.Value; }
     
     public event Action<int> DamagedEvent;
 
@@ -57,8 +55,6 @@ public class Tank : NetworkBehaviour
     private readonly NetworkVariable<int> _healthNetVar = new NetworkVariable<int>();
 
     private readonly NetworkVariable<int> _numLivesNetVar = new NetworkVariable<int>();
-
-    private readonly NetworkVariable<FixedString32Bytes> PlayerNameNetVar = new NetworkVariable<FixedString32Bytes>();
     
     protected void Awake()
     {
@@ -179,12 +175,6 @@ public class Tank : NetworkBehaviour
     public void DieImmediate()
     {
         DieImmediateServerRpc();
-    }
-
-    [Rpc(SendTo.Server)]
-    public void SetPlayerNameServerRpc(FixedString32Bytes playerName)
-    {
-        PlayerNameNetVar.Value = playerName;
     }
 
     [Rpc(SendTo.Server)]

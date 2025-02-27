@@ -8,7 +8,6 @@ public class SessionOrchestrator : NetworkBehaviour
 {
     private FindMatchUiManager FindMatchUiManager { get; set; }
     private SessionSceneManager _sessionSceneManager;
-    private FixedString32Bytes localPlayerName;
 
     public void Awake()
     {
@@ -22,6 +21,7 @@ public class SessionOrchestrator : NetworkBehaviour
 
         NetworkManager.OnClientConnectedCallback += OnClientConnected;
     }
+
     private void LoadFindMatchScene()
     {
         _sessionSceneManager.LoadFindMatchScene();
@@ -67,7 +67,6 @@ public class SessionOrchestrator : NetworkBehaviour
 
     private void PrepareSession()
     {
-        localPlayerName = FindMatchUiManager.GetPlayerName();
         UnloadFindMatchScene();
     }
 
@@ -76,8 +75,7 @@ public class SessionOrchestrator : NetworkBehaviour
         if (NetworkManager.LocalClientId == connectedClientId)
         {
             _sessionSceneManager.LoadLobbyScene();
-            var clientTank = NetworkManager.LocalClient.PlayerObject.GetComponent<Tank>();
-            clientTank.SetPlayerNameServerRpc(localPlayerName);
+            SetClientDisplayNameServerRpc(connectedClientId, FindMatchUiManager.GetPlayerName());
         }
     }
 
@@ -93,7 +91,14 @@ public class SessionOrchestrator : NetworkBehaviour
         //EndSessionClientRpc();
     }
 
-    //[Rpc(SendTo.ClientsAndHost)]
+    [Rpc(SendTo.Server)]
+    private void SetClientDisplayNameServerRpc(ulong clientId, FixedString32Bytes displayName)
+    {
+        var clientNametag = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponentInChildren<PlayerNametag>();
+        clientNametag.PlayerName = displayName;
+    }
+
+    //[Rpc(SendTo.ClientsAndHost)]s
     //public void EndSessionClientRpc()
     //{
     //    _sessionSceneManager.LeaveGame();

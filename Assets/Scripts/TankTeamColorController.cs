@@ -11,7 +11,7 @@ public class TankTeamColorController : NetworkBehaviour
     private MeshRenderer ChassisMesh { get; set; }
     private MeshRenderer TurretMesh { get; set; }
 
-    public override void OnNetworkSpawn()
+    private void Start()
     {
         if (!IsClient)
         {
@@ -24,7 +24,7 @@ public class TankTeamColorController : NetworkBehaviour
 
         var teamManager = FindAnyObjectByType<TeamManager>();
         teamManager.PlayerChangeTeamClientEvent += SetMeshColor;
-        SetMeshColor(OwnerClientId, Team.None);
+        SetMeshColor(OwnerClientId, teamManager.GetTeam(NetworkObject.OwnerClientId));
     }
 
     private void SetMeshColor(ulong netId, Team team)

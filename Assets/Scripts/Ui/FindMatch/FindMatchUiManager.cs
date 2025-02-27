@@ -6,17 +6,17 @@ using UnityEngine.UI;
 
 public class FindMatchUiManager : MonoBehaviour
 {
-    public class HostSessionData
+    public class PlayerSessionData
     {
-        // TODO: player name here?
+        public FixedString32Bytes PlayerDisplayName;
         public ushort PortNumber;
     }
 
-    public class JoinSessionData
+    public class HostSessionData : PlayerSessionData { }
+
+    public class JoinSessionData : PlayerSessionData
     {
-        // TODO: player name here?
         public string Ipv4Address;
-        public ushort PortNumber;
     }
 
     public event Action<HostSessionData> HostSessionEvent;

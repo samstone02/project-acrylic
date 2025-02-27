@@ -1,9 +1,12 @@
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
 public class CustomNetworkBillboard : NetworkBehaviour
 {
     private Transform _cameraTrans;
+
+    // TODO: This (player nametags) don't work anymore. Fix that.
 
     void Start()
     {
@@ -14,8 +17,8 @@ public class CustomNetworkBillboard : NetworkBehaviour
             {
                 if (sceneName == "Lab")
                 {
-                    _cameraTrans = FindFirstObjectByType<Camera>().transform;
                     this.enabled = true;
+                    _cameraTrans = FindFirstObjectByType<Camera>().transform;
                 }
             };
         }

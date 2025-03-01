@@ -1355,6 +1355,14 @@ PrefabInstance:
       propertyPath: <AmmoCapacity>k__BackingField
       value: 1000
       objectReference: {fileID: 0}
+    - target: {fileID: 3129915186199121772, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
+      propertyPath: <ShellSpawnPoint>k__BackingField
+      value: 
+      objectReference: {fileID: 5584426803434792539}
+    - target: {fileID: 3129915186199121772, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
+      propertyPath: <ProjectilePrefab>k__BackingField
+      value: 
+      objectReference: {fileID: 5308777123184422408, guid: 7a536f7ac43ad75459f002b667a1a85a, type: 3}
     - target: {fileID: 8626962917752931364, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
       propertyPath: m_LocalPosition.z
       value: 5.89
@@ -1367,6 +1375,11 @@ PrefabInstance:
 --- !u!4 &1892898573654765707 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2342455366548067060, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
+  m_PrefabInstance: {fileID: 4235353459165438591}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5584426803434792539 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8626962917752931364, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
   m_PrefabInstance: {fileID: 4235353459165438591}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5524691064739621033

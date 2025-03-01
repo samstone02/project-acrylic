@@ -13,7 +13,7 @@ namespace Projectiles
 
         [field: SerializeField] public bool IgnoreArmor { get; set; } = false;
         
-        protected void OnCollisionEnter(Collision collision)
+        protected virtual void OnCollisionEnter(Collision collision)
         {
             Destroy(gameObject);
         }

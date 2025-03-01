@@ -1,66 +1,80 @@
-﻿using UnityEngine;
+﻿using Unity.Netcode;
+using UnityEngine;
 
 namespace Projectiles
 {
     public class RicochetShell : Shell
     {
         [field: SerializeField] public bool RicochetInfinitely { get; private set; }
-        
+
         [field: SerializeField] public int RicochetCount { get; private set; }
-        
+
         [field: SerializeField] public int DamageRampOnRicochet { get; private set; }
-        
+
         [field: SerializeField] public int SpeedRampOnRicochet { get; private set; }
-        
-        [field: SerializeField] public float RicochetDetectionDistance { get; private set; }
-        
+
         private Rigidbody _rigidbody;
 
         protected void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
         }
-        
-        protected void Update()
+
+        protected override void OnCollisionEnter(Collision collision)
         {
-            bool reflected = ReflectIfRaycastHit();
-            
             if (!RicochetInfinitely)
             {
-                if (reflected)
+                RicochetCount--;
+
+                if (RicochetCount < 0)
                 {
-                    RicochetCount--;
-                    
-                    if (RicochetCount < 0)
-                    {
-                        Destroy(gameObject);
-                    }
+                    Destroy(gameObject);
                 }
             }
-            
-            if (reflected)
-            {
-                Damage += DamageRampOnRicochet;
-                _rigidbody.linearVelocity = _rigidbody.linearVelocity.normalized * (_rigidbody.linearVelocity.magnitude + SpeedRampOnRicochet);
-            }
+
+            var firstContact = GetFirstContact(collision);
+            ReflectSelf(firstContact);
+
+            // Damage and speed ramp
+            Damage += DamageRampOnRicochet;
+            _rigidbody.linearVelocity = _rigidbody.linearVelocity.normalized * (_rigidbody.linearVelocity.magnitude + SpeedRampOnRicochet);
         }
 
-        protected bool ReflectIfRaycastHit()
+        private ContactPoint GetFirstContact(Collision collision)
         {
-            var ray = new Ray(transform.position, transform.forward);
-            Physics.Raycast(ray, out RaycastHit hitInfo, RicochetDetectionDistance, gameObject.layer);
+            var contactPoints = new ContactPoint[collision.contactCount];
+            collision.GetContacts(contactPoints);
 
-            if (hitInfo.collider == null)
+            Vector3 trailPoint = transform.position + (transform.forward * -10);
+            ContactPoint firstContact = default;
+            float minDistance = float.MaxValue;
+
+            Debug.DrawLine(transform.position, trailPoint, Color.red, 5f);
+
+            // Get the "first contact point"
+            foreach (var contactPoint in contactPoints)
             {
-                return false;
+                Debug.DrawLine(transform.position, contactPoint.point, Color.red, 5f);
+
+                float distanceFromTrailPoint = (trailPoint - contactPoint.point).magnitude;
+
+                if (distanceFromTrailPoint < minDistance)
+                {
+                    firstContact = contactPoint;
+                    minDistance = distanceFromTrailPoint;
+                }
             }
 
-            Vector3 reflectionForward = Vector3.Reflect(transform.forward, hitInfo.normal);
+            return firstContact;
+        }
+
+        private void ReflectSelf(ContactPoint firstContact)
+        {
+            Vector3 reflectionForward = Vector3.Reflect(transform.forward, firstContact.normal);
             float rotationAngle = 90 - Mathf.Atan2(reflectionForward.z, reflectionForward.x) * Mathf.Rad2Deg;
             transform.eulerAngles = new Vector3(0, rotationAngle, 0);
-            _rigidbody.linearVelocity = _rigidbody.linearVelocity.magnitude * reflectionForward;
-
-            return true;
+            _rigidbody.linearVelocity = Speed * reflectionForward;
+            _rigidbody.angularVelocity = Vector3.zero; // override any rotation
         }
     }
 }

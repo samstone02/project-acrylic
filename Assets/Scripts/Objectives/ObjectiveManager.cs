@@ -10,24 +10,17 @@ public class ObjectiveManager : NetworkBehaviour
 
     [field: SerializeField] private List<Objective> Objectives = new List<Objective>();
 
+    public bool IsRunning { get; set; }
+
     public event Action<ulong> ObjectiveSelectedClientEvent;
 
     private float _objectivesTimer;
 
     private Objective _currentObjective;
 
-    public override void OnNetworkSpawn()
+    private void Update()
     {
-        if (IsServer)
-        {
-            Objectives = FindObjectsByType<Objective>(FindObjectsSortMode.None).ToList();
-            _objectivesTimer = TimeBetweenObjectivesSeconds;
-        }
-    }
-
-    void Update()
-    {
-        if (!IsServer)
+        if (!IsServer || !IsRunning)
         {
             return;
         }
@@ -45,6 +38,17 @@ public class ObjectiveManager : NetworkBehaviour
                 StartRandomObjective();
             }
         }
+    }
+
+    public void FindObjectives()
+    {
+        Objectives = FindObjectsByType<Objective>(FindObjectsSortMode.None).ToList();
+    }
+
+    public void StartTimer()
+    {
+        IsRunning = true;
+        _objectivesTimer = TimeBetweenObjectivesSeconds;
     }
 
     private void StartRandomObjective()

@@ -17,7 +17,7 @@ public class LobbyUiManager : MonoBehaviour
     private void Start()
     {
         _teamManager = FindAnyObjectByType<TeamManager>();
-        var gameManager = FindAnyObjectByType<GameManager>();
+        var gameManager = FindAnyObjectByType<SessionOrchestrator>();
         var buttons = GetComponentsInChildren<Button>();
         _joinBlueButton = buttons.First(b => b.name == "JoinBlueTeamButton");
         _joinOrangeButton = buttons.First(b => b.name == "JoinOrangeTeamButton");
@@ -59,7 +59,7 @@ public class LobbyUiManager : MonoBehaviour
             DestroyImmediate(b.gameObject);
         }
 
-        var tanks = FindObjectsByType<Tank>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        var nametags = FindObjectsByType<PlayerNametag>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
         var blueTeam = _teamManager.GetTeamMembers(Team.Blue)
             .Where(tm => clientId != tm);
@@ -80,7 +80,7 @@ public class LobbyUiManager : MonoBehaviour
         {
             var panel = Instantiate(TeamMemberPanel, _blueTeamList.transform);
             var playerName = panel.GetComponentInChildren<TextMeshProUGUI>();
-            var t = tanks.First(t => t.OwnerClientId == cid);
+            var t = nametags.First(t => t.OwnerClientId == cid);
             playerName.text = t.PlayerName.ToString();
         }
 
@@ -88,7 +88,7 @@ public class LobbyUiManager : MonoBehaviour
         {
             var panel = Instantiate(TeamMemberPanel, _orangeTeamList.transform);
             var playerName = panel.GetComponentInChildren<TextMeshProUGUI>();
-            var t = tanks.First(t => t.OwnerClientId == cid);
+            var t = nametags.First(t => t.OwnerClientId == cid);
             playerName.text = t.PlayerName.ToString();
         }
     }

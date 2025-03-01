@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Lab.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/SessionControls.unity
+    path: Assets/Scenes/Session.unity
     guid: e513260d857ec7e49b9435a73ce96ec8
   - enabled: 1
     path: Assets/Scenes/GameplayOverlay.unity
@@ -23,5 +23,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Lobby.unity
     guid: b65ac81bb0543af41bd7effa6ff056fa
+  - enabled: 1
+    path: Assets/Scenes/FindMatch.unity
+    guid: a2e2cfeca99cde0469dd783043fb035b
+  - enabled: 1
+    path: Assets/Scenes/Gameplay.unity
+    guid: ac05affbc7d658648bbd0150edec31fc
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

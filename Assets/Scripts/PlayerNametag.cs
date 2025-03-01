@@ -1,26 +1,29 @@
 using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
-using UnityEngine;
 
-public class PlayerNametag : MonoBehaviour
+public class PlayerNametag : NetworkBehaviour
 {
-    private Tank _playerTank;
-    private TextMeshPro _nametag2;
-
-    private void OnEnable()
+    public FixedString32Bytes PlayerName
     {
-        if (!NetworkManager.Singleton.IsClient)
+        get => PlayerDisplayNameNetVar.Value;
+        set => PlayerDisplayNameNetVar.Value = value;
+    }
+
+    private readonly NetworkVariable<FixedString32Bytes> PlayerDisplayNameNetVar = new NetworkVariable<FixedString32Bytes>("Default");
+
+    public override void OnNetworkSpawn()
+    {
+        if (!IsClient)
         {
             return;
         }
 
-        NetworkLog.LogInfoServer("HELLO!");
-
-        _playerTank ??= GetComponentInParent<Tank>();
-        _nametag2 ??= GetComponent<TextMeshPro>();
-
-        if (_nametag2 == null) return;
-
-        _nametag2.text = _playerTank.PlayerName.ToString();
+        var nametagText = GetComponent<TextMeshPro>();
+        PlayerDisplayNameNetVar.OnValueChanged += (_, nextValue) =>
+        {
+            nametagText.text = nextValue.ToString();
+        };
+        nametagText.text = PlayerName.ToString();
     }
 }

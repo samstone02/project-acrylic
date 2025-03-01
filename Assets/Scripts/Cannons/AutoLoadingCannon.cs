@@ -4,6 +4,7 @@ using System.Linq;
 using Projectiles;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace TankGuns
 {
@@ -15,13 +16,9 @@ namespace TankGuns
 
         [field: SerializeField] public float InterClipReloadTimeSeconds { get; set; } = 1f;
         
-        public event Action ShellLoadEvent;
-        
-        public event Action InterClipReloadEndEvent;
-        
-        public NetworkVariable<float> ReloadTimer { get; private set; } = new NetworkVariable<float>(0);
+        [field: SerializeField] public UnityEvent InterClipReloadEndEvent { get; private set; }
 
-        public NetworkVariable<float> ShellLoadTimer { get; private set; } = new NetworkVariable<float>(0);
+        public NetworkVariable<float> ReloadTimer { get; private set; } = new NetworkVariable<float>(0);
 
         public int MagazineCount { get => MagazineCountNetVar.Value; }
 
@@ -29,9 +26,9 @@ namespace TankGuns
 
         private NetworkVariable<bool> _isInterClipReloading = new NetworkVariable<bool>(false);
         
-        private float _interClipReloadTimer;
+        private NetworkVariable<float> NetInterClipReloadTimer = new NetworkVariable<float>(0);
         
-        private NetworkVariable<int> MagazineCountNetVar { get; set; } = new NetworkVariable<int>(0);
+        private NetworkVariable<int> MagazineCountNetVar { get; } = new NetworkVariable<int>(0);
 
         protected override void Awake()
         {
@@ -57,7 +54,6 @@ namespace TankGuns
                 if (IsServer)
                 {
                     ReloadTimer.Value -= Time.deltaTime;
-                    ShellLoadTimer.Value -= Time.deltaTime;
                 }
 
                 if (ReloadTimer.Value <= 0)
@@ -69,18 +65,7 @@ namespace TankGuns
                     }
                     else
                     {
-                        OnReloadEnd();
-                    }
-                }
-                else if (ShellLoadTimer.Value <= 0)
-                {
-                    if (IsServer)
-                    {
-                        ShellLoadTimer.Value = ReloadTimeSeconds / MagazineCapacity;
-                    }
-                    else
-                    {
-                        ShellLoadEvent?.Invoke();
+                        base.OnReloadEnd();
                     }
                 }
             }
@@ -88,10 +73,10 @@ namespace TankGuns
             {
                 if (IsServer)
                 {
-                    _interClipReloadTimer -= Time.deltaTime;
+                    NetInterClipReloadTimer.Value -= Time.deltaTime;
                 }
 
-                if (_interClipReloadTimer <= 0)
+                if (NetInterClipReloadTimer.Value <= 0)
                 {
                     if (IsServer)
                     {
@@ -158,7 +143,7 @@ namespace TankGuns
             else
             {
                 _isInterClipReloading.Value = true;
-                _interClipReloadTimer = InterClipReloadTimeSeconds;
+                NetInterClipReloadTimer.Value = InterClipReloadTimeSeconds;
             }
         }
 
@@ -170,7 +155,7 @@ namespace TankGuns
                 MagazineCountNetVar.Value = 0;
                 _isReloading.Value = true;
                 ReloadTimer.Value = ReloadTimeSeconds;
-                ShellLoadTimer.Value = ReloadTimeSeconds / MagazineCapacity;
+                NetInterClipReloadTimer.Value = InterClipReloadTimeSeconds;
             }
         }
 

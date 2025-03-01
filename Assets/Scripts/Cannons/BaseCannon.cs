@@ -2,6 +2,7 @@
 using Projectiles;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace TankGuns
 {
@@ -13,18 +14,18 @@ namespace TankGuns
 
         [field: SerializeField] public Transform ShellSpawnPoint { get; set; }
 
+        [field: SerializeField] public UnityEvent FireClientEvent { get; private set; }
+
+        [field: SerializeField] public UnityEvent ReloadStartEvent { get; private set; }
+
+        [field: SerializeField] public UnityEvent ReloadEndEvent { get; private set; }
+
+        [field: SerializeField] public UnityEvent AmmoRefillClientEvent { get; private set; }
+
         /// <summary>
         /// The amount of total ammo left for the cannon to fire.
         /// </summary>
         public int AmmoReserve { get => _ammoReserveNetVar.Value; }
-
-        public event Action FireClientEvent;
-
-        public event Action ReloadStartEvent;
-
-        public event Action ReloadEndEvent;
-
-        public event Action AmmoRefillClientEvent;
 
         private readonly NetworkVariable<int> _ammoReserveNetVar = new NetworkVariable<int>();
 

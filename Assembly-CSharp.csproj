@@ -66,7 +66,6 @@
     <Compile Include="Assets\Scripts\Cannons\BaseCannon.cs" />
     <Compile Include="Assets\Scripts\MainCamera.cs" />
     <Compile Include="Assets\Scripts\Ui\FindMatch\FindMatchUiManager.cs" />
-    <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\MagazineReloadStartAudioHook.cs" />
     <Compile Include="Assets\Scripts\TankAgents\DummyShootTankAgent.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RushdownTankAgent.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\Objective\ObjectiveTimerUi.cs" />
@@ -75,7 +74,6 @@
     <Compile Include="Assets\Scripts\Objectives\ObjectiveType.cs" />
     <Compile Include="Assets\Scripts\TankAgents\PlayerTankAgent.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\GameplayCursor\GameplayCursor.cs" />
-    <Compile Include="Assets\Scripts\AudioHooks\CannonFireAudioHook.cs" />
     <Compile Include="Assets\Scripts\Ui\MainMenu\PlayButton.cs" />
     <Compile Include="Assets\Scripts\Ui\Lobby\LobbyUiManager.cs" />
     <Compile Include="Assets\Scripts\Projectiles\RicochetShell.cs" />
@@ -84,14 +82,11 @@
     <Compile Include="Assets\Scripts\Objectives\ObjectiveTypes\LivesObjectiveType.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\Objective\ObjectiveLocationUi.cs" />
     <Compile Include="Assets\Scripts\Cannons\ConventionalCannon.cs" />
-    <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\InterClipReloadedAudioHook.cs" />
     <Compile Include="Assets\Scripts\Explosion.cs" />
     <Compile Include="Assets\Scripts\Objectives\Objective.cs" />
-    <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\ShellLoadAudioHook.cs" />
     <Compile Include="Assets\Scripts\GameplaySceneManager.cs" />
     <Compile Include="Assets\Scripts\TankTeamColorController.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\PlayerHealthUi.cs" />
-    <Compile Include="Assets\Scripts\AudioHooks\PlayerEventHooks\MagazineReloadEndAudioHook.cs" />
     <Compile Include="Assets\Scripts\Objectives\ObjectiveManager.cs" />
     <Compile Include="Assets\Scripts\TeamManager.cs" />
     <Compile Include="Assets\Scripts\TankAgents\BaseTankAgent.cs" />
@@ -142,6 +137,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\Hovl Studio\Magic effects pack\Demo scene\Readme.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>

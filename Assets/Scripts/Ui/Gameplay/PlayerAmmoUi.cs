@@ -36,10 +36,10 @@ namespace Ui.Gameplay
                 _loadedAmmoText.text = "N/A";
             }
 
-            _cannon.FireClientEvent += OnPlayerFireEvent;
-            _cannon.ReloadStartEvent += OnPlayerReloadStartEvent;
-            _cannon.ReloadEndEvent += OnPlayerReloadEndEvent;
-            _cannon.AmmoRefillClientEvent += OnPlayerRefillAmmo;
+            _cannon.FireClientEvent.AddListener(OnPlayerFireEvent);
+            _cannon.ReloadStartEvent.AddListener(OnPlayerReloadStartEvent);
+            _cannon.ReloadEndEvent.AddListener(OnPlayerReloadEndEvent);
+            _cannon.AmmoRefillClientEvent.AddListener(OnPlayerRefillAmmo);
         }
 
         private void OnPlayerFireEvent()

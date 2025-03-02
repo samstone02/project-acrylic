@@ -110,8 +110,8 @@
     <Compile Include="Assets\Scripts\SessionOrchestrator.cs" />
     <Compile Include="Assets\Scripts\Tank.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\PlayerAmmoUi.cs" />
-    <Compile Include="Assets\Scripts\Objectives\ObjectiveTypes\BaseObjectiveType.cs" />
     <Compile Include="Assets\Scripts\Tank\BaseTankAbility.cs" />
+    <Compile Include="Assets\Scripts\Objectives\ObjectiveTypes\BaseObjectiveType.cs" />
     <Compile Include="Assets\Scripts\Projectiles\ExplosiveShell.cs" />
     <Compile Include="Assets\Scripts\Projectiles\Shell.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\Scoreboard.cs" />

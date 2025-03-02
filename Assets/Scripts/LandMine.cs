@@ -9,9 +9,7 @@ public class LandMine : NetworkBehaviour
 
     [field: SerializeField] public float DurationSeconds { get; private set; }
 
-    [field: SerializeField] public Explosion ExplosionPrefab { get; private set; }
-
-    private Explosion _explosion;
+    [field: SerializeField] public NetworkObject ExplosionPrefab { get; private set; }
 
     private void Start()
     {
@@ -21,17 +19,24 @@ public class LandMine : NetworkBehaviour
         }
     }
 
-    public void OnTriggerEnter(Collider other)
+    /* Explosions triggering with LandMines are handled in the Explision MonoBehaviour */
+
+    public void OnCollisionEnter(Collision col)
     {
-        if (other.GetComponent<Tank>() != null || other.GetComponent<Shell>() != null)
+        if (col.gameObject.GetComponent<Tank>() != null || col.gameObject.GetComponent<Shell>() != null)
         {
             this.Explode();
         }
+
+        if (col.gameObject.GetComponent<Shell>() != null)
+        {
+            Destroy(col.gameObject);
+        }
     }
 
-    private void Explode()
+    public void Explode()
     {
-        var exp = NetworkManager.SpawnManager.InstantiateAndSpawn(ExplosionPrefab.NetworkObject, position: this.transform.position);
+        var exp = NetworkManager.SpawnManager.InstantiateAndSpawn(ExplosionPrefab, position: this.transform.position);
         var exp2 = exp.GetComponent<Explosion>();
         exp2.Explode(DurationSeconds, Damage);
         Destroy(this.gameObject);

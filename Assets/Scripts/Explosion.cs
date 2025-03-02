@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class Explosion : MonoBehaviour
+    public class Explosion : NetworkBehaviour
     {
-        private int _damage;
+        private float _damage;
         
         protected void OnTriggerEnter(Collider collider)
         {
@@ -17,7 +17,7 @@ namespace DefaultNamespace
             }
         }
         
-        public void Explode(float duration, int damage)
+        public void Explode(float duration, float damage)
         {
             Invoke(nameof(EndExplosion), duration);
             _damage = damage;

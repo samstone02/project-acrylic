@@ -484,6 +484,112 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &4252686938407928846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7015921509616907775}
+  - component: {fileID: 3102616736144772369}
+  m_Layer: 0
+  m_Name: Abilities
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7015921509616907775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4252686938407928846}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.94517905, y: 3.786207, z: 7.34233}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 464475969050415723}
+  m_Father: {fileID: 3108015492128133522}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &3102616736144772369
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4252686938407928846}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!1 &4517270355230200164
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 464475969050415723}
+  - component: {fileID: 3614793767500119916}
+  m_Layer: 0
+  m_Name: PlaceLandMineAbility
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &464475969050415723
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4517270355230200164}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7015921509616907775}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3614793767500119916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4517270355230200164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 787026d5dbbbb864b8b379a8d6909182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <EnergyCost>k__BackingField: 50
+  <LandMinePrefab>k__BackingField: {fileID: 5230395833384857194, guid: 3747e9f316134a440bf84086df9d09dc, type: 3}
 --- !u!1 &5087329328145373332
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,6 +606,8 @@ GameObject:
   - component: {fileID: 1721014318378528940}
   - component: {fileID: 4373334637356955831}
   - component: {fileID: 1334848120582184068}
+  - component: {fileID: 4076523902050110390}
+  - component: {fileID: 9054522033003436378}
   m_Layer: 10
   m_Name: PlayerTank
   m_TagString: Untagged
@@ -527,6 +635,7 @@ Transform:
   - {fileID: 9131308753080034113}
   - {fileID: 8733554718797065811}
   - {fileID: 3835393949978873539}
+  - {fileID: 7015921509616907775}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &881609652096462565
@@ -676,6 +785,33 @@ MonoBehaviour:
   <BlueTeamColor>k__BackingField: {r: 0.06763971, g: 0.19511296, b: 0.754717, a: 0}
   <OrangeTeamColor>k__BackingField: {r: 0.8584906, g: 0.41001144, b: 0.10933607, a: 0}
   <NoTeamColor>k__BackingField: {r: 0.3773585, g: 0.30793878, b: 0.3366035, a: 1}
+--- !u!114 &4076523902050110390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5087329328145373332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5838f21c5bc8a2343af9bf8567e2eed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Ability1ActionReference>k__BackingField: {fileID: -297571402706892269, guid: 01b28f5a1df839a4e9f4a5451f4c69db, type: 3}
+--- !u!114 &9054522033003436378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5087329328145373332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b869b5ed4ca47a4dadd218dd95675ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Energy>k__BackingField: 500
+  <Ability0>k__BackingField: {fileID: 0}
 --- !u!1 &5584448713913931488
 GameObject:
   m_ObjectHideFlags: 0

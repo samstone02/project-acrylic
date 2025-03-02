@@ -25,12 +25,12 @@ public class Tank : NetworkBehaviour
 
     [field: SerializeField] public GameObject MainCamera { get; set; }
 
-    public int Health { get => _healthNetVar.Value; }
+    public float Health { get => _healthNetVar.Value; }
     public int Lives { get => _numLivesNetVar.Value; }
     
-    public event Action<int> DamagedEvent;
+    public event Action<float> DamagedEvent;
 
-    public event Action<int> HealedEvent;
+    public event Action<float> HealedEvent;
     
     public event Action DeathClientEvent;
 
@@ -52,7 +52,7 @@ public class Tank : NetworkBehaviour
 
     private GameObject _turret { get; set; }
 
-    private readonly NetworkVariable<int> _healthNetVar = new NetworkVariable<int>();
+    private readonly NetworkVariable<float> _healthNetVar = new NetworkVariable<float>();
 
     private readonly NetworkVariable<int> _numLivesNetVar = new NetworkVariable<int>();
     
@@ -134,7 +134,7 @@ public class Tank : NetworkBehaviour
         ReviveRpc();
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         if (IsServer)
         {
@@ -191,7 +191,7 @@ public class Tank : NetworkBehaviour
         _rigidbody.AddForceAtPosition(right * TreadTorque * deltaTime * transform.forward, RightTrackRollPosition.position);
     }
 
-    private void OnHealthNetVarChanged(int previous, int next)
+    private void OnHealthNetVarChanged(float previous, float next)
     {
         if (previous > next)
         {

@@ -28,9 +28,9 @@ namespace Ui.Gameplay
             _livesText.text = _playerTank.Lives.ToString();
         }
 
-        private void HandlePlayerTakeDamage(int damage)
+        private void HandlePlayerTakeDamage(float damage)
         {
-            int currentDisplayHealth = int.Parse(_healthText.text) - damage;
+            int currentDisplayHealth = int.Parse(_healthText.text) - (int)damage;
             currentDisplayHealth = Mathf.Clamp(currentDisplayHealth, 0, _playerTank.HealthCapacity);
             _healthText.text = currentDisplayHealth.ToString();
         }

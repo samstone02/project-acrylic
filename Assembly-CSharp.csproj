@@ -84,7 +84,10 @@
     <Compile Include="Assets\Scripts\Cannons\ConventionalCannon.cs" />
     <Compile Include="Assets\Scripts\Explosion.cs" />
     <Compile Include="Assets\Scripts\Objectives\Objective.cs" />
+    <Compile Include="Assets\Scripts\LandMine.cs" />
+    <Compile Include="Assets\Scripts\Tank\TankAbilityInputMap.cs" />
     <Compile Include="Assets\Scripts\GameplaySceneManager.cs" />
+    <Compile Include="Assets\Scripts\Tank\PlaceLandMineAbility.cs" />
     <Compile Include="Assets\Scripts\TankTeamColorController.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\PlayerHealthUi.cs" />
     <Compile Include="Assets\Scripts\Objectives\ObjectiveManager.cs" />
@@ -102,10 +105,12 @@
     <Compile Include="Assets\Scripts\Ui\Gameplay\RetryButton.cs" />
     <Compile Include="Assets\Scripts\CustomNetworkBillboard.cs" />
     <Compile Include="Assets\Scripts\Dummy.cs" />
+    <Compile Include="Assets\Scripts\Tank\TankAbilityController.cs" />
     <Compile Include="Assets\Scripts\Utils\NetworkListExtensions.cs" />
     <Compile Include="Assets\Scripts\SessionOrchestrator.cs" />
     <Compile Include="Assets\Scripts\Tank.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\PlayerAmmoUi.cs" />
+    <Compile Include="Assets\Scripts\Tank\BaseTankAbility.cs" />
     <Compile Include="Assets\Scripts\Objectives\ObjectiveTypes\BaseObjectiveType.cs" />
     <Compile Include="Assets\Scripts\Projectiles\ExplosiveShell.cs" />
     <Compile Include="Assets\Scripts\Projectiles\Shell.cs" />

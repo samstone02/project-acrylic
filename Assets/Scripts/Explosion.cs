@@ -32,9 +32,14 @@ namespace DefaultNamespace
             _damage = damage;
         }
 
+        /// <summary>
+        /// Disable the collider and let the particle/sound effects finish. Destory after 5 seconds.
+        /// </summary>
         public void EndExplosion()
         {
-            Destroy(gameObject);
+            var collider = GetComponent<Collider>();
+            collider.enabled = false;
+            Destroy(gameObject, 5f);
         }
     }
 }

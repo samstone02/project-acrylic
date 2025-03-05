@@ -67,8 +67,10 @@
     <Compile Include="Assets\Scripts\MainCamera.cs" />
     <Compile Include="Assets\Scripts\Ui\FindMatch\FindMatchUiManager.cs" />
     <Compile Include="Assets\Scripts\TankAgents\DummyShootTankAgent.cs" />
+    <Compile Include="Assets\Scripts\Ui\Components\ResourceMeter\ResourceMeter.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RushdownTankAgent.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\Objective\ObjectiveTimerUi.cs" />
+    <Compile Include="Assets\Scripts\Utils\NetcodeHelper.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\AmmoSelector.cs" />
     <Compile Include="Assets\Scripts\Cannons\AutoLoadingCannon.cs" />
     <Compile Include="Assets\Scripts\Objectives\ObjectiveType.cs" />
@@ -88,8 +90,8 @@
     <Compile Include="Assets\Scripts\Tank\TankAbilityInputMap.cs" />
     <Compile Include="Assets\Scripts\GameplaySceneManager.cs" />
     <Compile Include="Assets\Scripts\Tank\PlaceLandMineAbility.cs" />
+    <Compile Include="Assets\Scripts\Ui\Hud\EnergyResourceMeterController.cs" />
     <Compile Include="Assets\Scripts\TankTeamColorController.cs" />
-    <Compile Include="Assets\Scripts\Ui\Gameplay\PlayerHealthUi.cs" />
     <Compile Include="Assets\Scripts\Objectives\ObjectiveManager.cs" />
     <Compile Include="Assets\Scripts\TeamManager.cs" />
     <Compile Include="Assets\Scripts\TankAgents\BaseTankAgent.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Assets\Scripts\Ui\Gameplay\Scoreboard.cs" />
     <Compile Include="Assets\Scripts\SessionSceneManager.cs" />
     <Compile Include="Assets\Scripts\NetworkingControls.cs" />
+    <Compile Include="Assets\Scripts\Ui\Hud\HealthResourceMeterController.cs" />
     <Compile Include="Assets\Scripts\PlayerNametag.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1272,6 +1275,10 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">

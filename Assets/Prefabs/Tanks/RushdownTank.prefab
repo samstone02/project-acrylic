@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5180278858916936379}
   - component: {fileID: 7284230275138526319}
-  - component: {fileID: 2064322490681746195}
   m_Layer: 10
   m_Name: CannonFire
   m_TagString: Untagged
@@ -44,6 +43,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 65034ca06b6025b4083d2857cc7281c3, type: 3}
+  m_Resource: {fileID: 8300000, guid: 65034ca06b6025b4083d2857cc7281c3, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -129,18 +129,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2064322490681746195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 404474841315901197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 383757be1f8546341a2024992e1d8b70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &925153702016408361
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,9 +326,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3447a1c4b23b2a446a37e22a0e6b0c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <HitPointCapacity>k__BackingField: 3
+  <HealthCapacity>k__BackingField: 3
   <TurretRotationSpeed>k__BackingField: 120
   <TreadTorque>k__BackingField: 35000000
+  <AmmoCapacity>k__BackingField: 30
+  <StartingLives>k__BackingField: 3
+  <AgentPrefab>k__BackingField: {fileID: 0}
+  <MainCamera>k__BackingField: {fileID: 0}
 --- !u!114 &2993770754250733103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,6 +365,9 @@ LineRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

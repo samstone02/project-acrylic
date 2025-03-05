@@ -5,11 +5,17 @@ using UnityEngine;
 [RequireComponent(typeof(TankAbilityInputMap))]
 public class TankAbilityController : NetworkBehaviour
 {
-    [field: SerializeField] public float Energy { get; set; }
+    [field: SerializeField] public float MaxEnergy { get; private set; }
     [field: SerializeField] public BaseTankAbility Ability0 { get; private set; }
+    public float CurrentEnergy { get; private set; }
 
     private Tank _tank;
     private TankAbilityInputMap _inputMap;
+
+    private void Awake()
+    {
+        CurrentEnergy = MaxEnergy;
+    }
 
     private void Start()
     {
@@ -26,7 +32,7 @@ public class TankAbilityController : NetworkBehaviour
 
         if (_inputMap.Ability1)
         {
-            if (Energy >= Ability0.EnergyCost)
+            if (MaxEnergy >= Ability0.EnergyCost)
             {
                 TriggerAbilityServerRpc(0);
             }
@@ -40,21 +46,28 @@ public class TankAbilityController : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void TriggerAbilityServerRpc(byte abilityNumber)
     {
-        var tank = GetComponentInParent<Tank>();
+        BaseTankAbility triggeredAbility = null;
+
         switch (abilityNumber)
         {
             case 0:
-                Ability0.OnTrigger(tank);
+                triggeredAbility = Ability0;
                 break;
             case 1:
-                Ability0.OnTrigger(tank);
+                triggeredAbility = Ability0;
                 break;
              case 2:
-                Ability0.OnTrigger(tank);
+                triggeredAbility = Ability0;
                 break;
             default:
                 NetworkLog.LogInfoServer("An invalid ability number was provided: " +  abilityNumber);
                 break;
+        }
+
+        if (CurrentEnergy >= Ability0.EnergyCost)
+        {
+            triggeredAbility.OnTrigger(_tank);
+            CurrentEnergy -= triggeredAbility.EnergyCost;
         }
     }
 }

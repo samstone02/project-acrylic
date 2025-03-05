@@ -810,7 +810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b869b5ed4ca47a4dadd218dd95675ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Energy>k__BackingField: 500
+  <MaxEnergy>k__BackingField: 1000
   <Ability0>k__BackingField: {fileID: 3614793767500119916}
 --- !u!1 &5584448713913931488
 GameObject:

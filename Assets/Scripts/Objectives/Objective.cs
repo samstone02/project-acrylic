@@ -57,6 +57,8 @@ public class Objective : NetworkBehaviour
             ControllingTeamNetVar.OnValueChanged = (_, next) => ControllingTeam = next;
             PrepTimeNetVar.OnValueChanged = (_, next) => PrepTimer = next;
             CaptureTimerNetVar.OnValueChanged = (_, next) => CaptureTimer = next;
+
+            PrepTimer = PrepTimeSeconds;
         }
     }
 

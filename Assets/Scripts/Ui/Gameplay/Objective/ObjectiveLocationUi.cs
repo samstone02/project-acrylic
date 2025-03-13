@@ -3,7 +3,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class ObjectiveTimer : MonoBehaviour
+public class ObjectiveLocationUi : MonoBehaviour
 {
     private ObjectiveManager _objectiveManager;
     private TMP_Text _textComponent;
@@ -19,13 +19,13 @@ public class ObjectiveTimer : MonoBehaviour
 
     void Update()
     {
-        if (_selectedObjective == null)
+        if (_selectedObjective != null)
         {
-            _textComponent.text = "No Objective";
+            _textComponent.text = _selectedObjective.ObjectiveLocationName;
         }
         else
         {
-            _textComponent.text = "Objective: " + _selectedObjective.ObjectiveLocationName;
+            _textComponent.text = string.Empty;
         }
     }
 
@@ -33,5 +33,11 @@ public class ObjectiveTimer : MonoBehaviour
     {
         _selectedObjective = FindObjectsByType<Objective>(FindObjectsSortMode.None)
             .First(o => o.NetworkObject.NetworkObjectId == selectedObjectiveNetworkObjectId);
+        _selectedObjective.ObjectiveCapturedClientEvent += HandleObjectiveCaptured;
+    }
+
+    private void HandleObjectiveCaptured()
+    {
+        _selectedObjective = null;
     }
 }

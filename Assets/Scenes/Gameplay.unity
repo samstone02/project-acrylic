@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ef64f77b3247247a6b78c383f9bcd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <TimeBetweenObjectivesSeconds>k__BackingField: 30
+  <TimeBetweenObjectivesSeconds>k__BackingField: 10
   Objectives: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

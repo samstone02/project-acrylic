@@ -1,35 +1,28 @@
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class ObjectiveTimerUi : MonoBehaviour
+public class PrepTimerUi : MonoBehaviour
 {
+    private TMP_Text _countdownText;
+
     private ObjectiveManager _objectiveManager;
-    private TMP_Text _textComponent;
     private Objective _selectedObjective;
 
     void Start()
     {
-        _objectiveManager = FindObjectsByType<ObjectiveManager>(FindObjectsSortMode.None).First();
-        _textComponent = GetComponentInChildren<TMP_Text>();
+        _countdownText = GetComponentInChildren<TMP_Text>();
 
+        _objectiveManager = FindObjectsByType<ObjectiveManager>(FindObjectsSortMode.None).First();
         _objectiveManager.ObjectiveSelectedClientEvent += HandleObjectiveSelected;
     }
 
-    private void Update()
+    void Update()
     {
-        if (_selectedObjective == null)
-        {
-            _textComponent.text = "";
-        }
-        else if (_selectedObjective.PrepTimer > 0)
-        {
-            _textComponent.text = "Objective starting soon...";
-        }
-        else
-        {
-            _textComponent.text = _selectedObjective.CaptureTimer.ToString("0.00");
-        }
+        _countdownText.text = _selectedObjective != null
+            ? _selectedObjective.PrepTimer.ToString("0.0")
+            : string.Empty;
     }
 
     private void HandleObjectiveSelected(ulong selectedObjectiveNetworkObjectId)

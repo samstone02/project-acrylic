@@ -64,13 +64,13 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\TeamControls.cs" />
     <Compile Include="Assets\TooManyCrosshairs\Cursors\_Demo\Scripts\CursorTrigger.cs" />
+    <Compile Include="Assets\Scripts\Ui\Gameplay\Objective\ObjectiveInfoUi.cs" />
     <Compile Include="Assets\Scripts\Cannons\BaseCannon.cs" />
     <Compile Include="Assets\Scripts\MainCamera.cs" />
     <Compile Include="Assets\Scripts\Ui\FindMatch\FindMatchUiManager.cs" />
     <Compile Include="Assets\Scripts\TankAgents\DummyShootTankAgent.cs" />
     <Compile Include="Assets\Scripts\Ui\Components\ResourceMeter\ResourceMeter.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RushdownTankAgent.cs" />
-    <Compile Include="Assets\Scripts\Ui\Gameplay\Objective\ObjectiveTimerUi.cs" />
     <Compile Include="Assets\Scripts\Utils\NetcodeHelper.cs" />
     <Compile Include="Assets\TooManyCrosshairs\Cursors\_Demo\Scripts\CursorChanger.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\AmmoSelector.cs" />
@@ -81,6 +81,7 @@
     <Compile Include="Assets\Scripts\Ui\Gameplay\GameplayCursor\GameplayCursor.cs" />
     <Compile Include="Assets\Scripts\Ui\MainMenu\PlayButton.cs" />
     <Compile Include="Assets\Scripts\Ui\Lobby\LobbyUiManager.cs" />
+    <Compile Include="Assets\Scripts\Ui\Gameplay\Objective\PrepTimerUi.cs" />
     <Compile Include="Assets\TooManyCrosshairs\Cursors\_Demo\Scripts\MoveToMousePosition.cs" />
     <Compile Include="Assets\Scripts\Projectiles\RicochetShell.cs" />
     <Compile Include="Assets\Scripts\Objectives\ObjectiveTypes\AmmoObjectiveType.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Assets\Scripts\Ui\Gameplay\PlayerAmmoUi.cs" />
     <Compile Include="Assets\Scripts\Tank\BaseTankAbility.cs" />
     <Compile Include="Assets\Scripts\Objectives\ObjectiveTypes\BaseObjectiveType.cs" />
+    <Compile Include="Assets\Scripts\Ui\Gameplay\Objective\CaptureTimerUi.cs" />
     <Compile Include="Assets\Scripts\Projectiles\ExplosiveShell.cs" />
     <Compile Include="Assets\TooManyCrosshairs\_Demo\Scripts\Gun.cs" />
     <Compile Include="Assets\Scripts\Projectiles\Shell.cs" />

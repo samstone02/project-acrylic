@@ -11,7 +11,7 @@ public class CaptureTimerUi : MonoBehaviour
     private ObjectiveManager _objectiveManager;
     private Objective _selectedObjective;
 
-    void Start()
+    private void Start()
     {
         _countdownText = GetComponentInChildren<TMP_Text>();
         _progressCircle = GetComponentInChildren<Image>();

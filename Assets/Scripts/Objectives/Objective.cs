@@ -15,6 +15,9 @@ public class Objective : NetworkBehaviour
 
     public Team ControllingTeam { get; private set; }
 
+    public bool IsBlueContesting => IsBlueContestingNetVar.Value;
+    public bool IsOrangeContesting => IsOrangeContestingNetVar.Value;
+
     public float PrepTimer { get; private set; }
 
     public float CaptureTimer { get; private set; }
@@ -36,6 +39,10 @@ public class Objective : NetworkBehaviour
     private NetworkVariable<Team> ControllingTeamNetVar { get; } = new NetworkVariable<Team>(Team.None);
 
     private BaseObjectiveType ObjectiveType { get; set; }
+
+    private NetworkVariable<bool> IsBlueContestingNetVar = new NetworkVariable<bool>();
+
+    private NetworkVariable<bool> IsOrangeContestingNetVar = new NetworkVariable<bool>();
 
     public override void OnNetworkSpawn()
     {
@@ -83,14 +90,14 @@ public class Objective : NetworkBehaviour
             return;
         }
 
-        var isBlueContesting = ContestingTanks.Any(t => _TeamManager.GetTeam(t) == Team.Blue);
-        var isOrangeContesting = ContestingTanks.Any(t => _TeamManager.GetTeam(t) == Team.Orange);
+        IsBlueContestingNetVar.Value = ContestingTanks.Any(t => _TeamManager.GetTeam(t) == Team.Blue);
+        IsOrangeContestingNetVar.Value = ContestingTanks.Any(t => _TeamManager.GetTeam(t) == Team.Orange);
 
-        if (isBlueContesting && isOrangeContesting)
+        if (IsBlueContestingNetVar.Value && IsOrangeContestingNetVar.Value)
         {
             // ...
         }
-        else if (!isBlueContesting && !isOrangeContesting)
+        else if (!IsBlueContestingNetVar.Value && !IsOrangeContestingNetVar.Value)
         {
             ControllingTeamNetVar.Value = Team.None;
 
@@ -100,7 +107,7 @@ public class Objective : NetworkBehaviour
                 CaptureTimerNetVar.Value = Mathf.Clamp(CaptureTimerNetVar.Value, 0, CaptureTimeSeconds);
             }
         }
-        else if (isBlueContesting)
+        else if (IsBlueContestingNetVar.Value)
         {
             if (ControllingTeamNetVar.Value == Team.Blue)
             {
@@ -124,7 +131,7 @@ public class Objective : NetworkBehaviour
                 }
             }
         }
-        else if (isOrangeContesting)
+        else if (IsOrangeContestingNetVar.Value)
         {
             if (ControllingTeamNetVar.Value == Team.Orange)
             {
@@ -157,7 +164,7 @@ public class Objective : NetworkBehaviour
         {
             ObjectiveCapturedServerEvent?.Invoke(ControllingTeamNetVar.Value);
 
-            var winnerClientIds = isBlueContesting
+            var winnerClientIds = IsBlueContestingNetVar.Value
                 ? ContestingTanks.Where(t => _TeamManager.GetTeam(t) == Team.Blue)
                 : ContestingTanks.Where(t => _TeamManager.GetTeam(t) == Team.Orange);
 
@@ -169,6 +176,9 @@ public class Objective : NetworkBehaviour
             ObjectiveType.OnCapture(winnerClientIds);
             ObjectiveType = null;
             ObjectiveCapturedClientRpc();
+
+            IsBlueContestingNetVar.Value = false;
+            IsOrangeContestingNetVar.Value = false;
         }
     }
 

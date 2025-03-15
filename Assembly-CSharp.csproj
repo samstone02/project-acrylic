@@ -90,6 +90,7 @@
     <Compile Include="Assets\TooManyCrosshairs\HELLSLAYER Crosshairs\_Demo\Scripts\Crosshair.cs" />
     <Compile Include="Assets\Scripts\Ui\Gameplay\Objective\ObjectiveLocationUi.cs" />
     <Compile Include="Assets\Scripts\Cannons\ConventionalCannon.cs" />
+    <Compile Include="Assets\ControllingTeamUi.cs" />
     <Compile Include="Assets\Scripts\Explosion.cs" />
     <Compile Include="Assets\Scripts\Objectives\Objective.cs" />
     <Compile Include="Assets\Scripts\LandMine.cs" />

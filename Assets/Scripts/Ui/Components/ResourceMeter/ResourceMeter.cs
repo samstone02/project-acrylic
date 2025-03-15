@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ResourceMeter : MonoBehaviour
 {
-    void Start()
+    private void Start()
     {
         var tank = NetcodeHelper.GetLocalClientTankOrNull();
 

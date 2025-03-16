@@ -21,6 +21,8 @@ public class CaptureTimerUi : MonoBehaviour
 
         _objectiveManager = FindObjectsByType<ObjectiveManager>(FindObjectsSortMode.None).First();
         _objectiveManager.ObjectiveSelectedClientEvent += HandleObjectiveSelected;
+
+        _progressCircle.fillAmount = 0;
     }
 
     private void Update()

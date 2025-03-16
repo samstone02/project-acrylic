@@ -103,6 +103,7 @@
     <Compile Include="Assets\TooManyCrosshairs\Unknown&apos;s Crosshairs\_Demo\Scripts\Gun.cs" />
     <Compile Include="Assets\Scripts\TeamManager.cs" />
     <Compile Include="Assets\Scripts\TankAgents\BaseTankAgent.cs" />
+    <Compile Include="Assets\PlayerLivesUi.cs" />
     <Compile Include="Assets\TooManyCrosshairs\HELLSLAYER Crosshairs\_Demo\Scripts\Gun.cs" />
     <Compile Include="Assets\TooManyCrosshairs\Cursors\_Demo\Scripts\HideMouseCursor.cs" />
     <Compile Include="Assets\Scripts\TankAgents\RandomActionTankAgent.cs" />

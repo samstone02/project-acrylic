@@ -60,12 +60,13 @@ public class Objective : NetworkBehaviour
             _MeshRenderer = GetComponent<MeshRenderer>();
             _MeshRenderer.enabled = false;
 
-            // Used for rendering in the inspector
+            // Initialize public fields for UI components to reference
             ControllingTeamNetVar.OnValueChanged = (_, next) => ControllingTeam = next;
             PrepTimeNetVar.OnValueChanged = (_, next) => PrepTimer = next;
             CaptureTimerNetVar.OnValueChanged = (_, next) => CaptureTimer = next;
 
             PrepTimer = PrepTimeSeconds;
+            CaptureTimer = CaptureTimeSeconds;
         }
     }
 

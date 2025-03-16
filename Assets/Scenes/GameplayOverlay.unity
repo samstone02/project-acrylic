@@ -1848,6 +1848,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b02cd515690444fa42ae760d201ab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BlueProgressCircleColor: {r: 0.06666667, g: 0.19607843, b: 0.7529412, a: 1}
+  OrangeProgressCircleColor: {r: 0.85882354, g: 0.4117647, b: 0.10980392, a: 1}
 --- !u!1 &960069912
 GameObject:
   m_ObjectHideFlags: 0

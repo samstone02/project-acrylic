@@ -99,12 +99,15 @@ public class Objective : NetworkBehaviour
         }
         else if (!IsBlueContestingNetVar.Value && !IsOrangeContestingNetVar.Value)
         {
-            ControllingTeamNetVar.Value = Team.None;
-
             if (CaptureTimerNetVar.Value < CaptureTimeSeconds)
             {
                 CaptureTimerNetVar.Value += Time.deltaTime;
                 CaptureTimerNetVar.Value = Mathf.Clamp(CaptureTimerNetVar.Value, 0, CaptureTimeSeconds);
+            }
+
+            if (CaptureTimerNetVar.Value == 0)
+            {
+                ControllingTeamNetVar.Value = Team.None;
             }
         }
         else if (IsBlueContestingNetVar.Value)

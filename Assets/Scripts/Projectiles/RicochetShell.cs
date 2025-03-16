@@ -22,6 +22,11 @@ namespace Projectiles
 
         protected override void OnCollisionEnter(Collision collision)
         {
+            if (!NetworkManager.IsServer)
+            {
+                return;
+            }
+
             if (!RicochetInfinitely)
             {
                 RicochetCount--;

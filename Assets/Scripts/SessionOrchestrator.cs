@@ -19,6 +19,7 @@ public class SessionOrchestrator : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
+        NetworkManager.OnServerStarted += OnServerStarted;
         NetworkManager.OnClientConnectedCallback += OnClientConnected;
     }
 
@@ -70,11 +71,15 @@ public class SessionOrchestrator : NetworkBehaviour
         UnloadFindMatchScene();
     }
 
+    private void OnServerStarted()
+    {
+        _sessionSceneManager.LoadLobbyScene();
+    }
+
     private void OnClientConnected(ulong connectedClientId)
     {
         if (NetworkManager.LocalClientId == connectedClientId)
         {
-            _sessionSceneManager.LoadLobbyScene();
             SetClientDisplayNameServerRpc(connectedClientId, FindMatchUiManager.GetPlayerName());
         }
     }

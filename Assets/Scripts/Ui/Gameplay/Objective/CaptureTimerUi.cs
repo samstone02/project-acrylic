@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class CaptureTimerUi : MonoBehaviour
 {
+    [SerializeField] private Color BlueProgressCircleColor;
+    [SerializeField] private Color OrangeProgressCircleColor;
+
     private TMP_Text _countdownText;
     private Image _progressCircle;
 
@@ -27,12 +30,19 @@ public class CaptureTimerUi : MonoBehaviour
             _countdownText.text = "";
             _progressCircle.fillAmount = 0;
         }
-        else if (_selectedObjective.PrepTimer > 0)
-        {
-
-        }
         else if (_selectedObjective.PrepTimer <= 0)
         {
+            if (_selectedObjective.ControllingTeam == Team.Blue)
+            {
+                _progressCircle.fillClockwise = false;
+                _progressCircle.color = BlueProgressCircleColor;
+            }
+            else if (_selectedObjective.ControllingTeam == Team.Orange)
+            {
+                _progressCircle.fillClockwise = true;
+                _progressCircle.color = OrangeProgressCircleColor;
+            }
+
             _countdownText.text = _selectedObjective.CaptureTimer.ToString("0.0");
             _progressCircle.fillAmount = (_selectedObjective.CaptureTimeSeconds - _selectedObjective.CaptureTimer) / _selectedObjective.CaptureTimeSeconds;
         }

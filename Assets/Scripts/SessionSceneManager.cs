@@ -34,6 +34,11 @@ public class SessionSceneManager : NetworkBehaviour
 
     public void LoadLobbyScene()
     {
+        if (LobbyScene.isLoaded)
+        {
+            return;
+        }
+
         if (GameplayScene.isLoaded)
         {
             NetworkManager.SceneManager.UnloadScene(GameplayScene);

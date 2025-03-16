@@ -89,6 +89,11 @@ public class Tank : NetworkBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!IsServer)
+        {
+            return;
+        }
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Projectile"))
         {
             var shell = collision.gameObject.GetComponent<Shell>();

@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using TankGuns;
 using TMPro;
 using Unity.Netcode;
@@ -12,8 +9,6 @@ namespace Ui.Gameplay
     {
         private TextMeshProUGUI _ammoText;
 
-        private TextMeshProUGUI _loadedAmmoText;
-
         private BaseCannon _cannon;
 
         private void Start()
@@ -22,19 +17,9 @@ namespace Ui.Gameplay
             var tank = localPlayer.GetComponent<Tank>();
 
             _cannon = localPlayer.GetComponentInChildren<BaseCannon>();
-            _ammoText = GetComponentsInChildren<TextMeshProUGUI>().First(c => c.name == "Ammo Text");
-            _loadedAmmoText = GetComponentsInChildren<TextMeshProUGUI>().First(c => c.name == "Loaded Ammo Text");
+            _ammoText = GetComponent<TextMeshProUGUI>();
 
             _ammoText.text = _cannon.AmmoReserve.ToString();
-
-            if (_cannon is not AutoLoadingCannon)
-            {
-                _loadedAmmoText.text = "...";
-            }
-            else
-            {
-                _loadedAmmoText.text = "N/A";
-            }
 
             _cannon.FireClientEvent.AddListener(OnPlayerFireEvent);
             _cannon.ReloadStartEvent.AddListener(OnPlayerReloadStartEvent);
@@ -44,45 +29,22 @@ namespace Ui.Gameplay
 
         private void OnPlayerFireEvent()
         {
-            if (_cannon is AutoLoadingCannon autoLoader)
-            {
-                // subtract 1 because this is a client event
-                // the current magazine count won't be updated yet
-                _loadedAmmoText.text = (autoLoader.MagazineCount - 1).ToString();
-            }
-            else
-            {
-                // subtract 1 because this is a client event
-                // the current ammo count won't be updated yet
-                _ammoText.text = (_cannon.AmmoReserve - 1).ToString();
-            }
+            _ammoText.text = _cannon.AmmoReserve.ToString();
         }
 
         private void OnPlayerReloadStartEvent()
         {
-            if (_cannon is AutoLoadingCannon autoLoader)
-            {
-                _ammoText.text = _cannon.AmmoReserve.ToString();
-
-                _loadedAmmoText.text = "...";
-            }
+            _ammoText.text = _cannon.AmmoReserve.ToString();
         }
 
         private void OnPlayerReloadEndEvent()
         {
-            if (_cannon is AutoLoadingCannon autoLoader)
-            {
-                _ammoText.text = _cannon.AmmoReserve.ToString();
-                _loadedAmmoText.text = autoLoader.MagazineCapacity.ToString();
-            }
+            _ammoText.text = _cannon.AmmoReserve.ToString();
         }
 
         private void OnPlayerRefillAmmo()
         {
-            if (_cannon is AutoLoadingCannon autoLoader)
-            {
-                _ammoText.text = _cannon.AmmoReserve.ToString();
-            }
+            _ammoText.text = _cannon.AmmoReserve.ToString();
         }
     }
 }

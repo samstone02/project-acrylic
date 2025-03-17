@@ -62,10 +62,10 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.32f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\OccaSoftware\Crosshairs\Editor\StartMenu.cs" />
+    <Compile Include="Assets\ThirdParty\OccaSoftware\Crosshairs\Editor\StartMenu.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\OccaSoftware\Crosshairs\Editor\OccaSoftware.Crosshairs.Editor.asmdef" />
+    <None Include="Assets\ThirdParty\OccaSoftware\Crosshairs\Editor\OccaSoftware.Crosshairs.Editor.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

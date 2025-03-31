@@ -9,8 +9,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{D418F4E8-4B43-DF02-233E-33ED5EBD7B9C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -65,17 +64,18 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameplayElements\Objectives\Objective.cs" />
     <Compile Include="Assets\Scripts\TeamControls.cs" />
-    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\Cursors\_Demo\Scripts\CursorTrigger.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\AmmoSelector.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\MainMenu\CloseTutorialModalButton.cs" />
     <Compile Include="Assets\Scripts\Ui\Components\ResourceMeter\ResourceMeter.cs" />
+    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\_Demo\Scripts\Crosshair.cs" />
+    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\HELLSLAYER Crosshairs\_Demo\Scripts\Crosshair.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\MainMenu\TutorialButton.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Lobby\LobbyUiManager.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Tank\Tank.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Objectives\ObjectiveTypes\LivesObjectiveType.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Projectiles\Shell.cs" />
     <Compile Include="Assets\Scripts\Utils\NetcodeHelper.cs" />
-    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\Cursors\_Demo\Scripts\CursorChanger.cs" />
+    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\Unknown&apos;s Crosshairs\_Demo\Scripts\Crosshair.cs" />
     <Compile Include="Assets\Scripts\Managers\MainSceneManager.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Objectives\ObjectiveType.cs" />
     <Compile Include="Assets\Scripts\Managers\SessionSceneManager.cs" />
@@ -83,26 +83,21 @@
     <Compile Include="Assets\Scripts\GameplayElements\Objectives\ObjectiveManager.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\HealthResourceMeterController.cs" />
     <Compile Include="Assets\Scripts\Managers\TeamManager.cs" />
-    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\Unknown%27s Crosshairs\_Demo\Scripts\Crosshair.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\GameplayUiManager.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Objectives\ObjectiveTypes\AmmoObjectiveType.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\GameplayCursor\AmmoCounterTallyUi.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Tank\TankAbilityController.cs" />
-    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\Cursors\_Demo\Scripts\MoveToMousePosition.cs" />
     <Compile Include="Assets\Scripts\Managers\GameplaySceneManager.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Tank\TankAgents\PlayerTankAgent.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\Objective\PrepTimerUi.cs" />
-    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\HELLSLAYER Crosshairs\_Demo\Scripts\Crosshair.cs" />
-    <Compile Include="Assets\Scripts\GameplayElements\Tank\TankAgents\RandomActionTankAgent.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Tank\PlaceLandMineAbility.cs" />
+    <Compile Include="Assets\Scripts\GameplayElements\Tank\TankAgents\RandomActionTankAgent.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Explosion.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Projectiles\RicochetShell.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\GameplayCursor\PlayerAmmoUi.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\MainMenu\PlayButton.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Tank\TankAbilityInputMap.cs" />
-    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\Unknown%27s Crosshairs\_Demo\Scripts\Gun.cs" />
-    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\HELLSLAYER Crosshairs\_Demo\Scripts\Gun.cs" />
-    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\Cursors\_Demo\Scripts\HideMouseCursor.cs" />
+    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\Cursors\_Demo\Scripts\CursorChanger.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\LandMine.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\MainCamera.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\FindMatch\FindMatchUiManager.cs" />
@@ -114,18 +109,22 @@
     <Compile Include="Assets\Scripts\GameplayElements\Cannons\BaseCannon.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Tank\TankAgents\BaseTankAgent.cs" />
     <Compile Include="Assets\Scripts\Orchestrators\GameplayOrchestrator.cs" />
-    <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\GameplayCursor\ReloadProgressCircle.cs" />
+    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\Cursors\_Demo\Scripts\CursorTrigger.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Tank\TankAgents\RushdownTankAgent.cs" />
+    <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\GameplayCursor\ReloadProgressCircle.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\GameOver\RetryButton.cs" />
+    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\_Demo\Scripts\Gun.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\CustomNetworkBillboard.cs" />
     <Compile Include="Assets\Scripts\Dummy.cs" />
-    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\_Demo\Scripts\Crosshair.cs" />
+    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\HELLSLAYER Crosshairs\_Demo\Scripts\Gun.cs" />
     <Compile Include="Assets\Scripts\Utils\NetworkListExtensions.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Cannons\ConventionalCannon.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Tank\BaseTankAbility.cs" />
+    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\Unknown&apos;s Crosshairs\_Demo\Scripts\Gun.cs" />
+    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\Cursors\_Demo\Scripts\MoveToMousePosition.cs" />
+    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\Cursors\_Demo\Scripts\HideMouseCursor.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\EnergyResourceMeterController.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\Objective\ControllingTeamUi.cs" />
-    <Compile Include="Assets\ThirdParty\TooManyCrosshairs\_Demo\Scripts\Gun.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Objectives\ObjectiveTypes\BaseObjectiveType.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Tank\PlayerNametag.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\GameplayCursor\GameplayCursor.cs" />
@@ -1331,13 +1330,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="ParrelSync.csproj">
-      <Project>{7BD1CAFD-AB53-C8CC-6ED3-B187526C8EF2}</Project>
-      <Name>ParrelSync</Name>
-    </ProjectReference>
     <ProjectReference Include="OccaSoftware.Crosshairs.Editor.csproj">
       <Project>{483D291F-71BD-C53D-04B2-BAC521B3261B}</Project>
       <Name>OccaSoftware.Crosshairs.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="ParrelSync.csproj">
+      <Project>{7BD1CAFD-AB53-C8CC-6ED3-B187526C8EF2}</Project>
+      <Name>ParrelSync</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

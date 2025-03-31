@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2077839914
+  GlobalObjectIdHash: 1715520029
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -126,10 +126,9 @@ MonoBehaviour:
   <Speed>k__BackingField: 50
   <IgnoreArmor>k__BackingField: 0
   <RicochetInfinitely>k__BackingField: 0
-  <RicochetCount>k__BackingField: 1
+  <RicochetCount>k__BackingField: 2
   <DamageRampOnRicochet>k__BackingField: 0
   <SpeedRampOnRicochet>k__BackingField: 0
-  <RicochetDetectionDistance>k__BackingField: 2.75
 --- !u!114 &1460197196158908577
 MonoBehaviour:
   m_ObjectHideFlags: 0

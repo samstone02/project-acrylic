@@ -15,7 +15,7 @@ public class CustomNetworkBillboard : NetworkBehaviour
             this.enabled = false;
             NetworkManager.Singleton.SceneManager.OnLoadComplete += (clientId, sceneName, mode) =>
             {
-                if (sceneName == "Lab")
+                if (sceneName == "Lab" || sceneName == "Lab2")
                 {
                     this.enabled = true;
                     _cameraTrans = FindFirstObjectByType<Camera>().transform;

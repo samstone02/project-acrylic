@@ -17,7 +17,7 @@ public class GameplaySceneManager : NetworkBehaviour
     public void LoadGameplayScene()
     {
         UnloadLobbySceneClientRpc();
-        NetworkManager.SceneManager.LoadScene("Lab", LoadSceneMode.Additive);
+        NetworkManager.SceneManager.LoadScene("Lab2", LoadSceneMode.Additive);
         NetworkManager.SceneManager.OnSceneEvent += OnSceneEvent;
     }
 
@@ -39,7 +39,7 @@ public class GameplaySceneManager : NetworkBehaviour
             return;
         }
 
-        if (sceneEvent.SceneName == "Lab")
+        if (sceneEvent.SceneName == "Lab2")
         {
             GameplaySceneLoadEvent?.Invoke();
         }

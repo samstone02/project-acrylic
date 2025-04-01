@@ -29,5 +29,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Gameplay.unity
     guid: ac05affbc7d658648bbd0150edec31fc
+  - enabled: 1
+    path: Assets/Scenes/Lab2.unity
+    guid: d1978d7cb56a5574fae7c80400482ec0
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

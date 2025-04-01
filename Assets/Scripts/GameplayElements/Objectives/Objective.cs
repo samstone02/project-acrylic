@@ -188,8 +188,9 @@ public class Objective : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.TryGetComponent<Tank>(out var _))
+        if (!other.TryGetComponent<Tank>(out var _) || !other.TryGetComponent<NetworkObject>(out var _))
         {
+            // ignore collisions for non-tanks and non-networked tanks (eg dummies)
             return;
         }
 

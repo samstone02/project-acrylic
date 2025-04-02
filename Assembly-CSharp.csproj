@@ -92,6 +92,7 @@
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\Objective\PrepTimerUi.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Tank\PlaceLandMineAbility.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Tank\TankAgents\RandomActionTankAgent.cs" />
+    <Compile Include="Assets\Scripts\Managers\RespawnManager.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Explosion.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Projectiles\RicochetShell.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\GameplayCursor\PlayerAmmoUi.cs" />

@@ -10,12 +10,14 @@ public class GameplayOrchestrator : NetworkBehaviour
     private GameplaySceneManager _gameplaySceneManager;
     private TeamManager _teamManager;
     private ObjectiveManager _objectiveManager;
+    private RespawnManager _respawnManager;
 
     private void Start()
     {
         _teamManager = FindAnyObjectByType<TeamManager>();
         _gameplaySceneManager = FindAnyObjectByType<GameplaySceneManager>();
         _objectiveManager = FindAnyObjectByType<ObjectiveManager>();
+        _respawnManager = FindAnyObjectByType<RespawnManager>();
 
         if (IsClient)
         {
@@ -35,6 +37,7 @@ public class GameplayOrchestrator : NetworkBehaviour
 
         _objectiveManager.FindObjectives();
         _objectiveManager.StartTimer();
+        _respawnManager.FindSpawnPoints();
 
         var clientIds = NetworkManager.ConnectedClientsIds;
         foreach (var clientId in clientIds)
@@ -46,11 +49,11 @@ public class GameplayOrchestrator : NetworkBehaviour
     private void DeployTank(ulong clientId)
     {
         var tank = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<Tank>();
-        tank.GetComponent<Rigidbody>().position = new Vector3(0, 10, 0);
-        tank.DeathServerEvent += () => HandleTankDeath(clientId);
+        _respawnManager.Respawn(tank);
+        tank.DeathServerEvent += () => HandleTankDeath(clientId, tank);
     }
 
-    private void HandleTankDeath(ulong clientId)
+    private void HandleTankDeath(ulong clientId, Tank tank)
     {
         NetworkLog.LogInfoServer($"Player [{clientId}] died.");
         if (_teamManager.GetTeam(clientId) == Team.None)
@@ -62,11 +65,15 @@ public class GameplayOrchestrator : NetworkBehaviour
         if (_teamManager.AnyMembers(Team.Blue) && !_teamManager.AnyMembersAlive(Team.Blue))
         {
             DeclareWinner(Team.Orange);
+            return;
         }
         else if (_teamManager.AnyMembers(Team.Orange) && !_teamManager.AnyMembersAlive(Team.Orange))
         {
             DeclareWinner(Team.Blue);
+            return;
         }
+
+        _respawnManager.RespawnAfterDelay(tank);
     }
 
     private void DeclareWinner(Team team)

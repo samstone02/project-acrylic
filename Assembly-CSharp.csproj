@@ -119,6 +119,7 @@
     <Compile Include="Assets\Scripts\Dummy.cs" />
     <Compile Include="Assets\ThirdParty\TooManyCrosshairs\HELLSLAYER Crosshairs\_Demo\Scripts\Gun.cs" />
     <Compile Include="Assets\Scripts\Utils\NetworkListExtensions.cs" />
+    <Compile Include="Assets\Scripts\GameplayElements\SpawnRoom.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Cannons\ConventionalCannon.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Tank\BaseTankAbility.cs" />
     <Compile Include="Assets\ThirdParty\TooManyCrosshairs\Unknown&apos;s Crosshairs\_Demo\Scripts\Gun.cs" />

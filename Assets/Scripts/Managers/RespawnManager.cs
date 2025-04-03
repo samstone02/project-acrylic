@@ -39,7 +39,7 @@ public class RespawnManager : MonoBehaviour
         var spawnPoint = teamSpawnPoints[new System.Random().Next(teamSpawnPoints.Count)];
        if (tank.Health <= 0)
         {
-            //tank.Revive();
+            tank.Revive();
         }
         tank.GetComponent<Rigidbody>().position = spawnPoint.position;
     }

@@ -135,8 +135,18 @@ public class Tank : NetworkBehaviour
 
     public void Revive()
     {
-        RevivalClientEvent?.Invoke();
-        ReviveRpc();
+        if (!IsServer)
+        {
+            throw new Exception("Only the server can revive a tank");
+        }
+
+        if (_numLivesNetVar.Value == 0)
+        {
+            throw new Exception($"{NetworkManager.LocalClientId} cannot revive because they have no lives left.");
+        }
+        _healthNetVar.Value = HealthCapacity;
+
+        ReviveClientRpc();
     }
 
     public void TakeDamage(float damage)
@@ -242,18 +252,6 @@ public class Tank : NetworkBehaviour
         }
 
         return direction;
-    }
-
-    [Rpc(SendTo.Server)]
-    private void ReviveRpc()
-    {
-        if (_numLivesNetVar.Value == 0)
-        {
-            NetworkLog.LogInfoServer($"{NetworkManager.LocalClientId} cannot revive because they have no lives left.");
-            return;
-        }
-        _healthNetVar.Value = HealthCapacity;
-        ReviveClientRpc();
     }
 
     [Rpc(SendTo.ClientsAndHost)]

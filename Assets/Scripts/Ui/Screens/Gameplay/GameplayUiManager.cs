@@ -40,7 +40,7 @@ namespace Ui.Gameplay
             _deathScreen.SetActive(false);
 
             _retryButton = _deathScreen.GetComponentsInChildren<Button>().FirstOrDefault(x => x.name == "RetryButton");
-            _retryButton?.onClick.AddListener(OnPlayerRetry);
+            //_retryButton?.onClick.AddListener(OnPlayerRetry);
 
             _gameplayCursor = overlay.transform.Find("GameplayCursor").gameObject;
 
@@ -60,6 +60,7 @@ namespace Ui.Gameplay
 
             _playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.gameObject.GetComponent<Tank>();
             _playerTank.GetComponent<Tank>().DeathClientEvent += OnPlayerDeath;
+            _playerTank.GetComponent<Tank>().RevivalClientEvent += OnPlayerRevive;
 
             gameManager = FindFirstObjectByType<GameplayOrchestrator>();
             gameManager.DeclareWinnerClientEvent += OnWinnerDeclared;
@@ -82,17 +83,11 @@ namespace Ui.Gameplay
             }
         }
 
-        private void OnPlayerRetry()
+        private void OnPlayerRevive()
         {
             _deathScreen.SetActive(false);
             _gameplayCursor.SetActive(true);
             _hud.SetActive(true);
-            _playerTank.Revive();
-
-            if (PlayerSpawnPoint != null)
-            {
-                _playerTank.transform.SetPositionAndRotation(PlayerSpawnPoint.position, PlayerSpawnPoint.rotation);
-            }
         }
 
         private void OnWinnerDeclared(Team winningTeam)

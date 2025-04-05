@@ -86,6 +86,7 @@
     <Compile Include="Assets\Scripts\Managers\TeamManager.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\GameplayUiManager.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Objectives\ObjectiveTypes\AmmoObjectiveType.cs" />
+    <Compile Include="Assets\Scripts\GameplayElements\Rendering\AntennaSwayController.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\GameplayCursor\AmmoCounterTallyUi.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Tank\TankAbilityController.cs" />
     <Compile Include="Assets\Scripts\Managers\GameplaySceneManager.cs" />

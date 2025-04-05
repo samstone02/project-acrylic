@@ -5,23 +5,23 @@ public class TankMotionAudioController : MonoBehaviour
     [SerializeField] public AudioSource RunningEngine;
     [SerializeField] public AudioSource IdleEngine;
     [SerializeField] public AudioSource RollingTracks;
-
     [SerializeField] public float FastEngineThreshold; 
 
     private Tank _tank;
+    private TankAgents.BaseTankAgent _agent;
 
     private void Start()
     {
         _tank = GetComponentInParent<Tank>();
+        _agent = _tank.Agent;
         _tank.DeployClientEvent += StartEngine;
     }
 
     private void Update()
     {
-        var rb = _tank.GetComponent<Rigidbody>();
-        var lv = rb.linearVelocity;
+        var (leftRoll, rightRoll) = _agent.GetDecisionRollTracks();
 
-        if (rb.linearVelocity.magnitude > 0.1)
+        if (leftRoll > FastEngineThreshold || rightRoll > FastEngineThreshold)
         {
             RunningEngine.UnPause();
             RollingTracks.UnPause();

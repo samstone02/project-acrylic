@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\GameplayElements\Objectives\Objective.cs" />
     <Compile Include="Assets\Scripts\TeamControls.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\AmmoSelector.cs" />
+    <Compile Include="Assets\Scripts\GameplayElements\Audio\TurretRotationAudioController.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\MainMenu\CloseTutorialModalButton.cs" />
     <Compile Include="Assets\Scripts\Ui\Components\ResourceMeter\ResourceMeter.cs" />
     <Compile Include="Assets\ThirdParty\TooManyCrosshairs\_Demo\Scripts\Crosshair.cs" />

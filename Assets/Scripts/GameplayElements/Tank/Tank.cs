@@ -25,6 +25,8 @@ public class Tank : NetworkBehaviour
 
     [field: SerializeField] public GameObject MainCamera { get; set; }
 
+    public BaseTankAgent Agent { get; private set; }
+
     public float Health { get => _healthNetVar.Value; }
     public int Lives { get => _numLivesNetVar.Value; }
     
@@ -47,8 +49,6 @@ public class Tank : NetworkBehaviour
     private Transform RightTrackRollPosition { get; set; }
 
     private Rigidbody _rigidbody { get; set; }
-
-    private BaseTankAgent _agent { get; set; }
 
     private BaseCannon _cannon { get; set; }
 
@@ -79,7 +79,7 @@ public class Tank : NetworkBehaviour
         if (IsOwner)
         {
             var agent = Instantiate(AgentPrefab, transform);
-            _agent = agent.GetComponent<BaseTankAgent>();
+            Agent = agent.GetComponent<BaseTankAgent>();
             _rigidbody.isKinematic = false;
             _healthNetVar.OnValueChanged += OnHealthNetVarChanged;
             _numLivesNetVar.OnValueChanged += OnNumLivesNetVarChanged;
@@ -110,13 +110,13 @@ public class Tank : NetworkBehaviour
             return;
         }
 
-        if (_agent is null || _healthNetVar.Value <= 0)
+        if (Agent is null || _healthNetVar.Value <= 0)
         {
             return;
         }
 
-        bool fireDecision = _agent.GetDecisionFire();
-        bool reloadDecision = _agent.GetDecisionReload();
+        bool fireDecision = Agent.GetDecisionFire();
+        bool reloadDecision = Agent.GetDecisionReload();
 
         if (fireDecision)
         {
@@ -127,10 +127,10 @@ public class Tank : NetworkBehaviour
             _cannon.Reload();
         }
 
-        Vector3 targetDirection = _agent.GetDecisionRotateTurret();
+        Vector3 targetDirection = Agent.GetDecisionRotateTurret();
         RotateTurretRpc(targetDirection, Time.deltaTime);
 
-        (float left, float right) = _agent.GetDecisionRollTracks();
+        (float left, float right) = Agent.GetDecisionRollTracks();
 
         MoveRpc(left, right, Time.deltaTime);
     }

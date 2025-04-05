@@ -9,17 +9,19 @@ namespace Ui.Gameplay.GameplayCursor
     {
         private RectTransform _rectTransform;
 
+        private void OnEnable()
+        {
+            Cursor.visible = false;
+        }
+        
+        private void OnDisable()
+        {
+            Cursor.visible = true;
+        }
+
         private void Start()
         {
             _rectTransform = GetComponent<RectTransform>();
-            Cursor.visible = false;
-
-            var gameplayUi = GetComponentInParent<GameplayUiManager>();
-            Button retryButton = gameplayUi.GetComponentsInChildren<Button>(true).First(b => b.name == "RetryButton");
-            retryButton.onClick.AddListener(() => Cursor.visible = false);
-            
-            var playerTank = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Tank>();
-            playerTank.DeathClientEvent += () => Cursor.visible = true;
         }
         
         private void Update()

@@ -1247,7 +1247,6 @@ MonoBehaviour:
   <AmmoCapacity>k__BackingField: 30
   <StartingLives>k__BackingField: 3
   <AgentPrefab>k__BackingField: {fileID: 887874052009262286, guid: 576750d03b0a77d48b861714f613df7a, type: 3}
-  <MainCamera>k__BackingField: {fileID: 5119088166696300199, guid: ad8502e2890649d40979136864aa9663, type: 3}
 --- !u!114 &1721014318378528940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1703,13 +1702,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8166279814959133952}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.19134164, y: 0.80010325, z: -0.46193984, w: -0.33141345}
-  m_LocalPosition: {x: 15, y: 45, z: 15}
+  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
+  m_LocalPosition: {x: 0, y: 100, z: -60}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3108015492128133522}
-  m_LocalEulerAnglesHint: {x: 60, y: 225, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!1 &8417737238863179120
 GameObject:
   m_ObjectHideFlags: 0

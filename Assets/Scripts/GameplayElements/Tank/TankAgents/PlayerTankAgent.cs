@@ -143,10 +143,15 @@ namespace TankAgents
 
         public override Vector3 GetDecisionRotateTurret()
         {
+            if (Camera.main == null)
+            {
+                return Vector3.zero;
+            }
+
             Vector2 mousePos = Mouse.current.position.ReadValue();
             Vector3 mousePosWorld = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
-            Physics.Raycast(mousePosWorld, Camera.main.transform.forward, out RaycastHit hit, 100, _playerAimMask);
-            
+            Physics.Raycast(mousePosWorld, Camera.main.transform.forward, out RaycastHit hit, 1000, _playerAimMask);
+
             Vector3 targetDirection = hit.point - Turret.transform.position;
             targetDirection.y = 0;
             targetDirection.Normalize();

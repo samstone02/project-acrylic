@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameplayOrchestrator : NetworkBehaviour
 {
+    [field: SerializeField] public GameObject SpecatorCameraPrefab;
+    [field: SerializeField] public GameObject MainCameraPrefab;
+
     public event Action<Team> DeclareWinnerServerEvent;
     public event Action<Team> DeclareWinnerClientEvent;
 
@@ -12,6 +15,10 @@ public class GameplayOrchestrator : NetworkBehaviour
     private ObjectiveManager _objectiveManager;
     private RespawnManager _respawnManager;
 
+    private Tank _ownerTank;
+    private MainCamera _ownerMainCamera;
+    private SpectatorCameraController _ownerSpectatorCameraController;
+
     private void Start()
     {
         _teamManager = FindAnyObjectByType<TeamManager>();
@@ -19,19 +26,29 @@ public class GameplayOrchestrator : NetworkBehaviour
         _objectiveManager = FindAnyObjectByType<ObjectiveManager>();
         _respawnManager = FindAnyObjectByType<RespawnManager>();
 
-        if (IsClient)
+        if (IsOwner)
         {
             _gameplaySceneManager.LoadGameplayOverlay();
+            
+            _ownerTank = NetworkManager.ConnectedClients[OwnerClientId].PlayerObject.GetComponent<Tank>();
+
+            var mainCameraPos = _ownerTank.transform.Find("MainCameraPosition").transform;
+
+            _ownerMainCamera = Instantiate(MainCameraPrefab, mainCameraPos).GetComponent<MainCamera>();
+            _ownerSpectatorCameraController = Instantiate(SpecatorCameraPrefab, mainCameraPos).GetComponent<SpectatorCameraController>();
+
+            _ownerTank.DeathClientEvent += OnTankDeathOwner;
+            _ownerTank.RevivalClientEvent += OnTankRevivalOwner;
         }
 
         if (IsServer)
         {
             _gameplaySceneManager.LoadGameplayScene();
-            _gameplaySceneManager.GameplaySceneLoadEvent += OnGameplaySceneLoad;
+            _gameplaySceneManager.GameplaySceneLoadEvent += OnGameplaySceneLoad_Server;
         }
     }
 
-    private void OnGameplaySceneLoad()
+    private void OnGameplaySceneLoad_Server()
     {
         // TODO: Should unsubscribe to the event on perform?
 
@@ -42,16 +59,16 @@ public class GameplayOrchestrator : NetworkBehaviour
         var clientIds = NetworkManager.ConnectedClientsIds;
         foreach (var clientId in clientIds)
         {
-            DeployTank(clientId);
+            DeployTank_Server(clientId);
         }
     }
 
-    private void DeployTank(ulong clientId)
+    private void DeployTank_Server(ulong clientId)
     {
         var tank = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<Tank>();
         _respawnManager.Respawn(tank);
         tank.DeathServerEvent += () => HandleTankDeath(clientId, tank);
-        tank.Deploy();
+        tank.Deploy_Server();
     }
 
     private void HandleTankDeath(ulong clientId, Tank tank)
@@ -75,6 +92,19 @@ public class GameplayOrchestrator : NetworkBehaviour
         }
 
         _respawnManager.RespawnAfterDelay(tank);
+    }
+
+    private void OnTankDeathOwner()
+    {
+        _ownerMainCamera.enabled = false;
+        _ownerSpectatorCameraController.BeginSpectating();
+        _ownerSpectatorCameraController.transform.SetPositionAndRotation(_ownerMainCamera.transform.position, _ownerMainCamera.transform.rotation);
+    }
+
+    private void OnTankRevivalOwner()
+    {
+        _ownerMainCamera.enabled = true;
+        _ownerSpectatorCameraController.EndSpectating();
     }
 
     private void DeclareWinner(Team team)

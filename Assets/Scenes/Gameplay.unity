@@ -282,6 +282,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 197a45b3538fdc0499a9021d9abd9f4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpecatorCameraPrefab: {fileID: 2889397309175380057, guid: 6b7b0ecb76216d54da81ad0c73353870, type: 3}
+  MainCameraPrefab: {fileID: 5119088166696300199, guid: ad8502e2890649d40979136864aa9663, type: 3}
 --- !u!4 &1278669297
 Transform:
   m_ObjectHideFlags: 0

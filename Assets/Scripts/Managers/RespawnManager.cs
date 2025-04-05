@@ -24,9 +24,9 @@ public class RespawnManager : MonoBehaviour
 
     public void FindSpawnPoints()
     {
-        var spawnPoints = GameObject.Find("SpawnPoints").transform;
-        _blueSpawnPoints = spawnPoints.Find("BlueSpawnPoints").GetComponentsInChildren<Transform>().ToList();
-        _orangeSpawnPoints = spawnPoints.Find("OrangeSpawnPoints").GetComponentsInChildren<Transform>().ToList();
+        var environment = GameObject.Find("Environment").transform;
+        _blueSpawnPoints = environment.Find("BlueSpawnRoom").transform.Find("BlueSpawnPoints").GetComponentsInChildren<Transform>().ToList();
+        _orangeSpawnPoints = environment.Find("OrangeSpawnRoom").transform.Find("OrangeSpawnPoints").GetComponentsInChildren<Transform>().ToList();
     }
 
     public void Respawn(Tank tank)

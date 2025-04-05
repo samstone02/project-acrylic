@@ -23,8 +23,6 @@ public class Tank : NetworkBehaviour
 
     [field: SerializeField] public GameObject AgentPrefab { get; set; }
 
-    [field: SerializeField] public GameObject MainCamera { get; set; }
-
     public BaseTankAgent Agent { get; private set; }
 
     public float Health { get => _healthNetVar.Value; }
@@ -83,9 +81,6 @@ public class Tank : NetworkBehaviour
             _rigidbody.isKinematic = false;
             _healthNetVar.OnValueChanged += OnHealthNetVarChanged;
             _numLivesNetVar.OnValueChanged += OnNumLivesNetVarChanged;
-
-            var mainCameraPos = transform.Find("MainCameraPosition").transform;
-            Instantiate(MainCamera, mainCameraPos);
         }
     }
 
@@ -135,7 +130,7 @@ public class Tank : NetworkBehaviour
         MoveRpc(left, right, Time.deltaTime);
     }
 
-    public void Deploy()
+    public void Deploy_Server()
     {
         DeployClientRpc();
     }

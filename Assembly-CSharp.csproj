@@ -94,6 +94,7 @@
     <Compile Include="Assets\Scripts\GameplayElements\Tank\TankAgents\RandomActionTankAgent.cs" />
     <Compile Include="Assets\Scripts\Managers\RespawnManager.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Explosion.cs" />
+    <Compile Include="Assets\Scripts\GameplayElements\Audio\TankMotionAudioController.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Projectiles\RicochetShell.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\GameplayCursor\PlayerAmmoUi.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\MainMenu\PlayButton.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Assets\ThirdParty\TooManyCrosshairs\Cursors\_Demo\Scripts\CursorChanger.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\LandMine.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\MainCamera.cs" />
+    <Compile Include="Assets\Scripts\Utils\RandomAudioSource.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\FindMatch\FindMatchUiManager.cs" />
     <Compile Include="Assets\Scripts\Enums\Team.cs" />
     <Compile Include="Assets\Scripts\EnemySpawner.cs" />

@@ -40,6 +40,8 @@ public class Tank : NetworkBehaviour
 
     public event Action AddLivesClientEvent;
 
+    public event Action DeployClientEvent;
+
     private Transform LeftTrackRollPosition { get; set; }
 
     private Transform RightTrackRollPosition { get; set; }
@@ -131,6 +133,11 @@ public class Tank : NetworkBehaviour
         (float left, float right) = _agent.GetDecisionRollTracks();
 
         MoveRpc(left, right, Time.deltaTime);
+    }
+
+    public void Deploy()
+    {
+        DeployClientRpc();
     }
 
     public void Revive()
@@ -255,9 +262,16 @@ public class Tank : NetworkBehaviour
     }
 
     [Rpc(SendTo.ClientsAndHost)]
+    private void DeployClientRpc()
+    {
+        DeployClientEvent?.Invoke();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
     private void ReviveClientRpc()
     {
         RevivalClientEvent?.Invoke();
+        DeployClientEvent?.Invoke();
     }
 
 

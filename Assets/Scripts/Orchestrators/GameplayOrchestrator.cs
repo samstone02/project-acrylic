@@ -51,6 +51,7 @@ public class GameplayOrchestrator : NetworkBehaviour
         var tank = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<Tank>();
         _respawnManager.Respawn(tank);
         tank.DeathServerEvent += () => HandleTankDeath(clientId, tank);
+        tank.Deploy();
     }
 
     private void HandleTankDeath(ulong clientId, Tank tank)

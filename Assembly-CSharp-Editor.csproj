@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\TankEditor.cs" />
+    <Compile Include="Assets\Editor\TankMotionAudioControllerEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

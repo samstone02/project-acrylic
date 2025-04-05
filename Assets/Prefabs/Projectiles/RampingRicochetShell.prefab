@@ -125,7 +125,7 @@ MonoBehaviour:
   <Damage>k__BackingField: 250
   <Speed>k__BackingField: 75
   <IgnoreArmor>k__BackingField: 0
-  <RicochetInfinitely>k__BackingField: 1
+  <RicochetInfinitely>k__BackingField: 0
   <RicochetCount>k__BackingField: 2
   <DamageRampOnRicochet>k__BackingField: 50
   <SpeedRampOnRicochet>k__BackingField: 0

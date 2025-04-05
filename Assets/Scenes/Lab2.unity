@@ -1160,7 +1160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PrepTimeSeconds>k__BackingField: 15
   <CaptureTimeSeconds>k__BackingField: 15
-  <ObjectiveLocationName>k__BackingField: 
+  <ObjectiveLocationName>k__BackingField: Left
 --- !u!114 &240183368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3625,7 +3625,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PrepTimeSeconds>k__BackingField: 15
   <CaptureTimeSeconds>k__BackingField: 15
-  <ObjectiveLocationName>k__BackingField: 
+  <ObjectiveLocationName>k__BackingField: Center
 --- !u!114 &606208763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4958,7 +4958,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PrepTimeSeconds>k__BackingField: 15
   <CaptureTimeSeconds>k__BackingField: 15
-  <ObjectiveLocationName>k__BackingField: 
+  <ObjectiveLocationName>k__BackingField: Right
 --- !u!114 &881135790
 MonoBehaviour:
   m_ObjectHideFlags: 0

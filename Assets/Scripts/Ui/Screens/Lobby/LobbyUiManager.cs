@@ -13,6 +13,7 @@ public class LobbyUiManager : MonoBehaviour
     private TeamManager _teamManager;
     private GameObject _blueTeamList;
     private GameObject _orangeTeamList;
+    private TMP_Text _selectedLevel;
 
     private void Start()
     {
@@ -32,11 +33,28 @@ public class LobbyUiManager : MonoBehaviour
             .transform.Find("OrangeTeamColumn")
             .transform.Find("TeamMemberList").gameObject;
         _teamManager.PlayerChangeTeamClientEvent += BuildTeamTable;
-        var gameplaySceneManager = FindAnyObjectByType<GameplaySceneManager>();
+
+        _selectedLevel = GameObject.Find("Panel")
+            .transform.Find("SelectedLevel")
+            .GetComponent<TMP_Text>();
+
+        var levelButtons = GameObject.Find("Panel")
+            .transform.Find("LevelSelect")
+            .GetComponentsInChildren<Button>();
+        foreach (var button in levelButtons)
+        {
+            button.onClick.AddListener(() => SelectLevel(button.GetComponentInChildren<TMP_Text>().text));
+        }
+
         var startGameButton = buttons.First(b => b.name == "StartSessionButton");
         if (NetworkManager.Singleton.IsHost)
         {
-            startGameButton.onClick.AddListener(() => gameManager.BeginGame());
+            startGameButton.onClick.AddListener(() =>
+            {
+                var t = _selectedLevel.GetComponent<TMP_Text>().text;
+                var selectedLevelName = _selectedLevel.GetComponent<TMP_Text>().text.Substring(0, t.Length);
+                gameManager.BeginGame();
+            });
         }
         else
         {
@@ -47,6 +65,11 @@ public class LobbyUiManager : MonoBehaviour
     private void OnDestroy()
     {
         _teamManager.PlayerChangeTeamClientEvent -= BuildTeamTable;
+    }
+
+    private void SelectLevel(string name)
+    {
+        _selectedLevel.text = name;
     }
 
     private void BuildTeamTable(ulong clientId, Team team)

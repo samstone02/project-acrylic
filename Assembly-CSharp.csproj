@@ -88,8 +88,8 @@
     <Compile Include="Assets\Scripts\GameplayElements\Objectives\ObjectiveTypes\AmmoObjectiveType.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Rendering\AntennaSwayController.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\GameplayCursor\AmmoCounterTallyUi.cs" />
-    <Compile Include="Assets\Scripts\GameplayElements\Tank\TankAbilityController.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\SpectatorCameraController.cs" />
+    <Compile Include="Assets\Scripts\GameplayElements\Tank\TankAbilityController.cs" />
     <Compile Include="Assets\Scripts\Managers\GameplaySceneManager.cs" />
     <Compile Include="Assets\Scripts\GameplayElements\Tank\TankAgents\PlayerTankAgent.cs" />
     <Compile Include="Assets\Scripts\Ui\Screens\Gameplay\Hud\Objective\PrepTimerUi.cs" />

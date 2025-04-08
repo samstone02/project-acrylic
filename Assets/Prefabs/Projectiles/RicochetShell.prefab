@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 7518495758096467351}
   - component: {fileID: 1460197196158908577}
   - component: {fileID: 6419126862623009514}
-  - component: {fileID: 4707720362957438251}
   m_Layer: 11
   m_Name: RicochetShell
   m_TagString: Untagged
@@ -278,23 +277,6 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
---- !u!114 &4707720362957438251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5308777123184422408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsGlobal: 0
-  priority: 0
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: 95f4cf45232b32545bd33b9a1b0e8d98, type: 2}
 --- !u!1001 &2238997613678619272
 PrefabInstance:
   m_ObjectHideFlags: 0

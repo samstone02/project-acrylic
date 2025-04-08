@@ -51,8 +51,8 @@ public class LobbyUiManager : MonoBehaviour
         {
             startGameButton.onClick.AddListener(() =>
             {
-                var t = _selectedLevel.GetComponent<TMP_Text>().text;
-                var selectedLevelName = _selectedLevel.GetComponent<TMP_Text>().text.Substring(0, t.Length);
+                var text = _selectedLevel.GetComponent<TMP_Text>().text;
+                SelectedLevelScene.SelectedLevelSceneName = _selectedLevel.GetComponent<TMP_Text>().text.Substring(0, text.Length);
                 gameManager.BeginGame();
             });
         }

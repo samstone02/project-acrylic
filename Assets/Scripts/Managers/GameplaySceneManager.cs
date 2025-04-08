@@ -17,7 +17,7 @@ public class GameplaySceneManager : NetworkBehaviour
     public void LoadGameplayScene()
     {
         UnloadLobbySceneClientRpc();
-        NetworkManager.SceneManager.LoadScene("Lab2", LoadSceneMode.Additive);
+        NetworkManager.SceneManager.LoadScene(SelectedLevelScene.SelectedLevelSceneName, LoadSceneMode.Additive);
         NetworkManager.SceneManager.OnSceneEvent += OnSceneEvent;
     }
 

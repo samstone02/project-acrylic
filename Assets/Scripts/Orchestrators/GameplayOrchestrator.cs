@@ -1,5 +1,6 @@
 using System;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class GameplayOrchestrator : NetworkBehaviour
@@ -43,13 +44,15 @@ public class GameplayOrchestrator : NetworkBehaviour
 
         if (IsServer)
         {
-            _gameplaySceneManager.LoadGameplayScene();
+            _gameplaySceneManager.LoadLevelScene();
             _gameplaySceneManager.GameplaySceneLoadEvent += OnGameplaySceneLoad_Server;
         }
     }
 
     private void OnGameplaySceneLoad_Server()
     {
+        NetworkLog.LogInfoServer("Gameplay scene loaded!");
+
         // TODO: Should unsubscribe to the event on perform?
 
         _objectiveManager.FindObjectives();
@@ -65,6 +68,8 @@ public class GameplayOrchestrator : NetworkBehaviour
 
     private void DeployTank_Server(ulong clientId)
     {
+        NetworkLog.LogInfoServer("Deploying tank for clientid: " + clientId);
+
         var tank = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<Tank>();
         _respawnManager.Respawn(tank);
         tank.DeathServerEvent += () => HandleTankDeath(clientId, tank);

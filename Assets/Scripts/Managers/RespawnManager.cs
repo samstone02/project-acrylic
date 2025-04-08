@@ -37,7 +37,8 @@ public class RespawnManager : MonoBehaviour
             ? _blueSpawnPoints
             : _orangeSpawnPoints;
         var spawnPoint = teamSpawnPoints[new System.Random().Next(teamSpawnPoints.Count)];
-       if (tank.Health <= 0)
+
+        if (tank.Health <= 0)
         {
             tank.Revive();
         }

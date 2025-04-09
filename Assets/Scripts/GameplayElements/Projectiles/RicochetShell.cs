@@ -27,6 +27,14 @@ namespace Projectiles
                 return;
             }
 
+            if (collision.gameObject.GetComponent<Tank>() != null)
+            {
+                var tank = collision.gameObject.GetComponent<Tank>();
+                tank.TakeDamage(Damage);
+                Destroy(gameObject);
+                return;
+            }
+
             if (!RicochetInfinitely)
             {
                 RicochetCount--;

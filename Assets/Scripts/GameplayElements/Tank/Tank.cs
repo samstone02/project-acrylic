@@ -90,12 +90,6 @@ public class Tank : NetworkBehaviour
         {
             return;
         }
-
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Projectile"))
-        {
-            var shell = collision.gameObject.GetComponent<Shell>();
-            TakeDamage(shell.Damage);
-        }
     }
 
     protected void Update()

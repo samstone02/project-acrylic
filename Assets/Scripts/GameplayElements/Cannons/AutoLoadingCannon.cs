@@ -14,6 +14,8 @@ namespace TankGuns
         
         [field: SerializeField] public float ReloadTimeSeconds { get; set; } = 5f;
 
+        [field: SerializeField] public float FallbackReloadTimeSeconds { get; set; } = 2.5f;
+
         [field: SerializeField] public float InterClipReloadTimeSeconds { get; set; } = 1f;
         
         [field: SerializeField] public UnityEvent InterClipReloadEndEvent { get; private set; }
@@ -94,7 +96,7 @@ namespace TankGuns
 
         public override void Fire()
         {
-            if (_isReloading.Value || _isInterClipReloading.Value || MagazineCountNetVar.Value <= 0)
+            if (_isReloading.Value || _isInterClipReloading.Value)
             {
                 return; 
             }
@@ -118,8 +120,16 @@ namespace TankGuns
         [Rpc(SendTo.Server)]
         private void FireRpc()
         {
-            if (_isReloading.Value || MagazineCountNetVar.Value == 0)
+            if (_isReloading.Value)
             {
+                return;
+            }
+
+            if (MagazineCountNetVar.Value <= 0 && AmmoReserve <= 0)
+            {
+                var fallbackShell = FallbackProjectilePrefab;
+                GameObject fallbackProjectile = LaunchProjectile(fallbackShell);
+                Reload();
                 return;
             }
 
@@ -154,7 +164,7 @@ namespace TankGuns
             {
                 MagazineCountNetVar.Value = 0;
                 _isReloading.Value = true;
-                ReloadTimer.Value = ReloadTimeSeconds;
+                ReloadTimer.Value = AmmoReserve > 0 ? ReloadTimeSeconds : FallbackReloadTimeSeconds;
                 NetInterClipReloadTimer.Value = InterClipReloadTimeSeconds;
             }
         }

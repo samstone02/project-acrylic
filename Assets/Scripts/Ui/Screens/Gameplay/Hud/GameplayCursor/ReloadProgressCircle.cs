@@ -23,7 +23,9 @@ namespace Ui.Gameplay.GameplayCursor
         {
             if (_playerCannon.ReloadTimer.Value >= 0)
             {
-                _image.fillAmount = 1 - _playerCannon.ReloadTimer.Value / _playerCannon.ReloadTimeSeconds;   
+                var reloadTimeSeconds = _playerCannon.AmmoReserve > 0 ? _playerCannon.ReloadTimeSeconds : _playerCannon.FallbackReloadTimeSeconds;
+
+                _image.fillAmount = 1 - _playerCannon.ReloadTimer.Value / reloadTimeSeconds;   
             }
             else
             {

@@ -10,7 +10,11 @@ namespace TankGuns
     {
         [field: SerializeField] public int AmmoCapacity { get; set; }
 
+        [field: SerializeField] public int StartingAmmo { get; set; }
+
         [field: SerializeField] public GameObject ProjectilePrefab { get; set; }
+
+        [field: SerializeField] public GameObject FallbackProjectilePrefab { get; set; }
 
         [field: SerializeField] public Transform ShellSpawnPoint { get; set; }
 
@@ -38,7 +42,7 @@ namespace TankGuns
         {
             if (IsServer)
             {
-                _ammoReserveNetVar.Value = AmmoCapacity;
+                _ammoReserveNetVar.Value = Math.Min(StartingAmmo, AmmoCapacity);
             }
             if (IsClient)
             {
@@ -48,7 +52,7 @@ namespace TankGuns
 
         public virtual void Fire()
         {
-            ReloadServerRpc();
+            FireServerRpc();
             FireClientEvent?.Invoke();
         }
 
@@ -66,22 +70,22 @@ namespace TankGuns
             {
                 _ammoReserveNetVar.Value += count;
                 _ammoReserveNetVar.Value = Mathf.Clamp(_ammoReserveNetVar.Value, 0, AmmoCapacity);
+
+                if (_ammoReserveNetVar.Value - count == 0)
+                {
+                    Reload();
+                }
             }
         }
 
         [Rpc(SendTo.Server)]
-        private void ReloadServerRpc()
+        private void FireServerRpc()
         {
-            _ammoReserveNetVar.Value--;
+            _ammoReserveNetVar.Value = Mathf.Clamp(--_ammoReserveNetVar.Value, 0, int.MaxValue);
         }
 
         private void OnAmmoReserveNetVarChanged(int previous, int current)
         {
-            if (previous == 0 && current > 0)
-            {
-                Reload();
-            }
-
             if (previous < current)
             {
                 AmmoRefillClientEvent?.Invoke();

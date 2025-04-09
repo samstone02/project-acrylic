@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using TankGuns;
+using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(Tank))]
@@ -18,5 +19,10 @@ public class TankEditor : Editor
         }
         EditorGUILayout.EndHorizontal();
         DrawDefaultInspector();
+
+        if (GUILayout.Button("Add Ammo"))
+        {
+            tank.FillAmmo(10);
+        }
     }
 }

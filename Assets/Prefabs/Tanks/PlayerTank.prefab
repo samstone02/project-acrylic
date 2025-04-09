@@ -2141,6 +2141,10 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3129915186199121772, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
+      propertyPath: <StartingAmmo>k__BackingField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3129915186199121772, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
       propertyPath: <ShellSpawnPoint>k__BackingField
       value: 
       objectReference: {fileID: 5584426803434792539}
@@ -2152,6 +2156,10 @@ PrefabInstance:
       propertyPath: Cb.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3129915186199121772, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
+      propertyPath: <FallbackProjectilePrefab>k__BackingField
+      value: 
+      objectReference: {fileID: 5308777123184422408, guid: 1165970a62129a646bbb2c6e2aa23b2b, type: 3}
     - target: {fileID: 3129915186199121772, guid: 15ea40e873ec0614c9e75da9ef36029c, type: 3}
       propertyPath: Cb.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1

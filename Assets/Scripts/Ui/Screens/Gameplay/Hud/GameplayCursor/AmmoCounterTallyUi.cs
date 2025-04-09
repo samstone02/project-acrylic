@@ -57,6 +57,11 @@ public class AmmoCounterTallyUi : MonoBehaviour
 
     private void AutoLoadingCannon_ReloadEndEvent()
     {
+        if (_autoLoadingCannon.AmmoReserve == 0)
+        {
+            return;
+        }
+
         foreach (var tally in _tallies)
         {
             tally.gameObject.SetActive(true);

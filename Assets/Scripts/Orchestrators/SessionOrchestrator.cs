@@ -17,17 +17,6 @@ public class SessionOrchestrator : NetworkBehaviour
         LoadFindMatchScene();
     }
 
-    public void Start()
-    {
-        NetworkManager.OnClientConnectedCallback += (clientId) =>
-        {
-            if (clientId == NetworkManager.Singleton.LocalClientId)
-            {
-                UnloadFindMatchScene();
-            }
-        };
-    }
-
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -107,6 +96,7 @@ public class SessionOrchestrator : NetworkBehaviour
     {
         if (NetworkManager.LocalClientId == connectedClientId)
         {
+            UnloadFindMatchScene();
             SetClientDisplayNameServerRpc(connectedClientId, _sessionData.PlayerDisplayName);
         }
     }

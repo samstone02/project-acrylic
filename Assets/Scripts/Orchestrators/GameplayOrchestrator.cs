@@ -27,11 +27,11 @@ public class GameplayOrchestrator : NetworkBehaviour
         _objectiveManager = FindAnyObjectByType<ObjectiveManager>();
         _respawnManager = FindAnyObjectByType<RespawnManager>();
 
-        if (IsOwner)
+        if (IsClient)
         {
             _gameplaySceneManager.LoadGameplayOverlay();
             
-            _ownerTank = NetworkManager.ConnectedClients[OwnerClientId].PlayerObject.GetComponent<Tank>();
+            _ownerTank = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Tank>();
 
             var mainCameraPos = _ownerTank.transform.Find("MainCameraPosition").transform;
 

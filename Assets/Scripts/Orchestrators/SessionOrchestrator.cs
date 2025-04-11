@@ -23,6 +23,7 @@ public class SessionOrchestrator : NetworkBehaviour
 
         NetworkManager.OnServerStarted += OnServerStarted;
         NetworkManager.OnClientConnectedCallback += OnClientConnected;
+        NetworkManager.OnClientConnectedCallback += OnClientDisconnected;
     }
 
     private void LoadFindMatchScene()
@@ -84,7 +85,7 @@ public class SessionOrchestrator : NetworkBehaviour
             ServerListenAddress = "0.0.0.0",
         };
 
-        NetworkManager.StartClient();
+        var connectionSuccess = NetworkManager.StartClient();
     }
 
     private void OnServerStarted()
@@ -98,6 +99,14 @@ public class SessionOrchestrator : NetworkBehaviour
         {
             UnloadFindMatchScene();
             SetClientDisplayNameServerRpc(connectedClientId, _sessionData.PlayerDisplayName);
+        }
+    }
+
+    public void OnClientDisconnected(ulong connectedClientId)
+    {
+        if (NetworkManager.LocalClientId == connectedClientId)
+        {
+            NetworkLog.LogInfoServer("Disconnected from the server!");
         }
     }
 

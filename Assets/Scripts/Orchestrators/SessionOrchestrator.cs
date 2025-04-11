@@ -1,3 +1,4 @@
+using System;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -8,11 +9,23 @@ public class SessionOrchestrator : NetworkBehaviour
 {
     private FindMatchUiManager FindMatchUiManager { get; set; }
     private SessionSceneManager _sessionSceneManager;
+    private PlayerSessionData _sessionData;
 
     public void Awake()
     {
         _sessionSceneManager = FindAnyObjectByType<SessionSceneManager>();
         LoadFindMatchScene();
+    }
+
+    public void Start()
+    {
+        NetworkManager.OnClientConnectedCallback += (clientId) =>
+        {
+            if (clientId == NetworkManager.Singleton.LocalClientId)
+            {
+                UnloadFindMatchScene();
+            }
+        };
     }
 
     public override void OnNetworkSpawn()
@@ -47,13 +60,32 @@ public class SessionOrchestrator : NetworkBehaviour
 
     private void HostSession(HostSessionData hostSessionData)
     {
-        PrepareSession();
+        if (string.IsNullOrEmpty(hostSessionData.PlayerDisplayName.ToString()))
+        {
+            hostSessionData.PlayerDisplayName = "Host";
+        }
+
+        _sessionData = hostSessionData;
+
         NetworkManager.StartHost();
     }
 
     private void JoinSession(JoinSessionData joinSessionData)
     {
-        PrepareSession();
+        if (string.IsNullOrEmpty(joinSessionData.Ipv4Address))
+        {
+            joinSessionData.Ipv4Address = "127.0.0.1";
+        }
+        if (joinSessionData.PortNumber == 0)
+        {
+            joinSessionData.PortNumber = 7777;
+        }
+        if (string.IsNullOrEmpty(joinSessionData.PlayerDisplayName.ToString()))
+        {
+            joinSessionData.PlayerDisplayName = "Client" + new Random().Next(1000);
+        }
+
+        _sessionData = joinSessionData;
 
         var unityTransport = NetworkManager.GetComponent<UnityTransport>();
         unityTransport.ConnectionData = new UnityTransport.ConnectionAddressData
@@ -66,11 +98,6 @@ public class SessionOrchestrator : NetworkBehaviour
         NetworkManager.StartClient();
     }
 
-    private void PrepareSession()
-    {
-        UnloadFindMatchScene();
-    }
-
     private void OnServerStarted()
     {
         _sessionSceneManager.LoadLobbyScene();
@@ -80,7 +107,7 @@ public class SessionOrchestrator : NetworkBehaviour
     {
         if (NetworkManager.LocalClientId == connectedClientId)
         {
-            SetClientDisplayNameServerRpc(connectedClientId, FindMatchUiManager.GetPlayerName());
+            SetClientDisplayNameServerRpc(connectedClientId, _sessionData.PlayerDisplayName);
         }
     }
 

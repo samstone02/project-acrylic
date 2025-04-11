@@ -24,21 +24,21 @@ public class LobbyUiManager : MonoBehaviour
         _joinOrangeButton = buttons.First(b => b.name == "JoinOrangeTeamButton");
         _joinBlueButton.onClick.AddListener(() => _teamManager.JoinBlueTeamRpc(NetworkManager.Singleton.LocalClientId));
         _joinOrangeButton.onClick.AddListener(() => _teamManager.JoinOrangeTeamRpc(NetworkManager.Singleton.LocalClientId));
-        _blueTeamList = GameObject.Find("Panel")
+        _blueTeamList = transform.Find("Panel")
             .transform.Find("PlayersTable")
             .transform.Find("BlueTeamColumn")
             .transform.Find("TeamMemberList").gameObject;
-        _orangeTeamList = GameObject.Find("Panel")
+        _orangeTeamList = transform.Find("Panel")
             .transform.Find("PlayersTable")
             .transform.Find("OrangeTeamColumn")
             .transform.Find("TeamMemberList").gameObject;
         _teamManager.PlayerChangeTeamClientEvent += BuildTeamTable;
 
-        _selectedLevel = GameObject.Find("Panel")
+        _selectedLevel = transform.Find("Panel")
             .transform.Find("SelectedLevel")
             .GetComponent<TMP_Text>();
 
-        var levelButtons = GameObject.Find("Panel")
+        var levelButtons = transform.Find("Panel")
             .transform.Find("LevelSelect")
             .GetComponentsInChildren<Button>();
         foreach (var button in levelButtons)

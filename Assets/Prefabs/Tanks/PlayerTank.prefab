@@ -1363,7 +1363,7 @@ Transform:
   m_GameObject: {fileID: 4784685142323854224}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.77, z: 5.89}
+  m_LocalPosition: {x: 0, y: 3.77, z: 6.631}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2308,7 +2308,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6633422804981235410, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.41
+      value: -0.008
       objectReference: {fileID: 0}
     - target: {fileID: 6633422804981235410, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2348,7 +2348,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7841128844113359105, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
       propertyPath: ShapeModule.angle
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7841128844113359105, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
       propertyPath: CollisionModule.enabled
@@ -2368,11 +2368,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7841128844113359105, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 0.5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 7841128844113359105, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
       propertyPath: InitialModule.startSpeed.minScalar
-      value: 10
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 8092448809686489285, guid: 44a5acc7be8b9294ab3e52ef93fa09df, type: 3}
       propertyPath: m_LengthScale

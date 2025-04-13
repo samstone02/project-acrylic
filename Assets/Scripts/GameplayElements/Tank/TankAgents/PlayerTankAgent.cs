@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using TankGuns;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
-using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 namespace TankAgents
@@ -148,9 +146,7 @@ namespace TankAgents
                 return Vector3.zero;
             }
 
-            Vector2 mousePos = Mouse.current.position.ReadValue();
-            Vector3 mousePosWorld = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
-            Physics.Raycast(mousePosWorld, Camera.main.transform.forward, out RaycastHit hit, 1000, _playerAimMask);
+            var hit = CameraHelper.RaycastFromMouse(_playerAimMask);
 
             Vector3 targetDirection = hit.point - Turret.transform.position;
             targetDirection.y = 0;
